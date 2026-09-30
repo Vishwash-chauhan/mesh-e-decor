@@ -1,0 +1,195 @@
+"use client";
+
+import React, { useState, useEffect } from "react";
+import Image from "next/image";
+import { ProductItem } from "./Collection";
+
+interface InquiryModalProps {
+  isOpen: boolean;
+  onClose: () => void;
+  product?: ProductItem | null;
+}
+
+export default function InquiryModal({
+  isOpen,
+  onClose,
+  product,
+}: InquiryModalProps) {
+  const [quantity, setQuantity] = useState<number>(1);
+  const [name, setName] = useState("");
+  const [organization, setOrganization] = useState("");
+  const [notes, setNotes] = useState("");
+
+  useEffect(() => {
+    if (product) {
+      setQuantity(1);
+    }
+  }, [product]);
+
+  if (!isOpen) return null;
+
+  const itemTitle = product ? product.name : "Bespoke Collection Portfolio / RFQ Dossier";
+  const itemCode = product ? product.code : "VOL-IV-2026";
+
+  const handleWhatsAppSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    const details = [
+      `Greetings Mesh 'E' Decor Atelier,`,
+      `I would like to inquire about: ${itemTitle} (${itemCode})`,
+      `Quantity: ${quantity} unit(s)`,
+      name ? `Patron Name: ${name}` : null,
+      organization ? `Institution: ${organization}` : null,
+      notes ? `Requirements/Customization: ${notes}` : null,
+    ]
+      .filter(Boolean)
+      .join("\n");
+
+    const url = `https://wa.me/917042005637?text=${encodeURIComponent(details)}`;
+    window.open(url, "_blank");
+    onClose();
+  };
+
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 bg-espresso/70 backdrop-blur-sm animate-fade-in">
+      <div className="bg-alabaster border border-goldaccent/40 max-w-xl w-full p-6 sm:p-8 relative shadow-2xl overflow-y-auto max-h-[90vh]">
+        {/* Close Button */}
+        <button
+          onClick={onClose}
+          className="absolute top-4 right-4 p-2 text-subdued hover:text-espresso transition-colors cursor-pointer"
+          aria-label="Close modal"
+        >
+          <span className="material-symbols-outlined text-[20px]">close</span>
+        </button>
+
+        {/* Modal Header */}
+        <div className="border-b border-borderdelicate pb-4 mb-6">
+          <span className="text-[9px] uppercase tracking-[0.3em] text-golddeep font-medium block mb-1">
+            Atelier Private Concierge
+          </span>
+          <h3 className="serif-display text-2xl sm:text-3xl text-espresso font-normal">
+            Bespoke Inquiry Dossier
+          </h3>
+        </div>
+
+        {/* Product Specimen Summary if selected */}
+        {product ? (
+          <div className="flex items-center gap-4 bg-canvas p-3.5 border border-borderdelicate mb-6">
+            <div className="relative w-16 h-16 shrink-0 bg-espresso">
+              <Image
+                src={product.image}
+                alt={product.name}
+                fill
+                className="object-cover"
+                unoptimized
+              />
+            </div>
+            <div>
+              <span className="text-[9px] uppercase tracking-[0.2em] text-golddeep font-semibold">
+                {product.code}
+              </span>
+              <h4 className="serif-display text-lg text-espresso font-normal leading-tight">
+                {product.name}
+              </h4>
+              <span className="text-xs text-subdued font-medium">{product.price}</span>
+            </div>
+          </div>
+        ) : (
+          <p className="text-[13px] text-subdued font-light mb-6">
+            Please specify your bespoke requirements for boardroom suites, royal nuptial consignments, or custom laser hallmark requests.
+          </p>
+        )}
+
+        {/* Form */}
+        <form onSubmit={handleWhatsAppSubmit} className="space-y-4 text-xs">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label className="block uppercase tracking-[0.2em] text-mute text-[10px] mb-1 font-medium">
+                Patron / Contact Name
+              </label>
+              <input
+                type="text"
+                placeholder="e.g. Maharani Devika / Director J. Singh"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                className="w-full bg-surface border border-borderdelicate p-2.5 text-espresso focus:outline-none focus:border-espresso transition-colors"
+              />
+            </div>
+
+            <div>
+              <label className="block uppercase tracking-[0.2em] text-mute text-[10px] mb-1 font-medium">
+                Institution / Estate
+              </label>
+              <input
+                type="text"
+                placeholder="e.g. Taj Heritage / Diplomatic Secretariat"
+                value={organization}
+                onChange={(e) => setOrganization(e.target.value)}
+                className="w-full bg-surface border border-borderdelicate p-2.5 text-espresso focus:outline-none focus:border-espresso transition-colors"
+              />
+            </div>
+          </div>
+
+          <div>
+            <label className="block uppercase tracking-[0.2em] text-mute text-[10px] mb-1 font-medium">
+              Consignment Units / Quantity
+            </label>
+            <div className="flex items-center gap-3">
+              <button
+                type="button"
+                onClick={() => setQuantity(Math.max(1, quantity - 1))}
+                className="w-9 h-9 border border-borderdelicate bg-surface text-espresso font-medium flex items-center justify-center hover:bg-espresso hover:text-alabaster transition-colors"
+              >
+                -
+              </button>
+              <span className="serif-display text-lg font-medium text-espresso min-w-[2rem] text-center">
+                {quantity}
+              </span>
+              <button
+                type="button"
+                onClick={() => setQuantity(quantity + 1)}
+                className="w-9 h-9 border border-borderdelicate bg-surface text-espresso font-medium flex items-center justify-center hover:bg-espresso hover:text-alabaster transition-colors"
+              >
+                +
+              </button>
+              <span className="text-[10px] text-mute tracking-wider ml-2">
+                (Bulk packaging available for 25+ suites)
+              </span>
+            </div>
+          </div>
+
+          <div>
+            <label className="block uppercase tracking-[0.2em] text-mute text-[10px] mb-1 font-medium">
+              Bespoke Notes / Monogram Instructions
+            </label>
+            <textarea
+              rows={3}
+              placeholder="Specify custom laser engraving, velvet trunk color, or target dispatch date..."
+              value={notes}
+              onChange={(e) => setNotes(e.target.value)}
+              className="w-full bg-surface border border-borderdelicate p-2.5 text-espresso focus:outline-none focus:border-espresso transition-colors"
+            />
+          </div>
+
+          <div className="pt-4 border-t border-borderdelicate flex flex-col sm:flex-row gap-3 items-center justify-end">
+            <button
+              type="button"
+              onClick={onClose}
+              className="w-full sm:w-auto px-5 py-3 border border-borderdelicate text-subdued hover:text-espresso text-[10px] uppercase tracking-[0.2em] font-medium transition-colors"
+            >
+              Cancel
+            </button>
+            <button
+              type="submit"
+              className="w-full sm:w-auto px-6 py-3 bg-espresso text-alabaster hover:bg-golddeep text-[10px] uppercase tracking-[0.24em] font-medium transition-all flex items-center justify-center gap-2 cursor-pointer shadow-sm"
+            >
+              <span>Dispatch via WhatsApp Concierge</span>
+              <span className="material-symbols-outlined text-[14px]">
+                chat
+              </span>
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  );
+}
