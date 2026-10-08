@@ -36,9 +36,6 @@ export default function Navbar({ onOpenConcierge }: NavbarProps) {
               <span className="serif-display text-lg sm:text-xl tracking-[0.14em] sm:tracking-[0.16em] uppercase text-espresso font-normal leading-none">
                 Mesh ‘E’ Decor
               </span>
-              <span className="text-[8px] sm:text-[9px] uppercase tracking-[0.28em] sm:tracking-[0.32em] text-golddeep font-medium mt-1">
-                Haute Metallurgy
-              </span>
             </div>
           </Link>
         </div>
