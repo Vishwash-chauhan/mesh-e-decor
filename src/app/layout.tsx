@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Cormorant_Garamond, Plus_Jakarta_Sans } from "next/font/google";
+import { CartProvider } from "@/context/CartContext";
 import "./globals.css";
 
 const cormorantGaramond = Cormorant_Garamond({
@@ -45,7 +46,7 @@ export default function RootLayout({
         />
       </head>
       <body className="bg-alabaster text-espresso sans-refined antialiased selection:bg-goldaccent/20 selection:text-espresso font-light">
-        {children}
+        <CartProvider>{children}</CartProvider>
       </body>
     </html>
   );

@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useCart } from "@/context/CartContext";
 
 interface NavbarProps {
   onOpenConcierge?: () => void;
@@ -12,8 +13,10 @@ interface NavbarProps {
 export default function Navbar({ onOpenConcierge }: NavbarProps) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const pathname = usePathname();
+  const { totalItems } = useCart();
 
   const isCataloguePage = pathname === "/catalogue";
+  const isCartPage = pathname === "/cart";
 
   return (
     <header className="sticky top-0 z-50 w-full bg-alabaster/95 backdrop-blur-md border-b border-borderdelicate/80 transition-all duration-300">
@@ -62,15 +65,24 @@ export default function Navbar({ onOpenConcierge }: NavbarProps) {
 
         {/* Right: Cart Action & Mobile Toggle */}
         <div className="md:col-span-4 flex items-center justify-end gap-3 sm:gap-4 text-espresso">
-          {/* Cart / Inquiry Dossier Button */}
-          <button
-            onClick={onOpenConcierge}
-            className="flex items-center gap-2 text-[10px] sm:text-[11px] uppercase tracking-[0.18em] font-medium px-4 sm:px-5 py-2.5 h-10 sm:h-11 border border-espresso text-espresso hover:bg-espresso hover:text-alabaster transition-all duration-300 cursor-pointer shadow-2xs"
-            aria-label="View Cart and Inquiry Dossier"
+          {/* Cart Page Link Button */}
+          <Link
+            href="/cart"
+            className={`flex items-center gap-2 text-[10px] sm:text-[11px] uppercase tracking-[0.18em] font-medium px-4 sm:px-5 py-2.5 h-10 sm:h-11 border transition-all duration-300 cursor-pointer shadow-2xs relative ${
+              isCartPage
+                ? "border-espresso bg-espresso text-alabaster"
+                : "border-espresso text-espresso hover:bg-espresso hover:text-alabaster"
+            }`}
+            aria-label="View Cart Page"
           >
             <span className="material-symbols-outlined text-[18px]">shopping_bag</span>
             <span>Cart</span>
-          </button>
+            {totalItems > 0 && (
+              <span className="ml-1 bg-golddeep text-alabaster text-[9px] w-4 h-4 rounded-full flex items-center justify-center font-bold">
+                {totalItems}
+              </span>
+            )}
+          </Link>
 
           {/* Mobile Menu Toggle Button */}
           <button
@@ -108,19 +120,17 @@ export default function Navbar({ onOpenConcierge }: NavbarProps) {
             <span>About Us</span>
             <span className="material-symbols-outlined text-[16px]">chevron_right</span>
           </Link>
-          <button
-            onClick={() => {
-              setMobileMenuOpen(false);
-              onOpenConcierge?.();
-            }}
-            className="hover:text-espresso transition-colors py-3 flex items-center justify-between font-medium text-espresso text-left"
+          <Link
+            href="/cart"
+            onClick={() => setMobileMenuOpen(false)}
+            className="hover:text-espresso transition-colors py-3 flex items-center justify-between font-medium text-espresso"
           >
             <span className="flex items-center gap-2">
               <span className="material-symbols-outlined text-[18px]">shopping_bag</span>
-              View Cart / Inquiry Dossier
+              View Cart {totalItems > 0 ? `(${totalItems})` : ""}
             </span>
             <span className="material-symbols-outlined text-[16px]">chevron_right</span>
-          </button>
+          </Link>
         </div>
       )}
     </header>

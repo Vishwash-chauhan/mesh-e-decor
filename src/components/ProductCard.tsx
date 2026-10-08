@@ -1,12 +1,13 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import Image from "next/image";
 import { ProductItem } from "@/data/products";
+import { useCart } from "@/context/CartContext";
 
 interface ProductCardProps {
   product: ProductItem;
-  onInquire: (product: ProductItem) => void;
+  onInquire?: (product: ProductItem) => void;
   onQuickView?: (product: ProductItem) => void;
 }
 
@@ -15,6 +16,18 @@ export default function ProductCard({
   onInquire,
   onQuickView,
 }: ProductCardProps) {
+  const { addToCart } = useCart();
+  const [added, setAdded] = useState(false);
+
+  const handleAddToCart = () => {
+    addToCart(product, 1);
+    setAdded(true);
+    setTimeout(() => setAdded(false), 3000);
+    if (onInquire) {
+      onInquire(product);
+    }
+  };
+
   return (
     <article className="group flex flex-col bg-transparent h-full">
       <div className="relative aspect-[4/5] overflow-hidden bg-canvas border border-borderdelicate/80 mb-4 sm:mb-5">
@@ -61,10 +74,14 @@ export default function ProductCard({
             {product.price}
           </span>
           <button
-            onClick={() => onInquire(product)}
-            className="text-[10px] uppercase tracking-[0.2em] text-espresso hover:text-golddeep py-2 border-b border-espresso hover:border-golddeep transition-all cursor-pointer min-h-[44px] flex items-center"
+            onClick={handleAddToCart}
+            className={`text-[10px] uppercase tracking-[0.2em] py-2 border-b transition-all cursor-pointer min-h-[44px] flex items-center gap-1 ${
+              added
+                ? "text-golddeep border-golddeep font-medium"
+                : "text-espresso hover:text-golddeep border-espresso hover:border-golddeep"
+            }`}
           >
-            Inquire Piece
+            <span>{added ? "Added to Cart ✓" : "Add to Cart"}</span>
           </button>
         </div>
       </div>
