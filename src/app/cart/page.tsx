@@ -9,14 +9,48 @@ import Footer from "@/components/Footer";
 import InquiryModal from "@/components/InquiryModal";
 import { useCart } from "@/context/CartContext";
 
+const INDIAN_STATES = [
+  "Delhi",
+  "Maharashtra",
+  "Karnataka",
+  "Haryana",
+  "Uttar Pradesh",
+  "Tamil Nadu",
+  "Telangana",
+  "West Bengal",
+  "Gujarat",
+  "Rajasthan",
+  "Punjab",
+  "Kerala",
+  "Andhra Pradesh",
+  "Madhya Pradesh",
+  "Bihar",
+  "Odisha",
+  "Assam",
+  "Goa",
+  "Himachal Pradesh",
+  "Jammu & Kashmir",
+  "Uttarakhand",
+  "Jharkhand",
+  "Chhattisgarh",
+  "Puducherry",
+  "Other State / UT",
+];
+
 export default function CartPage() {
   const { cart, removeFromCart, updateQuantity, clearCart, totalPrice, totalItems } =
     useCart();
   const [modalOpen, setModalOpen] = useState(false);
+
+  // Standard Indian Customer & Address Form State
   const [fullName, setFullName] = useState("");
   const [phone, setPhone] = useState("");
-  const [address, setAddress] = useState("");
-  const [orderNotes, setOrderNotes] = useState("");
+  const [flatBuilding, setFlatBuilding] = useState("");
+  const [streetArea, setStreetArea] = useState("");
+  const [landmark, setLandmark] = useState("");
+  const [city, setCity] = useState("");
+  const [state, setState] = useState("Delhi");
+  const [pincode, setPincode] = useState("");
 
   const handleOpenConciergeModal = () => {
     setModalOpen(true);
@@ -26,6 +60,15 @@ export default function CartPage() {
     e.preventDefault();
 
     if (cart.length === 0) return;
+
+    const formattedAddress = [
+      flatBuilding,
+      streetArea,
+      landmark ? `Landmark: ${landmark}` : null,
+      `${city}, ${state} - ${pincode}`,
+    ]
+      .filter(Boolean)
+      .join(", ");
 
     const itemizedList = cart
       .map(
@@ -42,9 +85,9 @@ export default function CartPage() {
       `🛒 *NEW ONLINE ORDER - MESH 'E' DECOR*`,
       `---------------------------------`,
       `*CUSTOMER DETAILS:*`,
-      `• Name: ${fullName || "Customer"}`,
-      `• Phone: ${phone || "Not provided"}`,
-      `• Delivery Address: ${address || "To be confirmed"}`,
+      `• Name: ${fullName}`,
+      `• Phone: ${phone}`,
+      `• Shipping Address: ${formattedAddress}`,
       ``,
       `*ITEMS ORDERED:*`,
       itemizedList,
@@ -55,7 +98,6 @@ export default function CartPage() {
       `• Shipping: Free Express Delivery`,
       `• Taxes: Included`,
       `• *TOTAL AMOUNT: ₹${totalPrice.toLocaleString("en-IN")}*`,
-      orderNotes ? `\n*SPECIAL INSTRUCTIONS:*\n${orderNotes}` : null,
     ]
       .filter(Boolean)
       .join("\n");
@@ -208,13 +250,13 @@ export default function CartPage() {
                 </div>
               </div>
 
-              {/* Right Column: Standard E-Commerce Order Summary Card */}
+              {/* Right Column: Standard Indian Format Checkout Card */}
               <div className="lg:col-span-5 bg-canvas border border-borderdelicate/90 p-6 sm:p-8 sticky top-28 shadow-xs">
                 <span className="text-[10px] uppercase tracking-[0.28em] text-golddeep font-medium block mb-2">
                   Order Summary
                 </span>
                 <h2 className="serif-display text-2xl text-espresso font-normal mb-6">
-                  Checkout Details
+                  Checkout &amp; Shipping
                 </h2>
 
                 {/* Price Breakdown */}
@@ -249,8 +291,9 @@ export default function CartPage() {
                   </span>
                 </div>
 
-                {/* Shipping & Contact Form */}
+                {/* Standard Indian Address & Contact Form */}
                 <form onSubmit={handleCheckoutSubmit} className="space-y-4 mb-6">
+                  {/* Full Name & Phone */}
                   <div>
                     <label className="block uppercase tracking-[0.18em] text-mute text-[10px] mb-1 font-medium">
                       Full Name *
@@ -267,7 +310,7 @@ export default function CartPage() {
 
                   <div>
                     <label className="block uppercase tracking-[0.18em] text-mute text-[10px] mb-1 font-medium">
-                      Phone / WhatsApp Number *
+                      Mobile / WhatsApp Number *
                     </label>
                     <input
                       type="tel"
@@ -279,36 +322,104 @@ export default function CartPage() {
                     />
                   </div>
 
+                  {/* Address Line 1 */}
                   <div>
                     <label className="block uppercase tracking-[0.18em] text-mute text-[10px] mb-1 font-medium">
-                      Delivery Address *
+                      Flat, House No., Building, Apartment *
                     </label>
-                    <textarea
-                      rows={2}
+                    <input
+                      type="text"
                       required
-                      placeholder="Street Address, City, State, Pincode"
-                      value={address}
-                      onChange={(e) => setAddress(e.target.value)}
+                      placeholder="e.g. Flat 402, Royal Oak Apartments"
+                      value={flatBuilding}
+                      onChange={(e) => setFlatBuilding(e.target.value)}
                       className="w-full bg-surface border border-borderdelicate p-3 text-xs text-espresso focus:outline-none focus:border-espresso transition-colors"
                     />
                   </div>
 
+                  {/* Address Line 2 */}
                   <div>
                     <label className="block uppercase tracking-[0.18em] text-mute text-[10px] mb-1 font-medium">
-                      Order / Laser Engraving Notes (Optional)
+                      Area, Street, Sector, Village *
                     </label>
                     <input
                       type="text"
-                      placeholder="Special delivery instructions or custom monogram notes..."
-                      value={orderNotes}
-                      onChange={(e) => setOrderNotes(e.target.value)}
+                      required
+                      placeholder="e.g. Golf Course Road, Sector 54"
+                      value={streetArea}
+                      onChange={(e) => setStreetArea(e.target.value)}
                       className="w-full bg-surface border border-borderdelicate p-3 text-xs text-espresso focus:outline-none focus:border-espresso transition-colors"
                     />
+                  </div>
+
+                  {/* Landmark */}
+                  <div>
+                    <label className="block uppercase tracking-[0.18em] text-mute text-[10px] mb-1 font-medium">
+                      Landmark (Optional)
+                    </label>
+                    <input
+                      type="text"
+                      placeholder="e.g. Near Metro Station / Opposite Central Park"
+                      value={landmark}
+                      onChange={(e) => setLandmark(e.target.value)}
+                      className="w-full bg-surface border border-borderdelicate p-3 text-xs text-espresso focus:outline-none focus:border-espresso transition-colors"
+                    />
+                  </div>
+
+                  {/* City */}
+                  <div>
+                    <label className="block uppercase tracking-[0.18em] text-mute text-[10px] mb-1 font-medium">
+                      Town / City *
+                    </label>
+                    <input
+                      type="text"
+                      required
+                      placeholder="e.g. Gurugram / New Delhi"
+                      value={city}
+                      onChange={(e) => setCity(e.target.value)}
+                      className="w-full bg-surface border border-borderdelicate p-3 text-xs text-espresso focus:outline-none focus:border-espresso transition-colors"
+                    />
+                  </div>
+
+                  {/* State & Pincode */}
+                  <div className="grid grid-cols-2 gap-3">
+                    <div>
+                      <label className="block uppercase tracking-[0.18em] text-mute text-[10px] mb-1 font-medium">
+                        State *
+                      </label>
+                      <select
+                        value={state}
+                        onChange={(e) => setState(e.target.value)}
+                        className="w-full bg-surface border border-borderdelicate p-3 text-xs text-espresso focus:outline-none focus:border-espresso transition-colors cursor-pointer"
+                      >
+                        {INDIAN_STATES.map((st) => (
+                          <option key={st} value={st}>
+                            {st}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+
+                    <div>
+                      <label className="block uppercase tracking-[0.18em] text-mute text-[10px] mb-1 font-medium">
+                        Pincode *
+                      </label>
+                      <input
+                        type="text"
+                        required
+                        pattern="[0-9]{6}"
+                        maxLength={6}
+                        placeholder="6-digit PIN"
+                        value={pincode}
+                        onChange={(e) => setPincode(e.target.value)}
+                        className="w-full bg-surface border border-borderdelicate p-3 text-xs text-espresso focus:outline-none focus:border-espresso transition-colors"
+                      />
+                    </div>
                   </div>
 
                   <button
                     type="submit"
-                    className="w-full py-4 bg-espresso text-alabaster hover:bg-golddeep text-[11px] uppercase tracking-[0.24em] font-medium transition-all flex items-center justify-center gap-2 cursor-pointer shadow-sm min-h-[48px]"
+                    className="w-full py-4 bg-espresso text-alabaster hover:bg-golddeep text-[11px] uppercase tracking-[0.24em] font-medium transition-all flex items-center justify-center gap-2 cursor-pointer shadow-sm min-h-[48px] mt-6"
                   >
                     <span>Place Order via WhatsApp</span>
                     <span className="material-symbols-outlined text-[16px]">
