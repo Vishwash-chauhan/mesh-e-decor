@@ -9,13 +9,11 @@ import { useCart } from "@/context/CartContext";
 interface ProductCardProps {
   product: ProductItem;
   onInquire?: (product: ProductItem) => void;
-  onQuickView?: (product: ProductItem) => void;
 }
 
 export default function ProductCard({
   product,
   onInquire,
-  onQuickView,
 }: ProductCardProps) {
   const { addToCart } = useCart();
   const [added, setAdded] = useState(false);
@@ -33,7 +31,10 @@ export default function ProductCard({
 
   return (
     <article className="group flex flex-col bg-transparent h-full">
-      <Link href={productUrl} className="relative aspect-[4/5] overflow-hidden bg-canvas border border-borderdelicate/80 mb-4 sm:mb-5 block">
+      <Link
+        href={productUrl}
+        className="relative aspect-[4/5] overflow-hidden bg-canvas border border-borderdelicate/80 mb-4 sm:mb-5 block"
+      >
         <Image
           alt={product.name}
           className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-700 ease-out"
@@ -45,21 +46,6 @@ export default function ProductCard({
         <div className="absolute top-3 left-3 bg-alabaster/95 backdrop-blur-xs px-2.5 py-1 border border-borderdelicate/60 text-[9px] uppercase tracking-[0.18em] text-golddeep font-medium shadow-xs">
           {product.code}
         </div>
-
-        {/* Quick View Overlay Button */}
-        {onQuickView && (
-          <button
-            type="button"
-            onClick={(e) => {
-              e.preventDefault();
-              onQuickView(product);
-            }}
-            className="absolute bottom-3 inset-x-3 bg-espresso/90 text-alabaster py-2 text-[10px] uppercase tracking-[0.2em] font-medium opacity-0 group-hover:opacity-100 transition-opacity duration-300 backdrop-blur-xs hidden sm:flex items-center justify-center gap-1.5 cursor-pointer z-10"
-          >
-            <span>Quick Dossier View</span>
-            <span className="material-symbols-outlined text-[14px]">visibility</span>
-          </button>
-        )}
       </Link>
 
       <div className="flex flex-col flex-grow">

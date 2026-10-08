@@ -178,8 +178,6 @@ export default function CataloguePage() {
                   <ProductCard
                     key={product.id}
                     product={product}
-                    onInquire={handleInquirePiece}
-                    onQuickView={handleInquirePiece}
                   />
                 ))}
               </div>
