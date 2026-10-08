@@ -432,7 +432,7 @@ export default function CartPage() {
                   onClick={handleOpenConciergeModal}
                   className="w-full py-3 border border-borderdelicate text-subdued hover:text-espresso text-[10px] uppercase tracking-[0.2em] font-medium transition-colors cursor-pointer text-center block min-h-[44px]"
                 >
-                  Need Corporate Invoicing? Request Quote
+                  Need Customization or Assistance? Contact Concierge
                 </button>
               </div>
             </div>

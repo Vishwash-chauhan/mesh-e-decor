@@ -147,14 +147,14 @@ export default function DimensionsSpread({ onOpenConcierge }: DimensionsSpreadPr
           {/* Architectural Typography Split */}
           <div className="lg:col-span-6 flex flex-col items-start order-1 lg:order-2 pl-0 lg:pl-6">
             <span className="text-[10px] uppercase tracking-[0.32em] text-goldaccent font-medium mb-3">
-              Institutional Bespoke
+              Bespoke Gifting &amp; Custom Orders
             </span>
             <h2 className="serif-display text-3xl sm:text-5xl lg:text-6xl font-normal leading-[1.12] mb-6 text-alabaster">
-              For Boardrooms, Royal Nuptials &amp; High Conclaves.
+              For Luxury Homes, Special Occasions &amp; Fine Living.
             </h2>
             <p className="text-[14px] sm:text-[15px] leading-[1.8] text-mute font-light mb-8 sm:mb-10 max-w-lg">
-              We partner with sovereign institutions, Fortune 500 secretariats,
-              and luxury scenographers to develop bespoke gifting narratives of
+              We craft handcrafted brass and silver-plated masterpieces for luxury
+              residences, milestone celebrations, and personalized gifting narratives of
               unmatched metallurgical caliber.
             </p>
 
@@ -165,7 +165,7 @@ export default function DimensionsSpread({ onOpenConcierge }: DimensionsSpreadPr
                   Micro-Laser Hallmark
                 </span>
                 <p className="text-[12px] text-mute font-light leading-relaxed">
-                  Institutional crests, board dedications, and individualized
+                  Family crests, personal dedications, and individualized
                   monograms engraved with surgical precision.
                 </p>
               </div>
@@ -180,20 +180,20 @@ export default function DimensionsSpread({ onOpenConcierge }: DimensionsSpreadPr
               </div>
               <div>
                 <span className="serif-display text-lg text-goldaccent block mb-1">
-                  Direct Foundry Tiers
+                  Custom Orders &amp; Gifting
                 </span>
                 <p className="text-[12px] text-mute font-light leading-relaxed">
-                  Concierge pricing structures calibrated for consignments
-                  spanning 25 to 5,000 bespoke suites.
+                  Tailored concierge support and custom velvet packaging for
+                  individual orders and special occasion gifting.
                 </p>
               </div>
               <div>
                 <span className="serif-display text-lg text-goldaccent block mb-1">
-                  Dedicated Courier Dispatch
+                  Express Courier Dispatch
                 </span>
                 <p className="text-[12px] text-mute font-light leading-relaxed">
-                  Insured express logistics throughout India and discreet air
-                  cargo to key diplomatic capitals.
+                  Insured express logistics throughout India and safe air
+                  delivery for international orders.
                 </p>
               </div>
             </div>
@@ -202,7 +202,7 @@ export default function DimensionsSpread({ onOpenConcierge }: DimensionsSpreadPr
             <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4 sm:gap-6 w-full">
               <a
                 className="inline-flex items-center justify-center gap-3 min-h-[48px] px-8 py-4 bg-goldaccent text-[#181614] hover:bg-[#D5B890] text-[11px] uppercase tracking-[0.24em] font-medium transition-all duration-300 shadow-sm cursor-pointer"
-                href="https://wa.me/917042005637?text=Hello%20Mesh%20E%20Decor%20Concierge%2C%20I%20am%20inquiring%20about%20a%20bespoke%20corporate%20commission."
+                href="https://wa.me/917042005637?text=Hello%20Mesh%20E%20Decor%20Concierge%2C%20I%20am%20inquiring%20about%20a%20custom%20order."
                 rel="noopener noreferrer"
                 target="_blank"
               >

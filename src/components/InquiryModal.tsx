@@ -160,7 +160,7 @@ export default function InquiryModal({
 
           <div>
             <label className="block uppercase tracking-[0.2em] text-mute text-[10px] mb-1 font-medium">
-              Consignment Units / Quantity
+              Quantity
             </label>
             <div className="flex items-center gap-3">
               <button
@@ -183,7 +183,7 @@ export default function InquiryModal({
                 +
               </button>
               <span className="text-[10px] text-mute tracking-wider ml-2 hidden sm:inline">
-                (Bulk packaging available for 25+ suites)
+                (Gift packaging &amp; custom engraving included)
               </span>
             </div>
           </div>

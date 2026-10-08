@@ -106,7 +106,7 @@ export default function Collection({
               onClick={onOpenConcierge}
               className="inline-flex items-center gap-2 text-[11px] uppercase tracking-[0.24em] font-medium text-espresso hover:text-golddeep transition-colors border-b border-espresso hover:border-golddeep pb-1 min-h-[44px] cursor-pointer"
             >
-              <span>Specification Dossier</span>
+              <span>Request Bespoke Inquiry</span>
               <span className="material-symbols-outlined text-[15px]">
                 arrow_outward
               </span>

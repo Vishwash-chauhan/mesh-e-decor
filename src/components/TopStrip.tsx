@@ -8,7 +8,7 @@ export default function TopStrip() {
           New Delhi Atelier • Est. 2026
         </span>
         <span className="mx-auto sm:mx-0 font-medium tracking-[0.18em] sm:tracking-[0.22em]">
-          Bespoke Commissions &amp; Corporate Suites
+          Complimentary Express Shipping Across India
         </span>
         <a
           href="tel:+917042005637"

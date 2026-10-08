@@ -38,8 +38,7 @@ export default function Footer() {
             </div>
             <p className="text-[13px] text-subdued font-light leading-relaxed max-w-sm mb-6 sm:mb-8">
               Purveyors of handcrafted brassware, fine silver-plated artefacts, and
-              sacred sanctum centerpieces for residences of distinction and high
-              corporate estates.
+              sacred sanctum centerpieces for luxury residences and modern spaces.
             </p>
             <div className="flex flex-col gap-2.5 text-[12px] text-subdued font-light">
               <div>
@@ -98,7 +97,7 @@ export default function Footer() {
             </span>
             <nav className="flex flex-col gap-3 text-[13px] text-subdued font-light">
               <Link href="#corporate" className="hover:text-espresso transition-colors py-1">
-                Corporate Gifting
+                Bespoke Gifting
               </Link>
               <Link href="#corporate" className="hover:text-espresso transition-colors py-1">
                 Laser Monogramming
@@ -110,7 +109,7 @@ export default function Footer() {
                 Architectural Specifiers
               </Link>
               <Link href="#corporate" className="hover:text-espresso transition-colors py-1">
-                Wholesale Dossier
+                Artisanal Care Guide
               </Link>
             </nav>
           </div>
@@ -126,7 +125,7 @@ export default function Footer() {
             <form onSubmit={handleSubscribe} className="flex flex-col gap-2.5">
               <input
                 className="w-full bg-transparent border border-borderdelicate px-4 py-3 min-h-[44px] text-[12px] text-espresso placeholder:text-mute focus:outline-none focus:border-espresso transition-colors"
-                placeholder="Institutional email"
+                placeholder="Your email address"
                 type="email"
                 required
                 value={email}

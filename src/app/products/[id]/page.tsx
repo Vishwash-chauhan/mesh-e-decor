@@ -179,7 +179,7 @@ export default function ProductDetailPage({ params }: ProductPageProps) {
               {/* Quantity Controller */}
               <div className="w-full mb-8">
                 <label className="block text-[10px] uppercase tracking-[0.2em] text-mute font-medium mb-2">
-                  Consignment Quantity
+                  Select Quantity
                 </label>
                 <div className="flex items-center gap-4">
                   <div className="flex items-center gap-2">
@@ -245,7 +245,7 @@ export default function ProductDetailPage({ params }: ProductPageProps) {
                   <span className="material-symbols-outlined text-[16px] text-golddeep">
                     local_shipping
                   </span>
-                  <span>Diplomatic Express Freight</span>
+                  <span>Express Insured Shipping</span>
                 </div>
               </div>
             </div>
@@ -320,13 +320,13 @@ export default function ProductDetailPage({ params }: ProductPageProps) {
               {activeTab === "custom" && (
                 <div className="space-y-4">
                   <h4 className="serif-display text-2xl text-espresso font-normal">
-                    Institutional Crest Engraving
+                    Laser Engraving &amp; Personalization
                   </h4>
                   <p>
-                    For corporate conclaves, royal nuptials, and diplomatic secretariats, we offer surgical micro-laser hallmark engraving for crests, monograms, and board dedications.
+                    For gifts, special occasions, and personal heirlooms, we offer precision micro-laser hallmark engraving for crests, monograms, and custom dedications.
                   </p>
                   <p>
-                    Each piece is presented in a hand-stitched velvet trunk with gold-embossed credentials pockets.
+                    Each piece is presented in a handcrafted velvet trunk with brand authenticity credentials.
                   </p>
                 </div>
               )}
