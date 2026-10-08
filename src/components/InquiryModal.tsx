@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
-import { ProductItem } from "./Collection";
+import { ProductItem } from "@/data/products";
 
 interface InquiryModalProps {
   isOpen: boolean;
