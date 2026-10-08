@@ -28,9 +28,9 @@ export default function DimensionsSpread({ onOpenConcierge }: DimensionsSpreadPr
               Two Enthralling Dimensions of Atelier Craft
             </h3>
             <p className="text-[13px] sm:text-[14px] text-subdued font-light mt-3 leading-relaxed">
-              Beyond radiant silver immersion lies our celebrated lineage of warm
-              antiqued patinas, hand-cut mother-of-pearl lapidary, and
-              ceremonial sanctuaries.
+              Explore our curated collections of handcrafted statement decor,
+              iridescent mother-of-pearl lapidary, warm antiqued patinas, and
+              ceremonial centerpieces.
             </p>
           </div>
 
@@ -43,29 +43,28 @@ export default function DimensionsSpread({ onOpenConcierge }: DimensionsSpreadPr
                     Chapter 01
                   </span>
                   <span className="text-[10px] uppercase tracking-[0.2em] text-mute">
-                    Immersion Metallurgy
+                    Radiant Metals &amp; Silver
                   </span>
                 </div>
                 <h4 className="serif-display text-2xl sm:text-3xl text-espresso font-normal mb-3">
-                  The Luminous Silver Bath Collection
+                  The Sterling &amp; Radiant Decor Collection
                 </h4>
                 <p className="text-[13px] sm:text-[14px] text-subdued leading-[1.8] font-light">
-                  Heavy solid cast brass treated in sequential electrolyte silver
-                  baths. Radiant, mirror-polished silver plate engineered to
-                  illuminate regal banquet centerpieces, urulis, and heirloom
-                  gifting caskets.
+                  Handcrafted statement pieces and radiant centerpieces engineered
+                  to illuminate luxury banquet settings, dining sanctuaries, and
+                  heirloom gifting caskets.
                 </p>
               </div>
 
               <div className="flex items-center justify-between pt-5 border-t border-borderdelicate/60 flex-wrap gap-3">
                 <span className="text-[10px] sm:text-[11px] uppercase tracking-[0.2em] text-mute">
-                  100% Virgin Brass Core
+                  Master Artisanal Craft
                 </span>
                 <Link
                   href="#collection"
                   className="text-[11px] uppercase tracking-[0.24em] font-medium text-espresso hover:text-golddeep flex items-center gap-1.5 transition-colors py-2 min-h-[44px]"
                 >
-                  <span>View Silverplate</span>
+                  <span>Explore Fine Decor</span>
                   <span className="material-symbols-outlined text-[14px]">
                     arrow_forward
                   </span>
@@ -81,16 +80,15 @@ export default function DimensionsSpread({ onOpenConcierge }: DimensionsSpreadPr
                     Chapter 02
                   </span>
                   <span className="text-[10px] uppercase tracking-[0.2em] text-mute">
-                    Lapidary &amp; Patina
+                    Inlay &amp; Lapidary
                   </span>
                 </div>
                 <h4 className="serif-display text-2xl sm:text-3xl text-espresso font-normal mb-3">
-                  The Lapidary &amp; Antique Brass Archives
+                  The Natural Inlay &amp; Artisanal Decor Archives
                 </h4>
                 <p className="text-[13px] sm:text-[14px] text-subdued leading-[1.8] font-light">
-                  Iridescent mother-of-pearl tessellation bonded to brass
-                  armatures alongside deep oil-rubbed bronze finishes,
-                  ceremonial brass chess sets, and sanctuary candle lanterns with
+                  Iridescent mother-of-pearl tessellation bonded to luxury armatures,
+                  rich warm finishes, ceremonial game sets, and sanctuary candle lanterns with
                   timeless historic character.
                 </p>
               </div>
@@ -103,7 +101,7 @@ export default function DimensionsSpread({ onOpenConcierge }: DimensionsSpreadPr
                   href="#corporate"
                   className="text-[11px] uppercase tracking-[0.24em] font-medium text-espresso hover:text-golddeep flex items-center gap-1.5 transition-colors py-2 min-h-[44px]"
                 >
-                  <span>Explore Lapidary</span>
+                  <span>Explore Inlay Art</span>
                   <span className="material-symbols-outlined text-[14px]">
                     arrow_forward
                   </span>

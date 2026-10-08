@@ -24,9 +24,9 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
-  title: "Mesh ‘E’ Decor | Haute Metallurgy & Bespoke Artisanal Decor",
+  title: "Mesh ‘E’ Decor | Haute Artisanal Decor & Luxury Gifting",
   description:
-    "Purveyors of handcrafted brassware, fine silver-plated artefacts, and sacred sanctum centerpieces for luxury residences and fine interior spaces.",
+    "Purveyors of bespoke luxury gifts, handcrafted home accents, statement centerpieces, and artisanal decor objects for distinguished spaces.",
 };
 
 export default function RootLayout({

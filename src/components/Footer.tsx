@@ -72,20 +72,20 @@ export default function Footer() {
               Collections
             </span>
             <nav className="flex flex-col gap-3 text-[13px] text-subdued font-light">
-              <Link href="#collection" className="hover:text-espresso transition-colors py-1">
-                Silver Plated Ware
+              <Link href="/catalogue" className="hover:text-espresso transition-colors py-1">
+                Fine Gifting &amp; Accents
               </Link>
-              <Link href="#collection" className="hover:text-espresso transition-colors py-1">
-                Artisanal Brassware
+              <Link href="/catalogue" className="hover:text-espresso transition-colors py-1">
+                Artisanal Home Decor
               </Link>
-              <Link href="#collection" className="hover:text-espresso transition-colors py-1">
-                Sanctum Diyas &amp; Urulis
+              <Link href="/catalogue" className="hover:text-espresso transition-colors py-1">
+                Sacred Sanctum &amp; Urulis
               </Link>
-              <Link href="#collection" className="hover:text-espresso transition-colors py-1">
-                Host &amp; Bar Accents
+              <Link href="/catalogue" className="hover:text-espresso transition-colors py-1">
+                Inlay &amp; Statement Pieces
               </Link>
-              <Link href="#collection" className="hover:text-espresso transition-colors py-1">
-                Full 2026 Index
+              <Link href="/catalogue" className="hover:text-espresso transition-colors py-1">
+                Full Catalogue Index
               </Link>
             </nav>
           </div>

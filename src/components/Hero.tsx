@@ -31,15 +31,15 @@ export default function Hero({ onOpenConcierge }: HeroProps) {
 
           {/* Headline */}
           <h1 className="serif-display text-3xl sm:text-4xl text-espresso font-normal leading-[1.12] tracking-tight mb-3">
-            Mesmerising Metallics.{" "}
+            Haute Artisanal Decor.{" "}
             <span className="italic font-light text-golddeep block sm:inline">
-              Dipped in Sterling.
+              Bespoke Luxury Gifting.
             </span>
           </h1>
 
           {/* Subtitle */}
           <p className="text-[13px] text-subdued leading-relaxed max-w-sm mb-5 font-normal">
-            Hand-sculpted virgin brass bound in luminous sterling silver immersion — crafted for luxury residences &amp; fine decor collectors.
+            Handcrafted home accents, statement centerpieces, and curated luxury gifts — crafted for exquisite spaces &amp; discerning collectors.
           </p>
 
           {/* Hero Artwork Showcase Card */}
@@ -74,7 +74,7 @@ export default function Hero({ onOpenConcierge }: HeroProps) {
                     The Imperial Stallion
                   </h3>
                   <p className="text-[10px] text-mute font-light mt-0.5">
-                    Solid cast brass core with triple sterling immersion
+                    Hand-sculpted centerpiece statuette with sterling finish
                   </p>
                 </div>
               </div>
@@ -102,9 +102,9 @@ export default function Hero({ onOpenConcierge }: HeroProps) {
 
           {/* Minimal Credentials Strip */}
           <div className="mt-6 pt-4 border-t border-borderdelicate/80 w-full max-w-sm flex items-center justify-center gap-3 text-[9px] uppercase tracking-[0.2em] text-mute">
-            <span>Virgin Brass Core</span>
+            <span>Handcrafted Gifts</span>
             <span>•</span>
-            <span>Sterling Bath</span>
+            <span>Natural Inlay</span>
             <span>•</span>
             <span>New Delhi Atelier</span>
           </div>
@@ -123,18 +123,17 @@ export default function Hero({ onOpenConcierge }: HeroProps) {
             </div>
 
             <h1 className="serif-display text-[72px] leading-[1.06] text-espresso font-normal tracking-[-0.01em] mb-6">
-              Mesmerising Metallics.{" "}
+              Haute Artisanal Decor.{" "}
               <span className="italic font-light text-golddeep">
-                Dipped in Sterling,
+                Bespoke Luxury Gifting,
               </span>{" "}
-              Cast in Brass.
+              Timeless Living.
             </h1>
 
             <p className="text-[16px] leading-[1.8] text-subdued max-w-lg mb-10 font-normal">
-              A mesmerizing alchemy where hand-sculpted virgin brass meets
-              luminous silver bath plating — an enchanting chapter within our
-              broader world of haute interior objets, mother-of-pearl lapidary,
-              and ceremonial sanctuaries.
+              A curated luxury world where master craftsmanship meets timeless aesthetics —
+              featuring handcrafted home accents, mother-of-pearl lapidary art,
+              statement centerpieces, and bespoke luxury gifts.
             </p>
 
             <div className="flex items-center gap-5 w-auto mb-12">
@@ -159,18 +158,18 @@ export default function Hero({ onOpenConcierge }: HeroProps) {
             <div className="pt-8 border-t border-borderdelicate/80 grid grid-cols-3 gap-8 w-full max-w-lg text-[11px]">
               <div>
                 <span className="block text-mute uppercase tracking-[0.2em] mb-1">
-                  Foundry Base
+                  Artistry
                 </span>
                 <span className="serif-display text-lg text-espresso font-normal">
-                  Virgin Brass Core
+                  Handcrafted Gifts
                 </span>
               </div>
               <div>
                 <span className="block text-mute uppercase tracking-[0.2em] mb-1">
-                  Radiance
+                  Materials
                 </span>
                 <span className="serif-display text-lg text-espresso font-normal">
-                  Sterling Immersion
+                  Metals &amp; Inlay
                 </span>
               </div>
               <div>
@@ -178,7 +177,7 @@ export default function Hero({ onOpenConcierge }: HeroProps) {
                   Atelier Scope
                 </span>
                 <span className="serif-display text-lg text-espresso font-normal">
-                  Diverse Curations
+                  Luxury Decor
                 </span>
               </div>
             </div>

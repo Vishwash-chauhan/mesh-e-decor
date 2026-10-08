@@ -13,10 +13,10 @@ export interface ProductItem {
 
 export const CATEGORIES = [
   "All Collections",
-  "Sterling-Dipped Brass",
-  "Mother-of-Pearl & Onyx",
-  "Antique Brass",
-  "Sanctum Luminaria",
+  "Sterling & Silverplate",
+  "Mother-of-Pearl & Inlay",
+  "Antiqued Accents",
+  "Sanctum & Sacred Decor",
 ];
 
 export const PRODUCTS: ProductItem[] = [
