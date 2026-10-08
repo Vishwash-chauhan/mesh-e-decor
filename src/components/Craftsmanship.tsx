@@ -38,18 +38,18 @@ export default function Craftsmanship() {
 
   return (
     <section
-      className="w-full bg-canvas py-24 lg:py-32 px-6 lg:px-12 border-b border-borderdelicate/80"
+      className="w-full bg-canvas py-16 sm:py-24 lg:py-32 px-4 sm:px-6 lg:px-12 border-b border-borderdelicate/80"
       id="craft"
     >
       <div className="max-w-7xl mx-auto">
-        <div className="max-w-2xl mb-16 lg:mb-24">
+        <div className="max-w-2xl mb-12 sm:mb-16 lg:mb-24">
           <span className="text-[10px] uppercase tracking-[0.3em] text-golddeep font-medium block mb-2">
             Metallurgical Distinction
           </span>
-          <h2 className="serif-display text-4xl sm:text-5xl text-espresso font-normal leading-tight">
+          <h2 className="serif-display text-3xl sm:text-5xl text-espresso font-normal leading-tight">
             The 14-Stage Foundry Method
           </h2>
-          <p className="text-[15px] text-subdued font-light mt-4 leading-relaxed">
+          <p className="text-[14px] sm:text-[15px] text-subdued font-light mt-4 leading-relaxed">
             Every artefact begins as molten virgin brass, cooled in silica molds
             and sculpted through centuries-old North Indian techniques before
             receiving aerospace tarnish defense.
@@ -57,21 +57,21 @@ export default function Craftsmanship() {
         </div>
 
         {/* Subtle Numbered Horizontal Step Marks */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12 relative">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8 lg:gap-12 relative">
           {steps.map((step) => (
             <div
               key={step.num}
-              className="flex flex-col border-t border-espresso pt-6"
+              className="flex flex-col border-t border-espresso pt-5 sm:pt-6"
             >
-              <div className="flex items-baseline justify-between mb-4">
-                <span className="serif-display text-3xl text-golddeep">
+              <div className="flex items-baseline justify-between mb-3 sm:mb-4">
+                <span className="serif-display text-2xl sm:text-3xl text-golddeep">
                   {step.num}
                 </span>
                 <span className="text-[10px] uppercase tracking-[0.24em] text-mute">
                   {step.tag}
                 </span>
               </div>
-              <h3 className="serif-display text-2xl text-espresso font-normal mb-2">
+              <h3 className="serif-display text-xl sm:text-2xl text-espresso font-normal mb-2">
                 {step.title}
               </h3>
               <p className="text-[13px] text-subdued font-light leading-relaxed">
@@ -82,11 +82,11 @@ export default function Craftsmanship() {
         </div>
 
         {/* Institutional Patrons (Quiet Monogram Row) */}
-        <div className="mt-24 pt-12 border-t border-borderdelicate/80 flex flex-wrap items-center justify-between gap-8 text-[11px] uppercase tracking-[0.3em] text-mute">
+        <div className="mt-16 sm:mt-24 pt-8 sm:pt-12 border-t border-borderdelicate/80 grid grid-cols-2 sm:flex sm:flex-wrap items-center justify-between gap-6 sm:gap-8 text-[10px] sm:text-[11px] uppercase tracking-[0.22em] sm:tracking-[0.3em] text-mute text-center sm:text-left">
           {patrons.map((patron) => (
             <span
               key={patron}
-              className="hover:text-espresso transition-colors font-medium tracking-[0.28em]"
+              className="hover:text-espresso transition-colors font-medium tracking-[0.2em] sm:tracking-[0.28em]"
             >
               {patron}
             </span>
