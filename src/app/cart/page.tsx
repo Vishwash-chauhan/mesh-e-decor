@@ -13,42 +13,49 @@ export default function CartPage() {
   const { cart, removeFromCart, updateQuantity, clearCart, totalPrice, totalItems } =
     useCart();
   const [modalOpen, setModalOpen] = useState(false);
-  const [patronName, setPatronName] = useState("");
-  const [estate, setEstate] = useState("");
-  const [notes, setNotes] = useState("");
+  const [fullName, setFullName] = useState("");
+  const [phone, setPhone] = useState("");
+  const [address, setAddress] = useState("");
+  const [orderNotes, setOrderNotes] = useState("");
 
   const handleOpenConciergeModal = () => {
     setModalOpen(true);
   };
 
-  const handleWhatsAppCheckout = (e: React.FormEvent) => {
+  const handleCheckoutSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
     if (cart.length === 0) return;
 
-    const itemsSummary = cart
+    const itemizedList = cart
       .map(
         (item, idx) =>
-          `${idx + 1}. ${item.product.name} (${item.product.code}) - Qty: ${
+          `${idx + 1}. ${item.product.name} (${item.product.code})\n   Qty: ${
             item.quantity
           } x ${item.product.price} = ₹${(
             item.product.numericPrice * item.quantity
           ).toLocaleString("en-IN")}`
       )
-      .join("\n");
+      .join("\n\n");
 
     const messageLines = [
-      `Greetings Mesh 'E' Decor Concierge,`,
-      `I would like to place an order for the following cart items:`,
+      `🛒 *NEW ONLINE ORDER - MESH 'E' DECOR*`,
+      `---------------------------------`,
+      `*CUSTOMER DETAILS:*`,
+      `• Name: ${fullName || "Customer"}`,
+      `• Phone: ${phone || "Not provided"}`,
+      `• Delivery Address: ${address || "To be confirmed"}`,
       ``,
-      itemsSummary,
+      `*ITEMS ORDERED:*`,
+      itemizedList,
       ``,
       `---------------------------------`,
-      `Total Consignment Price: ₹${totalPrice.toLocaleString("en-IN")}`,
-      `Total Units: ${totalItems} piece(s)`,
-      patronName ? `Patron Name: ${patronName}` : null,
-      estate ? `Estate/Institution: ${estate}` : null,
-      notes ? `Engraving/Special Notes: ${notes}` : null,
+      `*ORDER SUMMARY:*`,
+      `• Total Items: ${totalItems} piece(s)`,
+      `• Shipping: Free Express Delivery`,
+      `• Taxes: Included`,
+      `• *TOTAL AMOUNT: ₹${totalPrice.toLocaleString("en-IN")}*`,
+      orderNotes ? `\n*SPECIAL INSTRUCTIONS:*\n${orderNotes}` : null,
     ]
       .filter(Boolean)
       .join("\n");
@@ -70,23 +77,23 @@ export default function CartPage() {
       {/* Main Cart Content */}
       <main className="w-full flex-grow py-12 sm:py-20 px-4 sm:px-6 lg:px-12">
         <div className="max-w-7xl mx-auto">
-          {/* Header */}
+          {/* Page Header */}
           <div className="border-b border-borderdelicate/80 pb-6 sm:pb-8 mb-10 sm:mb-14">
             <span className="text-[10px] uppercase tracking-[0.3em] text-golddeep font-medium block mb-2">
-              Atelier Consignment Dossier
+              Online Checkout
             </span>
             <h1 className="serif-display text-3xl sm:text-5xl text-espresso font-normal tracking-tight">
-              Your Atelier Cart
+              Shopping Cart
             </h1>
             <p className="text-[13px] sm:text-[14px] text-subdued font-light mt-2 max-w-xl">
-              Review your selected handcrafted brassware, fine silver-plated artefacts, and sanctum centerpieces.
+              Review your items and provide your delivery details to complete your purchase.
             </p>
           </div>
 
           {cart.length > 0 ? (
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-start">
               {/* Left Column: Cart Item List */}
-              <div className="lg:col-span-8 flex flex-col gap-6">
+              <div className="lg:col-span-7 flex flex-col gap-6">
                 <div className="divide-y divide-borderdelicate/60 border-t border-b border-borderdelicate/80">
                   {cart.map((item) => (
                     <div
@@ -95,7 +102,10 @@ export default function CartPage() {
                     >
                       {/* Product Thumbnail & Details */}
                       <div className="flex items-center gap-4 sm:gap-6 flex-grow">
-                        <div className="relative w-20 h-24 sm:w-24 sm:h-28 shrink-0 bg-canvas border border-borderdelicate/80">
+                        <Link
+                          href={`/products/${item.product.id}`}
+                          className="relative w-20 h-24 sm:w-24 sm:h-28 shrink-0 bg-canvas border border-borderdelicate/80 block hover:opacity-90 transition-opacity"
+                        >
                           <Image
                             src={item.product.image}
                             alt={item.product.name}
@@ -103,15 +113,17 @@ export default function CartPage() {
                             className="object-cover"
                             unoptimized
                           />
-                        </div>
+                        </Link>
 
                         <div className="flex flex-col">
                           <span className="text-[9px] uppercase tracking-[0.2em] text-golddeep font-semibold mb-1">
                             {item.product.code}
                           </span>
-                          <h3 className="serif-display text-lg sm:text-xl text-espresso font-normal leading-snug mb-1">
-                            {item.product.name}
-                          </h3>
+                          <Link href={`/products/${item.product.id}`}>
+                            <h3 className="serif-display text-lg sm:text-xl text-espresso font-normal leading-snug mb-1 hover:text-golddeep transition-colors">
+                              {item.product.name}
+                            </h3>
+                          </Link>
                           <span className="text-xs text-subdued font-medium mb-1">
                             {item.product.price} each
                           </span>
@@ -184,7 +196,7 @@ export default function CartPage() {
                     <span className="material-symbols-outlined text-[16px]">
                       arrow_back
                     </span>
-                    <span>Continue Exploring Catalogue</span>
+                    <span>Continue Shopping</span>
                   </Link>
 
                   <button
@@ -196,87 +208,101 @@ export default function CartPage() {
                 </div>
               </div>
 
-              {/* Right Column: Order Summary Card */}
-              <div className="lg:col-span-4 bg-canvas border border-borderdelicate/90 p-6 sm:p-8 sticky top-28 shadow-xs">
+              {/* Right Column: Standard E-Commerce Order Summary Card */}
+              <div className="lg:col-span-5 bg-canvas border border-borderdelicate/90 p-6 sm:p-8 sticky top-28 shadow-xs">
                 <span className="text-[10px] uppercase tracking-[0.28em] text-golddeep font-medium block mb-2">
-                  Summary
+                  Order Summary
                 </span>
                 <h2 className="serif-display text-2xl text-espresso font-normal mb-6">
-                  Consignment Total
+                  Checkout Details
                 </h2>
 
-                <div className="space-y-4 text-xs font-light border-b border-borderdelicate/80 pb-6 mb-6">
+                {/* Price Breakdown */}
+                <div className="space-y-3.5 text-xs font-light border-b border-borderdelicate/80 pb-6 mb-6">
                   <div className="flex items-center justify-between">
-                    <span className="text-subdued">Total Units</span>
-                    <span className="font-medium text-espresso">{totalItems} piece(s)</span>
-                  </div>
-                  <div className="flex items-center justify-between">
-                    <span className="text-subdued">Artefacts Subtotal</span>
+                    <span className="text-subdued">
+                      Subtotal ({totalItems} item{totalItems > 1 ? "s" : ""})
+                    </span>
                     <span className="font-medium text-espresso serif-display text-base">
                       ₹{totalPrice.toLocaleString("en-IN")}
                     </span>
                   </div>
                   <div className="flex items-center justify-between">
-                    <span className="text-subdued">Diplomatic Express Logistics</span>
+                    <span className="text-subdued">Express Delivery</span>
                     <span className="text-golddeep font-medium uppercase tracking-wider">
-                      Complimentary
+                      Free
                     </span>
                   </div>
                   <div className="flex items-center justify-between">
-                    <span className="text-subdued">Laser Hallmark &amp; Velvet Trunk</span>
-                    <span className="text-golddeep font-medium uppercase tracking-wider">
-                      Included
-                    </span>
+                    <span className="text-subdued">Estimated Taxes</span>
+                    <span className="text-subdued">Included</span>
                   </div>
                 </div>
 
-                <div className="flex items-baseline justify-between mb-8">
-                  <span className="uppercase tracking-[0.2em] text-xs font-medium text-espresso">
-                    Total Investment
+                {/* Total Price Row */}
+                <div className="flex items-baseline justify-between mb-8 pb-6 border-b border-borderdelicate/80">
+                  <span className="uppercase tracking-[0.2em] text-xs font-semibold text-espresso">
+                    Total Amount
                   </span>
                   <span className="serif-display text-3xl font-normal text-espresso">
                     ₹{totalPrice.toLocaleString("en-IN")}
                   </span>
                 </div>
 
-                {/* Order Notes Form */}
-                <form onSubmit={handleWhatsAppCheckout} className="space-y-4 mb-6">
+                {/* Shipping & Contact Form */}
+                <form onSubmit={handleCheckoutSubmit} className="space-y-4 mb-6">
                   <div>
                     <label className="block uppercase tracking-[0.18em] text-mute text-[10px] mb-1 font-medium">
-                      Patron Name / Contact (Optional)
+                      Full Name *
                     </label>
                     <input
                       type="text"
-                      placeholder="e.g. Maharani Devika / J. Singh"
-                      value={patronName}
-                      onChange={(e) => setPatronName(e.target.value)}
-                      className="w-full bg-surface border border-borderdelicate p-2.5 text-xs text-espresso focus:outline-none focus:border-espresso transition-colors"
+                      required
+                      placeholder="e.g. Devika Singh"
+                      value={fullName}
+                      onChange={(e) => setFullName(e.target.value)}
+                      className="w-full bg-surface border border-borderdelicate p-3 text-xs text-espresso focus:outline-none focus:border-espresso transition-colors"
                     />
                   </div>
 
                   <div>
                     <label className="block uppercase tracking-[0.18em] text-mute text-[10px] mb-1 font-medium">
-                      Institution / Estate (Optional)
+                      Phone / WhatsApp Number *
                     </label>
                     <input
-                      type="text"
-                      placeholder="e.g. Oberoi Privé / Diplomatic Secretariat"
-                      value={estate}
-                      onChange={(e) => setEstate(e.target.value)}
-                      className="w-full bg-surface border border-borderdelicate p-2.5 text-xs text-espresso focus:outline-none focus:border-espresso transition-colors"
+                      type="tel"
+                      required
+                      placeholder="+91 98765 43210"
+                      value={phone}
+                      onChange={(e) => setPhone(e.target.value)}
+                      className="w-full bg-surface border border-borderdelicate p-3 text-xs text-espresso focus:outline-none focus:border-espresso transition-colors"
                     />
                   </div>
 
                   <div>
                     <label className="block uppercase tracking-[0.18em] text-mute text-[10px] mb-1 font-medium">
-                      Engraving / Dispatch Notes (Optional)
+                      Delivery Address *
                     </label>
                     <textarea
                       rows={2}
-                      placeholder="Custom laser hallmarking crest or urgent dispatch date..."
-                      value={notes}
-                      onChange={(e) => setNotes(e.target.value)}
-                      className="w-full bg-surface border border-borderdelicate p-2.5 text-xs text-espresso focus:outline-none focus:border-espresso transition-colors"
+                      required
+                      placeholder="Street Address, City, State, Pincode"
+                      value={address}
+                      onChange={(e) => setAddress(e.target.value)}
+                      className="w-full bg-surface border border-borderdelicate p-3 text-xs text-espresso focus:outline-none focus:border-espresso transition-colors"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block uppercase tracking-[0.18em] text-mute text-[10px] mb-1 font-medium">
+                      Order / Laser Engraving Notes (Optional)
+                    </label>
+                    <input
+                      type="text"
+                      placeholder="Special delivery instructions or custom monogram notes..."
+                      value={orderNotes}
+                      onChange={(e) => setOrderNotes(e.target.value)}
+                      className="w-full bg-surface border border-borderdelicate p-3 text-xs text-espresso focus:outline-none focus:border-espresso transition-colors"
                     />
                   </div>
 
@@ -284,9 +310,9 @@ export default function CartPage() {
                     type="submit"
                     className="w-full py-4 bg-espresso text-alabaster hover:bg-golddeep text-[11px] uppercase tracking-[0.24em] font-medium transition-all flex items-center justify-center gap-2 cursor-pointer shadow-sm min-h-[48px]"
                   >
-                    <span>Dispatch via WhatsApp Concierge</span>
+                    <span>Place Order via WhatsApp</span>
                     <span className="material-symbols-outlined text-[16px]">
-                      chat
+                      arrow_forward
                     </span>
                   </button>
                 </form>
@@ -295,7 +321,7 @@ export default function CartPage() {
                   onClick={handleOpenConciergeModal}
                   className="w-full py-3 border border-borderdelicate text-subdued hover:text-espresso text-[10px] uppercase tracking-[0.2em] font-medium transition-colors cursor-pointer text-center block min-h-[44px]"
                 >
-                  Request Official Proforma Invoice
+                  Need Corporate Invoicing? Request Quote
                 </button>
               </div>
             </div>
@@ -308,16 +334,16 @@ export default function CartPage() {
                 </span>
               </div>
               <h2 className="serif-display text-3xl text-espresso font-normal mb-3">
-                Your Atelier Cart is Currently Empty
+                Your Shopping Cart is Empty
               </h2>
               <p className="text-[13px] text-subdued font-light leading-relaxed mb-8">
-                Explore our archival editions of silver-plated virgin brassware, mother-of-pearl lapidary, and sacred sanctum luminaria.
+                Explore our collection of handcrafted brassware, silver-plated urulis, and artisanal decor.
               </p>
               <Link
                 href="/catalogue"
                 className="px-8 py-4 bg-espresso text-alabaster hover:bg-[#2A2622] text-[11px] uppercase tracking-[0.24em] font-medium transition-all shadow-sm min-h-[48px] flex items-center justify-center gap-2"
               >
-                <span>Explore Archival Catalogue</span>
+                <span>Explore Catalogue</span>
                 <span className="material-symbols-outlined text-[16px]">
                   arrow_forward
                 </span>
