@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { ProductItem } from "@/data/products";
 import { useCart } from "@/context/CartContext";
 
@@ -28,9 +29,11 @@ export default function ProductCard({
     }
   };
 
+  const productUrl = `/products/${product.id}`;
+
   return (
     <article className="group flex flex-col bg-transparent h-full">
-      <div className="relative aspect-[4/5] overflow-hidden bg-canvas border border-borderdelicate/80 mb-4 sm:mb-5">
+      <Link href={productUrl} className="relative aspect-[4/5] overflow-hidden bg-canvas border border-borderdelicate/80 mb-4 sm:mb-5 block">
         <Image
           alt={product.name}
           className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-700 ease-out"
@@ -46,22 +49,28 @@ export default function ProductCard({
         {/* Quick View Overlay Button */}
         {onQuickView && (
           <button
-            onClick={() => onQuickView(product)}
-            className="absolute bottom-3 inset-x-3 bg-espresso/90 text-alabaster py-2 text-[10px] uppercase tracking-[0.2em] font-medium opacity-0 group-hover:opacity-100 transition-opacity duration-300 backdrop-blur-xs hidden sm:flex items-center justify-center gap-1.5 cursor-pointer"
+            type="button"
+            onClick={(e) => {
+              e.preventDefault();
+              onQuickView(product);
+            }}
+            className="absolute bottom-3 inset-x-3 bg-espresso/90 text-alabaster py-2 text-[10px] uppercase tracking-[0.2em] font-medium opacity-0 group-hover:opacity-100 transition-opacity duration-300 backdrop-blur-xs hidden sm:flex items-center justify-center gap-1.5 cursor-pointer z-10"
           >
             <span>Quick Dossier View</span>
             <span className="material-symbols-outlined text-[14px]">visibility</span>
           </button>
         )}
-      </div>
+      </Link>
 
       <div className="flex flex-col flex-grow">
         <span className="text-[9px] uppercase tracking-[0.2em] text-mute mb-1 font-medium">
           {product.category}
         </span>
-        <h3 className="serif-display text-xl sm:text-2xl text-espresso font-normal group-hover:text-golddeep transition-colors leading-snug mb-3">
-          {product.name}
-        </h3>
+        <Link href={productUrl}>
+          <h3 className="serif-display text-xl sm:text-2xl text-espresso font-normal group-hover:text-golddeep transition-colors leading-snug mb-3">
+            {product.name}
+          </h3>
+        </Link>
 
         {product.dimensions && (
           <p className="text-[11px] text-mute font-light mb-3 hidden sm:block">
