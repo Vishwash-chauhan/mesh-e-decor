@@ -20,20 +20,20 @@ export default function Navbar({ onOpenConcierge }: NavbarProps) {
 
   return (
     <header className="sticky top-0 z-50 w-full bg-alabaster/95 backdrop-blur-md border-b border-borderdelicate/80 transition-all duration-300">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-12 h-20 sm:h-24 grid grid-cols-2 md:grid-cols-12 items-center">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-12 h-16 sm:h-20 md:h-24 grid grid-cols-2 md:grid-cols-12 items-center">
         {/* Left: Atelier Brandmark */}
         <div className="md:col-span-4 flex items-center justify-start">
-          <Link href="/" className="flex items-center gap-2.5 sm:gap-3.5 group">
+          <Link href="/" className="flex items-center gap-2 sm:gap-3.5 group">
             <Image
               alt="Mesh 'E' Decor Brandmark"
-              className="h-7 sm:h-9 w-auto object-contain transition-transform duration-500 group-hover:scale-105"
+              className="h-6 sm:h-8 md:h-9 w-auto object-contain transition-transform duration-500 group-hover:scale-105"
               src="https://lh3.googleusercontent.com/aida-public/AB6AXuDpqcGZ0BeH_fqgXUIEgQatWQTbaOWDHb5pQAYuFeAhW6-gZlEzfRkO1G8yjEw3HYRnAfS90zEz6gW4kGljiX8xHJFjPOeaV5atYaQEdHrQCbDmoS1COfeyrNcALBpTiK1Ufv0DTY1dNd2X1CxxcJheAgmzGoW3LEA79f22kOUt7KUckcK1QzwuhHlvbXrUr7TPMLQFYbDEbY1b55MwJ-doRzDxPeXmhXZy9VrVUPFADPQ9xNCdhWD6"
               width={36}
               height={36}
               unoptimized
             />
-            <div className="flex flex-col justify-center border-l border-borderdelicate pl-2.5 sm:pl-3.5 my-auto">
-              <span className="serif-display text-lg sm:text-xl tracking-[0.14em] sm:tracking-[0.16em] uppercase text-espresso font-normal leading-none">
+            <div className="flex flex-col justify-center border-l border-borderdelicate pl-2 sm:pl-3.5 my-auto">
+              <span className="serif-display text-sm sm:text-base md:text-xl tracking-[0.10em] sm:tracking-[0.14em] md:tracking-[0.16em] uppercase text-espresso font-normal leading-none whitespace-nowrap">
                 Mesh ‘E’ Decor
               </span>
             </div>
@@ -65,7 +65,7 @@ export default function Navbar({ onOpenConcierge }: NavbarProps) {
           {/* Cart Page Link Button */}
           <Link
             href="/cart"
-            className={`flex items-center gap-2 text-[10px] sm:text-[11px] uppercase tracking-[0.18em] font-medium px-4 sm:px-5 py-2.5 h-10 sm:h-11 border transition-all duration-300 cursor-pointer shadow-2xs relative ${
+            className={`hidden md:flex items-center gap-2 text-[10px] sm:text-[11px] uppercase tracking-[0.18em] font-medium px-4 sm:px-5 py-2.5 h-10 sm:h-11 border transition-all duration-300 cursor-pointer shadow-2xs relative ${
               isCartPage
                 ? "border-espresso bg-espresso text-alabaster"
                 : "border-espresso text-espresso hover:bg-espresso hover:text-alabaster"
