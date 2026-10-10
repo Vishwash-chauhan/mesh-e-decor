@@ -187,7 +187,7 @@ export default function CataloguePage() {
                   No matching artefacts found
                 </span>
                 <p className="text-[13px] text-mute mb-6 max-w-md">
-                  We could not find any specimen matching "{searchQuery}". Please refine your search criteria or contact our concierge.
+                  We could not find any specimen matching "{searchQuery}". Please refine your search criteria or request a custom order.
                 </p>
                 <button
                   onClick={() => {
@@ -201,14 +201,14 @@ export default function CataloguePage() {
               </div>
             )}
 
-            {/* Concierge Commission Banner */}
+            {/* Custom Order Banner */}
             <div className="mt-20 p-8 sm:p-12 bg-canvas border border-borderdelicate/90 flex flex-col md:flex-row items-start md:items-center justify-between gap-8">
               <div className="max-w-2xl">
                 <span className="text-[10px] uppercase tracking-[0.3em] text-golddeep font-medium block mb-2">
-                  Bespoke Commissions
+                  Bespoke Orders
                 </span>
                 <h3 className="serif-display text-2xl sm:text-3xl text-espresso font-normal mb-2">
-                  Unlisted Archival Specimen Inquiry
+                  Custom Archival Specimen Inquiry
                 </h3>
                 <p className="text-[13px] text-subdued font-light leading-relaxed">
                   Seeking a historical design, custom size kalash, or specialized laser hallmark engraving for institutional gifting?
@@ -218,7 +218,7 @@ export default function CataloguePage() {
                 onClick={handleOpenConcierge}
                 className="px-8 py-4 bg-espresso text-alabaster hover:bg-[#2A2622] text-[11px] uppercase tracking-[0.24em] font-medium transition-all cursor-pointer whitespace-nowrap min-h-[48px] w-full md:w-auto text-center"
               >
-                Inquire Private Concierge
+                Request Custom Order
               </button>
             </div>
           </div>

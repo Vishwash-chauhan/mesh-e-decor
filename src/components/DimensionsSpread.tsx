@@ -196,19 +196,17 @@ export default function DimensionsSpread({ onOpenConcierge }: DimensionsSpreadPr
               </div>
             </div>
 
-            {/* Direct Concierge Contact */}
+            {/* Direct Order Contact */}
             <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4 sm:gap-6 w-full">
-              <a
+              <Link
                 className="inline-flex items-center justify-center gap-3 min-h-[48px] px-8 py-4 bg-goldaccent text-[#181614] hover:bg-[#D5B890] text-[11px] uppercase tracking-[0.24em] font-medium transition-all duration-300 shadow-sm cursor-pointer"
-                href="https://wa.me/917042005637?text=Hello%20Mesh%20E%20Decor%20Concierge%2C%20I%20am%20inquiring%20about%20a%20custom%20order."
-                rel="noopener noreferrer"
-                target="_blank"
+                href="/catalogue"
               >
-                <span>WhatsApp Atelier Desk</span>
+                <span>Order Custom Collections</span>
                 <span className="material-symbols-outlined text-[16px]">
-                  chat
+                  arrow_forward
                 </span>
-              </a>
+              </Link>
               <div className="text-[12px] text-mute font-light flex items-center justify-center sm:justify-start gap-2 py-2">
                 <span>Direct:</span>
                 <a

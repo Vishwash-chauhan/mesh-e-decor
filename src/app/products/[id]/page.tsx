@@ -3,7 +3,7 @@
 import React, { useState, use } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { notFound } from "next/navigation";
+import { notFound, useRouter } from "next/navigation";
 import TopStrip from "@/components/TopStrip";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -19,6 +19,7 @@ interface ProductPageProps {
 export default function ProductDetailPage({ params }: ProductPageProps) {
   const resolvedParams = use(params);
   const productId = resolvedParams.id;
+  const router = useRouter();
 
   const product = PRODUCTS.find((p) => p.id === productId);
 
@@ -44,12 +45,9 @@ export default function ProductDetailPage({ params }: ProductPageProps) {
     setTimeout(() => setAdded(false), 3000);
   };
 
-  const handleOpenWhatsAppInquiry = () => {
-    const text = `Greetings Mesh 'E' Decor Atelier,\nI am inquiring about product: ${product.name} (${product.code})\nPrice: ${product.price}\nQuantity: ${quantity} unit(s).`;
-    window.open(
-      `https://wa.me/917042005637?text=${encodeURIComponent(text)}`,
-      "_blank"
-    );
+  const handleBuyNow = () => {
+    addToCart(product, quantity);
+    router.push("/cart");
   };
 
   return (
@@ -223,13 +221,13 @@ export default function ProductDetailPage({ params }: ProductPageProps) {
                 </button>
 
                 <button
-                  onClick={handleOpenWhatsAppInquiry}
-                  className="w-full py-3.5 min-h-[48px] border border-borderdelicate text-espresso hover:border-espresso text-[11px] uppercase tracking-[0.22em] font-medium transition-all flex items-center justify-center gap-2 cursor-pointer"
+                  onClick={handleBuyNow}
+                  className="w-full py-3.5 min-h-[48px] border border-espresso text-espresso hover:bg-espresso hover:text-alabaster text-[11px] uppercase tracking-[0.22em] font-medium transition-all flex items-center justify-center gap-2 cursor-pointer"
                 >
                   <span className="material-symbols-outlined text-[18px]">
-                    chat
+                    flash_on
                   </span>
-                  <span>Inquire via WhatsApp Concierge</span>
+                  <span>Order Now</span>
                 </button>
               </div>
 

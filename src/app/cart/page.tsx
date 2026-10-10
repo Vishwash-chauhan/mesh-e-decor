@@ -41,6 +41,17 @@ export default function CartPage() {
   const { cart, removeFromCart, updateQuantity, clearCart, totalPrice, totalItems } =
     useCart();
   const [modalOpen, setModalOpen] = useState(false);
+  const [orderConfirmed, setOrderConfirmed] = useState(false);
+  const [confirmedOrderDetails, setConfirmedOrderDetails] = useState<{
+    orderId: string;
+    items: typeof cart;
+    fullName: string;
+    phone: string;
+    address: string;
+    totalPrice: number;
+    totalItems: number;
+    orderDate: string;
+  } | null>(null);
 
   // Standard Indian Customer & Address Form State
   const [fullName, setFullName] = useState("");
@@ -70,42 +81,27 @@ export default function CartPage() {
       .filter(Boolean)
       .join(", ");
 
-    const itemizedList = cart
-      .map(
-        (item, idx) =>
-          `${idx + 1}. ${item.product.name} (${item.product.code})\n   Qty: ${
-            item.quantity
-          } x ${item.product.price} = ₹${(
-            item.product.numericPrice * item.quantity
-          ).toLocaleString("en-IN")}`
-      )
-      .join("\n\n");
+    const randomNum = Math.floor(100000 + Math.random() * 900000);
+    const generatedOrderId = `MED-2026-${randomNum}`;
 
-    const messageLines = [
-      `🛒 *NEW ONLINE ORDER - MESH 'E' DECOR*`,
-      `---------------------------------`,
-      `*CUSTOMER DETAILS:*`,
-      `• Name: ${fullName}`,
-      `• Phone: ${phone}`,
-      `• Shipping Address: ${formattedAddress}`,
-      ``,
-      `*ITEMS ORDERED:*`,
-      itemizedList,
-      ``,
-      `---------------------------------`,
-      `*ORDER SUMMARY:*`,
-      `• Total Items: ${totalItems} piece(s)`,
-      `• Shipping: Free Express Delivery`,
-      `• Taxes: Included`,
-      `• *TOTAL AMOUNT: ₹${totalPrice.toLocaleString("en-IN")}*`,
-    ]
-      .filter(Boolean)
-      .join("\n");
+    const newOrder = {
+      orderId: generatedOrderId,
+      items: [...cart],
+      fullName,
+      phone,
+      address: formattedAddress,
+      totalPrice,
+      totalItems,
+      orderDate: new Date().toLocaleDateString("en-IN", {
+        day: "numeric",
+        month: "short",
+        year: "numeric",
+      }),
+    };
 
-    const url = `https://wa.me/917042005637?text=${encodeURIComponent(
-      messageLines
-    )}`;
-    window.open(url, "_blank");
+    setConfirmedOrderDetails(newOrder);
+    setOrderConfirmed(true);
+    clearCart();
   };
 
   return (
@@ -421,19 +417,12 @@ export default function CartPage() {
                     type="submit"
                     className="w-full py-4 bg-espresso text-alabaster hover:bg-golddeep text-[11px] uppercase tracking-[0.24em] font-medium transition-all flex items-center justify-center gap-2 cursor-pointer shadow-sm min-h-[48px] mt-6"
                   >
-                    <span>Place Order via WhatsApp</span>
+                    <span>Place Order</span>
                     <span className="material-symbols-outlined text-[16px]">
                       arrow_forward
                     </span>
                   </button>
                 </form>
-
-                <button
-                  onClick={handleOpenConciergeModal}
-                  className="w-full py-3 border border-borderdelicate text-subdued hover:text-espresso text-[10px] uppercase tracking-[0.2em] font-medium transition-colors cursor-pointer text-center block min-h-[44px]"
-                >
-                  Need Customization or Assistance? Contact Concierge
-                </button>
               </div>
             </div>
           ) : (
@@ -467,7 +456,99 @@ export default function CartPage() {
       {/* Footer */}
       <Footer />
 
-      {/* Kept Untouched Bespoke Inquiry Dossier Modal */}
+      {/* Order Confirmation Screen / Modal */}
+      {orderConfirmed && confirmedOrderDetails && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-espresso/75 backdrop-blur-sm animate-fadeIn">
+          <div className="bg-alabaster border border-goldaccent/40 max-w-2xl w-full p-6 sm:p-10 relative shadow-2xl overflow-y-auto max-h-[90vh]">
+            <div className="text-center pb-6 border-b border-borderdelicate/80 mb-6">
+              <div className="w-16 h-16 rounded-full bg-golddeep/10 border border-golddeep/30 text-golddeep flex items-center justify-center mx-auto mb-4">
+                <span className="material-symbols-outlined text-[32px]">
+                  check_circle
+                </span>
+              </div>
+              <span className="text-[10px] uppercase tracking-[0.3em] text-golddeep font-semibold block mb-1">
+                Order Placed Successfully
+              </span>
+              <h2 className="serif-display text-3xl sm:text-4xl text-espresso font-normal mb-2">
+                Thank You for Your Order!
+              </h2>
+              <p className="text-xs text-subdued font-light">
+                We have received your order, <span className="font-medium text-espresso">{confirmedOrderDetails.fullName}</span>. Your handcrafted items are now being prepared for dispatch.
+              </p>
+            </div>
+
+            {/* Order Meta Info Grid */}
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 bg-canvas p-4 border border-borderdelicate/80 text-xs mb-6">
+              <div>
+                <span className="block text-mute uppercase tracking-wider text-[9px] mb-0.5">Order ID</span>
+                <span className="font-medium text-espresso font-mono text-[11px]">{confirmedOrderDetails.orderId}</span>
+              </div>
+              <div>
+                <span className="block text-mute uppercase tracking-wider text-[9px] mb-0.5">Order Date</span>
+                <span className="font-medium text-espresso">{confirmedOrderDetails.orderDate}</span>
+              </div>
+              <div className="col-span-2 sm:col-span-1">
+                <span className="block text-mute uppercase tracking-wider text-[9px] mb-0.5">Estimated Delivery</span>
+                <span className="font-semibold text-golddeep">3 - 5 Business Days</span>
+              </div>
+            </div>
+
+            {/* Delivery Address */}
+            <div className="mb-6 pb-6 border-b border-borderdelicate/80 text-xs">
+              <span className="block uppercase tracking-wider text-[10px] text-mute font-medium mb-1">
+                Shipping Destination
+              </span>
+              <p className="text-espresso font-normal">{confirmedOrderDetails.fullName} ({confirmedOrderDetails.phone})</p>
+              <p className="text-subdued font-light">{confirmedOrderDetails.address}</p>
+            </div>
+
+            {/* Items Purchased List */}
+            <div className="mb-6">
+              <span className="block uppercase tracking-wider text-[10px] text-mute font-medium mb-3">
+                Items Purchased ({confirmedOrderDetails.totalItems})
+              </span>
+              <div className="divide-y divide-borderdelicate/60 max-h-48 overflow-y-auto pr-1">
+                {confirmedOrderDetails.items.map((item) => (
+                  <div key={item.product.id} className="py-3 flex items-center justify-between text-xs gap-4">
+                    <div className="flex items-center gap-3">
+                      <div className="relative w-12 h-14 shrink-0 bg-canvas border border-borderdelicate">
+                        <Image src={item.product.image} alt={item.product.name} fill className="object-cover" unoptimized />
+                      </div>
+                      <div>
+                        <h4 className="serif-display text-sm font-medium text-espresso">{item.product.name}</h4>
+                        <span className="text-[10px] text-mute">Qty: {item.quantity} × {item.product.price}</span>
+                      </div>
+                    </div>
+                    <span className="serif-display text-sm font-medium text-espresso whitespace-nowrap">
+                      ₹{(item.product.numericPrice * item.quantity).toLocaleString("en-IN")}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Total Paid */}
+            <div className="flex items-center justify-between pt-4 border-t border-borderdelicate/80 mb-8">
+              <span className="uppercase tracking-wider text-xs font-semibold text-espresso">Total Amount</span>
+              <span className="serif-display text-2xl text-espresso font-normal">₹{confirmedOrderDetails.totalPrice.toLocaleString("en-IN")}</span>
+            </div>
+
+            {/* Action Buttons */}
+            <div className="flex flex-col sm:flex-row items-center gap-3">
+              <Link
+                href="/catalogue"
+                onClick={() => setOrderConfirmed(false)}
+                className="w-full py-3.5 bg-espresso text-alabaster hover:bg-golddeep text-[11px] uppercase tracking-[0.24em] font-medium transition-all text-center cursor-pointer min-h-[44px] flex items-center justify-center gap-2 shadow-sm"
+              >
+                <span>Continue Shopping</span>
+                <span className="material-symbols-outlined text-[16px]">arrow_forward</span>
+              </Link>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Bespoke Inquiry Dossier Modal */}
       <InquiryModal
         isOpen={modalOpen}
         onClose={() => setModalOpen(false)}
