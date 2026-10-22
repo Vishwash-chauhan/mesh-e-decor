@@ -89,15 +89,6 @@ export default function Hero({ onOpenConcierge }: HeroProps) {
             >
               Explore 2026 Collection
             </Link>
-            <button
-              onClick={onOpenConcierge}
-              className="w-full inline-flex items-center justify-center gap-1.5 py-2.5 text-[11px] uppercase tracking-[0.2em] text-subdued hover:text-espresso font-medium cursor-pointer"
-            >
-              <span>Request Bespoke Inquiry</span>
-              <span className="material-symbols-outlined text-[15px]">
-                arrow_forward
-              </span>
-            </button>
           </div>
 
           {/* Minimal Credentials Strip */}
@@ -143,15 +134,6 @@ export default function Hero({ onOpenConcierge }: HeroProps) {
               >
                 Explore 2026 Edition
               </Link>
-              <button
-                onClick={onOpenConcierge}
-                className="inline-flex items-center justify-center gap-2 min-h-[48px] px-6 py-3.5 text-[11px] uppercase tracking-[0.22em] text-subdued hover:text-espresso transition-colors font-medium cursor-pointer"
-              >
-                <span>Request Bespoke Inquiry</span>
-                <span className="material-symbols-outlined text-[16px] font-light">
-                  arrow_forward
-                </span>
-              </button>
             </div>
 
             {/* Archival Metadata strip */}

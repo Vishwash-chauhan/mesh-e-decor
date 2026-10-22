@@ -19,6 +19,7 @@ export default function InquiryModal({
   const [name, setName] = useState("");
   const [organization, setOrganization] = useState("");
   const [notes, setNotes] = useState("");
+  const [submitted, setSubmitted] = useState(false);
 
   useEffect(() => {
     if (product) {
@@ -48,8 +49,6 @@ export default function InquiryModal({
 
   const itemTitle = product ? product.name : "Bespoke Collection Portfolio / RFQ Dossier";
   const itemCode = product ? product.code : "VOL-IV-2026";
-
-  const [submitted, setSubmitted] = useState(false);
 
   const handleSubmitInquiry = (e: React.FormEvent) => {
     e.preventDefault();
