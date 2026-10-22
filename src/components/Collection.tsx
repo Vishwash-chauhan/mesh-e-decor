@@ -30,44 +30,42 @@ export default function Collection({
       id="collection"
     >
       <div className="max-w-7xl mx-auto">
-        {/* Section Header with wide breathing room */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 sm:mb-16 lg:mb-20 pb-6 sm:pb-8 border-b border-borderdelicate/80 gap-6">
-          <div>
-            <div className="flex items-center gap-2 mb-2 flex-wrap">
-              <span className="text-[10px] uppercase tracking-[0.3em] text-golddeep font-medium">
-                Mesmerizing Artistry
-              </span>
-              <span className="text-mute/60">•</span>
-              <span className="text-[10px] uppercase tracking-[0.24em] text-mute">
-                The Archival Collections
-              </span>
-            </div>
-            <h2 className="serif-display text-3xl sm:text-5xl text-espresso font-normal mb-3">
-              The Archival Editions
-            </h2>
-            <p className="text-[14px] text-subdued max-w-xl font-light leading-relaxed">
-              Silver-plated virgin brass is merely the prelude to an expansive
-              repertoire of archival décor, sacred sanctuaries, and opulent
-              lapidary craftsmanship.
-            </p>
+        {/* Section Header */}
+        <div className="text-center max-w-3xl mx-auto mb-10 sm:mb-12">
+          <div className="inline-flex items-center justify-center gap-2 mb-3 flex-wrap">
+            <span className="text-[10px] uppercase tracking-[0.3em] text-golddeep font-medium">
+              Mesmerizing Artistry
+            </span>
+            <span className="text-mute/60">•</span>
+            <span className="text-[10px] uppercase tracking-[0.24em] text-mute">
+              The Archival Collections
+            </span>
           </div>
+          <h2 className="serif-display text-3xl sm:text-5xl text-espresso font-normal mb-4">
+            The Archival Editions
+          </h2>
+          <p className="text-[14px] sm:text-[15px] text-subdued max-w-xl mx-auto font-light leading-relaxed">
+            Silver-plated virgin brass is merely the prelude to an expansive
+            repertoire of archival décor, sacred sanctuaries, and opulent
+            lapidary craftsmanship.
+          </p>
+        </div>
 
-          {/* Filter Tabs - Horizontal scrollable on mobile */}
-          <div className="flex overflow-x-auto no-scrollbar gap-2 pt-2 pb-1 -mx-4 px-4 sm:mx-0 sm:px-0 md:flex-wrap shrink-0">
-            {CATEGORIES.map((cat) => (
-              <button
-                key={cat}
-                onClick={() => setSelectedCategory(cat)}
-                className={`px-4 py-2 text-[10px] uppercase tracking-[0.2em] font-medium transition-all cursor-pointer whitespace-nowrap min-h-[40px] flex items-center justify-center ${
-                  selectedCategory === cat
-                    ? "bg-espresso text-alabaster shadow-sm"
-                    : "bg-transparent border border-borderdelicate text-subdued hover:text-espresso hover:border-espresso"
-                }`}
-              >
-                {cat}
-              </button>
-            ))}
-          </div>
+        {/* Elegant Minimalist Category Navigation Tabs */}
+        <div className="flex justify-start sm:justify-center items-center overflow-x-auto no-scrollbar gap-4 sm:gap-8 pb-3 mb-12 sm:mb-16 border-b border-borderdelicate/80 -mx-4 px-4 sm:mx-0 sm:px-0">
+          {CATEGORIES.map((cat) => (
+            <button
+              key={cat}
+              onClick={() => setSelectedCategory(cat)}
+              className={`pb-3 text-[10px] sm:text-[11px] uppercase tracking-[0.22em] font-medium transition-all cursor-pointer whitespace-nowrap border-b-2 -mb-[1px] ${
+                selectedCategory === cat
+                  ? "border-espresso text-espresso font-semibold"
+                  : "border-transparent text-mute hover:text-espresso hover:border-borderdelicate"
+              }`}
+            >
+              {cat}
+            </button>
+          ))}
         </div>
 
         {/* Gallery Grid Reusing ProductCard */}
