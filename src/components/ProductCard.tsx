@@ -36,16 +36,12 @@ export default function ProductCard({
         className="relative aspect-[4/5] overflow-hidden bg-canvas border border-borderdelicate/80 mb-4 sm:mb-5 block"
       >
         <Image
-          alt={product.name}
+          alt={product.code}
           className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-700 ease-out"
           src={product.image}
           fill
           unoptimized
         />
-        {/* Code Tag */}
-        <div className="absolute top-3 left-3 bg-alabaster/95 backdrop-blur-xs px-2.5 py-1 border border-borderdelicate/60 text-[9px] uppercase tracking-[0.18em] text-golddeep font-medium shadow-xs">
-          {product.code}
-        </div>
       </Link>
 
       <div className="flex flex-col flex-grow">
@@ -54,7 +50,7 @@ export default function ProductCard({
         </span>
         <Link href={productUrl}>
           <h3 className="serif-display text-xl sm:text-2xl text-espresso font-normal group-hover:text-golddeep transition-colors leading-snug mb-3">
-            {product.name}
+            {product.code}
           </h3>
         </Link>
 
