@@ -65,20 +65,22 @@ export default function Navbar({ onOpenConcierge }: NavbarProps) {
           {/* Cart Page Link Button */}
           <Link
             href="/cart"
-            className={`hidden md:flex items-center gap-2 text-[10px] sm:text-[11px] uppercase tracking-[0.18em] font-medium px-4 sm:px-5 py-2.5 h-10 sm:h-11 border transition-all duration-300 cursor-pointer shadow-2xs relative ${
+            className={`hidden md:flex items-center gap-2.5 text-[10px] sm:text-[11px] uppercase tracking-[0.18em] font-medium px-4 sm:px-5 py-2.5 h-10 sm:h-11 border transition-all duration-300 cursor-pointer shadow-2xs relative ${
               isCartPage
                 ? "border-espresso bg-espresso text-alabaster"
                 : "border-espresso text-espresso hover:bg-espresso hover:text-alabaster"
             }`}
             aria-label="View Cart Page"
           >
-            <span className="material-symbols-outlined text-[18px]">shopping_bag</span>
+            <div className="relative inline-flex items-center justify-center">
+              <span className="material-symbols-outlined text-[19px]">shopping_bag</span>
+              {totalItems > 0 && (
+                <span className="absolute -top-1.5 -right-2.5 bg-golddeep text-alabaster text-[9px] font-bold min-w-[16px] h-4 px-1 rounded-full flex items-center justify-center leading-none tracking-normal tabular-nums shadow-xs">
+                  {totalItems}
+                </span>
+              )}
+            </div>
             <span>Cart</span>
-            {totalItems > 0 && (
-              <span className="ml-1 bg-golddeep text-alabaster text-[9px] w-4 h-4 rounded-full flex items-center justify-center font-bold">
-                {totalItems}
-              </span>
-            )}
           </Link>
 
           {/* Mobile Menu Toggle Button */}
@@ -122,9 +124,16 @@ export default function Navbar({ onOpenConcierge }: NavbarProps) {
             onClick={() => setMobileMenuOpen(false)}
             className="hover:text-espresso transition-colors py-3 flex items-center justify-between font-medium text-espresso"
           >
-            <span className="flex items-center gap-2">
-              <span className="material-symbols-outlined text-[18px]">shopping_bag</span>
-              View Cart {totalItems > 0 ? `(${totalItems})` : ""}
+            <span className="flex items-center gap-2.5">
+              <div className="relative inline-flex items-center justify-center">
+                <span className="material-symbols-outlined text-[19px]">shopping_bag</span>
+                {totalItems > 0 && (
+                  <span className="absolute -top-1.5 -right-2.5 bg-golddeep text-alabaster text-[9px] font-bold min-w-[16px] h-4 px-1 rounded-full flex items-center justify-center leading-none tracking-normal tabular-nums shadow-xs">
+                    {totalItems}
+                  </span>
+                )}
+              </div>
+              <span className="ml-1">View Cart</span>
             </span>
             <span className="material-symbols-outlined text-[16px]">chevron_right</span>
           </Link>
