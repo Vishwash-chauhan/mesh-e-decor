@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useState, useMemo } from "react";
-import TopStrip from "@/components/TopStrip";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import InquiryModal from "@/components/InquiryModal";
@@ -59,9 +58,6 @@ export default function CataloguePage() {
 
   return (
     <div className="min-h-screen flex flex-col bg-alabaster text-espresso font-light">
-      {/* Top Banner Strip */}
-      <TopStrip />
-
       {/* Main Sticky Header */}
       <Navbar onOpenConcierge={handleOpenConcierge} />
 

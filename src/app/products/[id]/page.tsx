@@ -4,7 +4,6 @@ import React, { useState, use } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound, useRouter } from "next/navigation";
-import TopStrip from "@/components/TopStrip";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import InquiryModal from "@/components/InquiryModal";
@@ -52,9 +51,6 @@ export default function ProductDetailPage({ params }: ProductPageProps) {
 
   return (
     <div className="min-h-screen flex flex-col bg-alabaster text-espresso font-light">
-      {/* Top Banner Strip */}
-      <TopStrip />
-
       {/* Main Header */}
       <Navbar onOpenConcierge={() => setModalOpen(true)} />
 

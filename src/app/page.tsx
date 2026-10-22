@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useState } from "react";
-import TopStrip from "@/components/TopStrip";
 import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
 import Collection from "@/components/Collection";
@@ -30,9 +29,6 @@ export default function HomePage() {
 
   return (
     <div className="min-h-screen flex flex-col bg-alabaster text-espresso font-light">
-      {/* Top Banner Strip */}
-      <TopStrip />
-
       {/* Main Sticky Header */}
       <Navbar onOpenConcierge={handleOpenConcierge} />
 
