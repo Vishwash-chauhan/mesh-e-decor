@@ -27,7 +27,7 @@ export default function ProductCard({
     }
   };
 
-  const productUrl = `/products/${product.id}`;
+  const productUrl = `/products/${product.code}`;
 
   return (
     <article className="group flex flex-col bg-transparent h-full">

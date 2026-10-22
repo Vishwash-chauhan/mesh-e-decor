@@ -47,7 +47,7 @@ export default function InquiryModal({
 
   if (!isOpen) return null;
 
-  const itemTitle = product ? product.name : "Bespoke Collection Portfolio / RFQ Dossier";
+  const itemTitle = product ? product.code : "Bespoke Collection Portfolio / RFQ Dossier";
   const itemCode = product ? product.code : "VOL-IV-2026";
 
   const handleSubmitInquiry = (e: React.FormEvent) => {
@@ -114,18 +114,15 @@ export default function InquiryModal({
                 <div className="relative w-16 h-16 shrink-0 bg-espresso">
                   <Image
                     src={product.image}
-                    alt={product.name}
+                    alt={product.code}
                     fill
                     className="object-cover"
                     unoptimized
                   />
                 </div>
                 <div>
-                  <span className="text-[9px] uppercase tracking-[0.2em] text-golddeep font-semibold">
-                    {product.code}
-                  </span>
                   <h4 className="serif-display text-lg text-espresso font-normal leading-tight">
-                    {product.name}
+                    {product.code}
                   </h4>
                   <span className="text-xs text-subdued font-medium">{product.price}</span>
                 </div>

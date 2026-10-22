@@ -137,12 +137,12 @@ export default function CartPage() {
                       {/* Product Thumbnail & Details */}
                       <div className="flex items-center gap-4 sm:gap-6 flex-grow">
                         <Link
-                          href={`/products/${item.product.id}`}
+                          href={`/products/${item.product.code}`}
                           className="relative w-20 h-24 sm:w-24 sm:h-28 shrink-0 bg-canvas border border-borderdelicate/80 block hover:opacity-90 transition-opacity"
                         >
                           <Image
                             src={item.product.image}
-                            alt={item.product.name}
+                            alt={item.product.code}
                             fill
                             className="object-cover"
                             unoptimized
@@ -150,12 +150,9 @@ export default function CartPage() {
                         </Link>
 
                         <div className="flex flex-col">
-                          <span className="text-[9px] uppercase tracking-[0.2em] text-golddeep font-semibold mb-1">
-                            {item.product.code}
-                          </span>
-                          <Link href={`/products/${item.product.id}`}>
+                          <Link href={`/products/${item.product.code}`}>
                             <h3 className="serif-display text-lg sm:text-xl text-espresso font-normal leading-snug mb-1 hover:text-golddeep transition-colors">
-                              {item.product.name}
+                              {item.product.code}
                             </h3>
                           </Link>
                           <span className="text-xs text-subdued font-medium mb-1">
@@ -508,10 +505,10 @@ export default function CartPage() {
                   <div key={item.product.id} className="py-3 flex items-center justify-between text-xs gap-4">
                     <div className="flex items-center gap-3">
                       <div className="relative w-12 h-14 shrink-0 bg-canvas border border-borderdelicate">
-                        <Image src={item.product.image} alt={item.product.name} fill className="object-cover" unoptimized />
+                        <Image src={item.product.image} alt={item.product.code} fill className="object-cover" unoptimized />
                       </div>
                       <div>
-                        <h4 className="serif-display text-sm font-medium text-espresso">{item.product.name}</h4>
+                        <h4 className="serif-display text-sm font-medium text-espresso">{item.product.code}</h4>
                         <span className="text-[10px] text-mute">Qty: {item.quantity} × {item.product.price}</span>
                       </div>
                     </div>

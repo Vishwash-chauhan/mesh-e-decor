@@ -20,7 +20,11 @@ export default function ProductDetailPage({ params }: ProductPageProps) {
   const productId = resolvedParams.id;
   const router = useRouter();
 
-  const product = PRODUCTS.find((p) => p.id === productId);
+  const product = PRODUCTS.find(
+    (p) =>
+      p.code.toLowerCase() === decodeURIComponent(productId).toLowerCase() ||
+      p.id === productId
+  );
 
   const { addToCart } = useCart();
   const [modalOpen, setModalOpen] = useState(false);
@@ -98,7 +102,7 @@ export default function ProductDetailPage({ params }: ProductPageProps) {
                   <div className="relative aspect-[4/5] overflow-hidden bg-espresso">
                     <Image
                       src={product.image}
-                      alt={product.name}
+                      alt={product.code}
                       fill
                       className="object-cover object-center"
                       unoptimized
@@ -119,7 +123,7 @@ export default function ProductDetailPage({ params }: ProductPageProps) {
                 {product.category}
               </span>
               <h1 className="serif-display text-3xl sm:text-4xl lg:text-5xl text-espresso font-normal tracking-tight mb-3">
-                {product.name}
+                {product.code}
               </h1>
 
               <div className="serif-display text-2xl sm:text-3xl text-espresso font-normal mb-6 pb-6 border-b border-borderdelicate/80 w-full flex items-center justify-between">
