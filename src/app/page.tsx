@@ -5,8 +5,6 @@ import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
 import Collection from "@/components/Collection";
 import { ProductItem } from "@/data/products";
-import DimensionsSpread from "@/components/DimensionsSpread";
-import Craftsmanship from "@/components/Craftsmanship";
 import Testimonial from "@/components/Testimonial";
 import Footer from "@/components/Footer";
 import InquiryModal from "@/components/InquiryModal";
@@ -42,12 +40,6 @@ export default function HomePage() {
           onInquirePiece={handleInquirePiece}
           onOpenConcierge={handleOpenConcierge}
         />
-
-        {/* Bespoke Corporate & Royal Gifting / Dark Luxury Spread */}
-        <DimensionsSpread onOpenConcierge={handleOpenConcierge} />
-
-        {/* 14-Stage Foundry Method Craftsmanship */}
-        <Craftsmanship />
 
         {/* Atelier Patron Testimonial */}
         <Testimonial />

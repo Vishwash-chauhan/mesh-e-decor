@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
-import { ProductItem, PRODUCTS, CATEGORIES } from "@/data/products";
+import { ProductItem, PRODUCTS, CATEGORIES, matchesCategory } from "@/data/products";
 import ProductCard from "./ProductCard";
 
 export type { ProductItem };
@@ -21,8 +21,8 @@ export default function Collection({
   const filteredProducts = (
     selectedCategory === "All Collections"
       ? PRODUCTS
-      : PRODUCTS.filter((p) => p.category === selectedCategory)
-  ).slice(0, 6);
+      : PRODUCTS.filter((p) => matchesCategory(p, selectedCategory))
+  ).slice(0, 8);
 
   return (
     <section

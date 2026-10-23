@@ -3,12 +3,12 @@
 import React, { useState, use } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { notFound, useRouter } from "next/navigation";
+import { notFound } from "next/navigation";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import InquiryModal from "@/components/InquiryModal";
 import ProductCard from "@/components/ProductCard";
-import { PRODUCTS, ProductItem } from "@/data/products";
+import { PRODUCTS, ProductItem, getParentCategory } from "@/data/products";
 import { useCart } from "@/context/CartContext";
 
 interface ProductPageProps {
@@ -18,7 +18,6 @@ interface ProductPageProps {
 export default function ProductDetailPage({ params }: ProductPageProps) {
   const resolvedParams = use(params);
   const productId = resolvedParams.id;
-  const router = useRouter();
 
   const product = PRODUCTS.find(
     (p) =>
@@ -48,9 +47,23 @@ export default function ProductDetailPage({ params }: ProductPageProps) {
     setTimeout(() => setAdded(false), 3000);
   };
 
-  const handleBuyNow = () => {
-    addToCart(product, quantity);
-    router.push("/cart");
+  const handleOrderOnWhatsApp = () => {
+    const totalFormatted = (product.numericPrice * quantity).toLocaleString("en-IN");
+    const currentUrl = typeof window !== "undefined" ? window.location.href : "";
+    const message = `Hello Mesh ‘E’ Decor, I would like to place an order:
+
+• Product: ${product.code}
+• Category: ${product.category}
+• Quantity: ${quantity}
+• Unit Price: ${product.price}
+• Estimated Total: ₹${totalFormatted}
+
+Product Link: ${currentUrl}
+
+Kindly confirm availability and share payment / delivery instructions. Thank you!`;
+
+    const whatsappUrl = `https://wa.me/917042005637?text=${encodeURIComponent(message)}`;
+    window.open(whatsappUrl, "_blank", "noopener,noreferrer");
   };
 
   return (
@@ -69,17 +82,30 @@ export default function ProductDetailPage({ params }: ProductPageProps) {
             <Link href="/" className="hover:text-espresso transition-colors">
               Home
             </Link>
-            <span>/</span>
+            <span className="text-mute/60">/</span>
             <Link
               href="/catalogue"
               className="hover:text-espresso transition-colors"
             >
               Catalogue
             </Link>
-            <span>/</span>
-            <span className="text-subdued">{product.category}</span>
-            <span>/</span>
-            <span className="text-espresso font-medium">{product.code}</span>
+            <span className="text-mute/60">/</span>
+            <Link
+              href={`/catalogue?category=${encodeURIComponent(
+                getParentCategory(product.category)
+              )}`}
+              className="text-subdued hover:text-espresso transition-colors"
+            >
+              {product.category}
+            </Link>
+            <span className="text-mute/60">/</span>
+            <Link
+              href={`/products/${product.code}`}
+              className="text-espresso font-medium hover:text-golddeep transition-colors"
+              aria-current="page"
+            >
+              {product.code}
+            </Link>
           </div>
         </nav>
 
@@ -208,11 +234,10 @@ export default function ProductDetailPage({ params }: ProductPageProps) {
               <div className="flex flex-col gap-3 w-full mb-8">
                 <button
                   onClick={handleAddToCart}
-                  className={`w-full py-4 min-h-[50px] text-[11px] uppercase tracking-[0.24em] font-medium transition-all cursor-pointer flex items-center justify-center gap-2 shadow-sm ${
-                    added
-                      ? "bg-golddeep text-alabaster"
-                      : "bg-espresso text-alabaster hover:bg-[#2A2622]"
-                  }`}
+                  className={`w-full py-4 min-h-[50px] text-[11px] uppercase tracking-[0.24em] font-medium transition-all cursor-pointer flex items-center justify-center gap-2 shadow-sm ${added
+                    ? "bg-golddeep text-alabaster"
+                    : "bg-espresso text-alabaster hover:bg-[#2A2622]"
+                    }`}
                 >
                   <span className="material-symbols-outlined text-[18px]">
                     {added ? "check" : "shopping_bag"}
@@ -221,24 +246,22 @@ export default function ProductDetailPage({ params }: ProductPageProps) {
                 </button>
 
                 <button
-                  onClick={handleBuyNow}
-                  className="w-full py-3.5 min-h-[48px] border border-espresso text-espresso hover:bg-espresso hover:text-alabaster text-[11px] uppercase tracking-[0.22em] font-medium transition-all flex items-center justify-center gap-2 cursor-pointer"
+                  onClick={handleOrderOnWhatsApp}
+                  className="w-full py-3.5 min-h-[48px] bg-[#25D366] hover:bg-[#20bd5a] text-white text-[11px] uppercase tracking-[0.22em] font-medium transition-all flex items-center justify-center gap-2.5 cursor-pointer shadow-sm hover:shadow-md active:scale-[0.99]"
                 >
-                  <span className="material-symbols-outlined text-[18px]">
-                    flash_on
-                  </span>
-                  <span>Order Now</span>
+                  <svg
+                    className="w-4 h-4 fill-current shrink-0"
+                    viewBox="0 0 24 24"
+                    fill="currentColor"
+                  >
+                    <path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.816 9.816 0 0 0 12.04 2zm.01 1.67c4.54 0 8.24 3.7 8.24 8.24 0 2.2-.86 4.28-2.42 5.84a8.18 8.18 0 0 1-5.82 2.41h-.01c-1.49 0-2.95-.4-4.23-1.16l-.3-.18-3.14.82.84-3.06-.2-.31a8.19 8.19 0 0 1-1.26-4.36c0-4.54 3.7-8.24 8.24-8.24zm4.52 11.66c-.25-.13-1.47-.72-1.7-.81-.23-.08-.39-.13-.56.13-.17.25-.64.81-.79.97-.14.17-.29.19-.54.06-.25-.13-1.06-.39-2.02-1.25-.75-.67-1.26-1.5-1.41-1.75-.14-.25-.02-.39.11-.51.11-.11.25-.29.37-.44.13-.14.17-.25.25-.41.08-.17.04-.31-.02-.44s-.56-1.34-.76-1.84c-.2-.48-.41-.42-.56-.43h-.48c-.17 0-.44.06-.67.31-.23.25-.87.85-.87 2.08 0 1.22.89 2.41 1.02 2.58.13.17 1.75 2.67 4.24 3.75.59.26 1.05.41 1.41.53.59.19 1.14.16 1.56.1.48-.07 1.47-.6 1.68-1.18.21-.58.21-1.07.15-1.18-.06-.1-.23-.17-.48-.29z" />
+                  </svg>
+                  <span>Order on WhatsApp</span>
                 </button>
               </div>
 
               {/* Guarantees Strip */}
               <div className="w-full pt-6 border-t border-borderdelicate/80 grid grid-cols-1 sm:grid-cols-2 gap-3 text-[11px] text-subdued font-light">
-                <div className="flex items-center gap-2">
-                  <span className="material-symbols-outlined text-[16px] text-golddeep">
-                    verified
-                  </span>
-                  <span>100% Virgin Alloy Core</span>
-                </div>
                 <div className="flex items-center gap-2">
                   <span className="material-symbols-outlined text-[16px] text-golddeep">
                     local_shipping
@@ -256,31 +279,28 @@ export default function ProductDetailPage({ params }: ProductPageProps) {
             <div className="flex border-b border-borderdelicate/80 justify-center gap-8 text-[11px] uppercase tracking-[0.24em] font-medium">
               <button
                 onClick={() => setActiveTab("craft")}
-                className={`pb-3 transition-colors cursor-pointer border-b-2 ${
-                  activeTab === "craft"
-                    ? "border-espresso text-espresso font-semibold"
-                    : "border-transparent text-mute hover:text-espresso"
-                }`}
+                className={`pb-3 transition-colors cursor-pointer border-b-2 ${activeTab === "craft"
+                  ? "border-espresso text-espresso font-semibold"
+                  : "border-transparent text-mute hover:text-espresso"
+                  }`}
               >
                 Foundry Method
               </button>
               <button
                 onClick={() => setActiveTab("care")}
-                className={`pb-3 transition-colors cursor-pointer border-b-2 ${
-                  activeTab === "care"
-                    ? "border-espresso text-espresso font-semibold"
-                    : "border-transparent text-mute hover:text-espresso"
-                }`}
+                className={`pb-3 transition-colors cursor-pointer border-b-2 ${activeTab === "care"
+                  ? "border-espresso text-espresso font-semibold"
+                  : "border-transparent text-mute hover:text-espresso"
+                  }`}
               >
                 Care &amp; Preservation
               </button>
               <button
                 onClick={() => setActiveTab("custom")}
-                className={`pb-3 transition-colors cursor-pointer border-b-2 ${
-                  activeTab === "custom"
-                    ? "border-espresso text-espresso font-semibold"
-                    : "border-transparent text-mute hover:text-espresso"
-                }`}
+                className={`pb-3 transition-colors cursor-pointer border-b-2 ${activeTab === "custom"
+                  ? "border-espresso text-espresso font-semibold"
+                  : "border-transparent text-mute hover:text-espresso"
+                  }`}
               >
                 Monogramming &amp; Trunks
               </button>

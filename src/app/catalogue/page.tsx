@@ -1,18 +1,42 @@
 "use client";
 
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useEffect, Suspense } from "react";
+import { useSearchParams } from "next/navigation";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import InquiryModal from "@/components/InquiryModal";
 import ProductCard from "@/components/ProductCard";
-import { PRODUCTS, CATEGORIES, ProductItem } from "@/data/products";
+import {
+  PRODUCTS,
+  CATEGORIES,
+  ProductItem,
+  matchesCategory,
+  getParentCategory,
+} from "@/data/products";
 
-export default function CataloguePage() {
+function CatalogueContent() {
+  const searchParams = useSearchParams();
+  const categoryParam = searchParams.get("category");
+
   const [modalOpen, setModalOpen] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState<ProductItem | null>(null);
   const [selectedCategory, setSelectedCategory] = useState("All Collections");
   const [searchQuery, setSearchQuery] = useState("");
   const [sortBy, setSortBy] = useState<"featured" | "low-to-high" | "high-to-low" | "code">("featured");
+
+  useEffect(() => {
+    if (categoryParam) {
+      const parentCat = getParentCategory(categoryParam);
+      const matched = CATEGORIES.find(
+        (c) => c.toLowerCase() === parentCat.toLowerCase()
+      );
+      if (matched) {
+        setSelectedCategory(matched);
+      } else {
+        setSelectedCategory(categoryParam);
+      }
+    }
+  }, [categoryParam]);
 
   const handleOpenConcierge = () => {
     setSelectedProduct(null);
@@ -29,7 +53,7 @@ export default function CataloguePage() {
 
     // Filter by Category
     if (selectedCategory !== "All Collections") {
-      result = result.filter((p) => p.category === selectedCategory);
+      result = result.filter((p) => matchesCategory(p, selectedCategory));
     }
 
     // Filter by Search Query
@@ -40,6 +64,7 @@ export default function CataloguePage() {
           p.name.toLowerCase().includes(q) ||
           p.code.toLowerCase().includes(q) ||
           p.category.toLowerCase().includes(q) ||
+          (p.categories && p.categories.some((c) => c.toLowerCase().includes(q))) ||
           (p.material && p.material.toLowerCase().includes(q))
       );
     }
@@ -231,5 +256,13 @@ export default function CataloguePage() {
         product={selectedProduct}
       />
     </div>
+  );
+}
+
+export default function CataloguePage() {
+  return (
+    <Suspense fallback={<div className="min-h-screen bg-alabaster" />}>
+      <CatalogueContent />
+    </Suspense>
   );
 }

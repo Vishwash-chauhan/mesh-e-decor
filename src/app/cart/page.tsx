@@ -98,6 +98,32 @@ export default function CartPage() {
       }),
     };
 
+    const itemsSummary = cart
+      .map(
+        (item, idx) =>
+          `${idx + 1}. ${item.product.code} (Qty: ${item.quantity}) - ₹${(
+            item.product.numericPrice * item.quantity
+          ).toLocaleString("en-IN")}`
+      )
+      .join("\n");
+
+    const message = `Hello Mesh ‘E’ Decor, I would like to place an order from my cart:
+
+*Order ID:* ${generatedOrderId}
+*Customer Name:* ${fullName}
+*Phone:* ${phone}
+*Delivery Address:* ${formattedAddress}
+
+*Items:*
+${itemsSummary}
+
+*Total Order Value:* ₹${totalPrice.toLocaleString("en-IN")}
+
+Kindly confirm my order and share dispatch instructions. Thank you!`;
+
+    const whatsappUrl = `https://wa.me/917042005637?text=${encodeURIComponent(message)}`;
+    window.open(whatsappUrl, "_blank", "noopener,noreferrer");
+
     setConfirmedOrderDetails(newOrder);
     setOrderConfirmed(true);
     clearCart();
@@ -408,12 +434,16 @@ export default function CartPage() {
 
                   <button
                     type="submit"
-                    className="w-full py-4 bg-espresso text-alabaster hover:bg-golddeep text-[11px] uppercase tracking-[0.24em] font-medium transition-all flex items-center justify-center gap-2 cursor-pointer shadow-sm min-h-[48px] mt-6"
+                    className="w-full py-4 bg-[#25D366] hover:bg-[#20bd5a] text-white text-[11px] uppercase tracking-[0.24em] font-medium transition-all flex items-center justify-center gap-2.5 cursor-pointer shadow-sm hover:shadow-md active:scale-[0.99] min-h-[48px] mt-6"
                   >
-                    <span>Place Order</span>
-                    <span className="material-symbols-outlined text-[16px]">
-                      arrow_forward
-                    </span>
+                    <svg
+                      className="w-4 h-4 fill-current shrink-0"
+                      viewBox="0 0 24 24"
+                      fill="currentColor"
+                    >
+                      <path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.816 9.816 0 0 0 12.04 2zm.01 1.67c4.54 0 8.24 3.7 8.24 8.24 0 2.2-.86 4.28-2.42 5.84a8.18 8.18 0 0 1-5.82 2.41h-.01c-1.49 0-2.95-.4-4.23-1.16l-.3-.18-3.14.82.84-3.06-.2-.31a8.19 8.19 0 0 1-1.26-4.36c0-4.54 3.7-8.24 8.24-8.24zm4.52 11.66c-.25-.13-1.47-.72-1.7-.81-.23-.08-.39-.13-.56.13-.17.25-.64.81-.79.97-.14.17-.29.19-.54.06-.25-.13-1.06-.39-2.02-1.25-.75-.67-1.26-1.5-1.41-1.75-.14-.25-.02-.39.11-.51.11-.11.25-.29.37-.44.13-.14.17-.25.25-.41.08-.17.04-.31-.02-.44s-.56-1.34-.76-1.84c-.2-.48-.41-.42-.56-.43h-.48c-.17 0-.44.06-.67.31-.23.25-.87.85-.87 2.08 0 1.22.89 2.41 1.02 2.58.13.17 1.75 2.67 4.24 3.75.59.26 1.05.41 1.41.53.59.19 1.14.16 1.56.1.48-.07 1.47-.6 1.68-1.18.21-.58.21-1.07.15-1.18-.06-.1-.23-.17-.48-.29z" />
+                    </svg>
+                    <span>Order on WhatsApp</span>
                   </button>
                 </form>
               </div>
@@ -454,19 +484,23 @@ export default function CartPage() {
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-espresso/75 backdrop-blur-sm animate-fadeIn">
           <div className="bg-alabaster border border-goldaccent/40 max-w-2xl w-full p-6 sm:p-10 relative shadow-2xl overflow-y-auto max-h-[90vh]">
             <div className="text-center pb-6 border-b border-borderdelicate/80 mb-6">
-              <div className="w-16 h-16 rounded-full bg-golddeep/10 border border-golddeep/30 text-golddeep flex items-center justify-center mx-auto mb-4">
-                <span className="material-symbols-outlined text-[32px]">
-                  check_circle
-                </span>
+              <div className="w-16 h-16 rounded-full bg-[#25D366]/10 border border-[#25D366]/30 text-[#25D366] flex items-center justify-center mx-auto mb-4">
+                <svg
+                  className="w-8 h-8 fill-current"
+                  viewBox="0 0 24 24"
+                  fill="currentColor"
+                >
+                  <path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.816 9.816 0 0 0 12.04 2zm.01 1.67c4.54 0 8.24 3.7 8.24 8.24 0 2.2-.86 4.28-2.42 5.84a8.18 8.18 0 0 1-5.82 2.41h-.01c-1.49 0-2.95-.4-4.23-1.16l-.3-.18-3.14.82.84-3.06-.2-.31a8.19 8.19 0 0 1-1.26-4.36c0-4.54 3.7-8.24 8.24-8.24zm4.52 11.66c-.25-.13-1.47-.72-1.7-.81-.23-.08-.39-.13-.56.13-.17.25-.64.81-.79.97-.14.17-.29.19-.54.06-.25-.13-1.06-.39-2.02-1.25-.75-.67-1.26-1.5-1.41-1.75-.14-.25-.02-.39.11-.51.11-.11.25-.29.37-.44.13-.14.17-.25.25-.41.08-.17.04-.31-.02-.44s-.56-1.34-.76-1.84c-.2-.48-.41-.42-.56-.43h-.48c-.17 0-.44.06-.67.31-.23.25-.87.85-.87 2.08 0 1.22.89 2.41 1.02 2.58.13.17 1.75 2.67 4.24 3.75.59.26 1.05.41 1.41.53.59.19 1.14.16 1.56.1.48-.07 1.47-.6 1.68-1.18.21-.58.21-1.07.15-1.18-.06-.1-.23-.17-.48-.29z" />
+                </svg>
               </div>
-              <span className="text-[10px] uppercase tracking-[0.3em] text-golddeep font-semibold block mb-1">
-                Order Placed Successfully
+              <span className="text-[10px] uppercase tracking-[0.3em] text-[#25D366] font-semibold block mb-1">
+                Final Step
               </span>
               <h2 className="serif-display text-3xl sm:text-4xl text-espresso font-normal mb-2">
-                Thank You for Your Order!
+                Complete Your Order on WhatsApp
               </h2>
               <p className="text-xs text-subdued font-light">
-                We have received your order, <span className="font-medium text-espresso">{confirmedOrderDetails.fullName}</span>. Your handcrafted items are now being prepared for dispatch.
+                We have generated your order details, <span className="font-medium text-espresso">{confirmedOrderDetails.fullName}</span>. Please send the message on WhatsApp to finalize payment and dispatch.
               </p>
             </div>
 
@@ -528,6 +562,47 @@ export default function CartPage() {
 
             {/* Action Buttons */}
             <div className="flex flex-col sm:flex-row items-center gap-3">
+              <button
+                onClick={() => {
+                  const itemsSummary = confirmedOrderDetails.items
+                    .map(
+                      (item, idx) =>
+                        `${idx + 1}. ${item.product.code} (Qty: ${item.quantity}) - ₹${(
+                          item.product.numericPrice * item.quantity
+                        ).toLocaleString("en-IN")}`
+                    )
+                    .join("\n");
+                  const message = `Hello Mesh ‘E’ Decor, here are the details for my order:
+
+*Order ID:* ${confirmedOrderDetails.orderId}
+*Customer Name:* ${confirmedOrderDetails.fullName}
+*Phone:* ${confirmedOrderDetails.phone}
+*Delivery Address:* ${confirmedOrderDetails.address}
+
+*Items:*
+${itemsSummary}
+
+*Total Amount:* ₹${confirmedOrderDetails.totalPrice.toLocaleString("en-IN")}
+
+Kindly confirm my order. Thank you!`;
+                  window.open(
+                    `https://wa.me/917042005637?text=${encodeURIComponent(message)}`,
+                    "_blank",
+                    "noopener,noreferrer"
+                  );
+                }}
+                className="w-full py-3.5 bg-[#25D366] hover:bg-[#20bd5a] text-white text-[11px] uppercase tracking-[0.24em] font-medium transition-all text-center cursor-pointer min-h-[44px] flex items-center justify-center gap-2.5 shadow-sm"
+              >
+                <svg
+                  className="w-4 h-4 fill-current shrink-0"
+                  viewBox="0 0 24 24"
+                  fill="currentColor"
+                >
+                  <path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.816 9.816 0 0 0 12.04 2zm.01 1.67c4.54 0 8.24 3.7 8.24 8.24 0 2.2-.86 4.28-2.42 5.84a8.18 8.18 0 0 1-5.82 2.41h-.01c-1.49 0-2.95-.4-4.23-1.16l-.3-.18-3.14.82.84-3.06-.2-.31a8.19 8.19 0 0 1-1.26-4.36c0-4.54 3.7-8.24 8.24-8.24zm4.52 11.66c-.25-.13-1.47-.72-1.7-.81-.23-.08-.39-.13-.56.13-.17.25-.64.81-.79.97-.14.17-.29.19-.54.06-.25-.13-1.06-.39-2.02-1.25-.75-.67-1.26-1.5-1.41-1.75-.14-.25-.02-.39.11-.51.11-.11.25-.29.37-.44.13-.14.17-.25.25-.41.08-.17.04-.31-.02-.44s-.56-1.34-.76-1.84c-.2-.48-.41-.42-.56-.43h-.48c-.17 0-.44.06-.67.31-.23.25-.87.85-.87 2.08 0 1.22.89 2.41 1.02 2.58.13.17 1.75 2.67 4.24 3.75.59.26 1.05.41 1.41.53.59.19 1.14.16 1.56.1.48-.07 1.47-.6 1.68-1.18.21-.58.21-1.07.15-1.18-.06-.1-.23-.17-.48-.29z" />
+                </svg>
+                <span>Complete Order on WhatsApp</span>
+              </button>
+
               <Link
                 href="/catalogue"
                 onClick={() => setOrderConfirmed(false)}

@@ -72,20 +72,26 @@ export default function Footer() {
               Collections
             </span>
             <nav className="flex flex-col gap-3 text-[13px] text-subdued font-light">
-              <Link href="/catalogue" className="hover:text-espresso transition-colors py-1">
-                Fine Gifting &amp; Accents
+              <Link href="/catalogue?category=Home%20Decor" className="hover:text-espresso transition-colors py-1">
+                Home Decor
               </Link>
-              <Link href="/catalogue" className="hover:text-espresso transition-colors py-1">
-                Artisanal Home Decor
+              <Link href="/catalogue?category=Festive%20Items" className="hover:text-espresso transition-colors py-1">
+                Festive Items
               </Link>
-              <Link href="/catalogue" className="hover:text-espresso transition-colors py-1">
-                Sacred Sanctum &amp; Urulis
+              <Link href="/catalogue?category=New%20Arrivals" className="hover:text-espresso transition-colors py-1">
+                New Arrivals
               </Link>
-              <Link href="/catalogue" className="hover:text-espresso transition-colors py-1">
-                Inlay &amp; Statement Pieces
+              <Link href="/catalogue?category=Decor%20Items" className="hover:text-espresso transition-colors py-1">
+                Decor Items
               </Link>
-              <Link href="/catalogue" className="hover:text-espresso transition-colors py-1">
-                Full Catalogue Index
+              <Link href="/catalogue?category=Candle%20Wear" className="hover:text-espresso transition-colors py-1">
+                Candle Wear
+              </Link>
+              <Link href="/catalogue?category=Gift%20Boxes" className="hover:text-espresso transition-colors py-1">
+                Gift Boxes
+              </Link>
+              <Link href="/catalogue?category=Photo%20Frames" className="hover:text-espresso transition-colors py-1">
+                Photo Frames
               </Link>
             </nav>
           </div>
