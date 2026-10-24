@@ -23,6 +23,18 @@ function CatalogueContent() {
   const [selectedCategory, setSelectedCategory] = useState("All Collections");
   const [searchQuery, setSearchQuery] = useState("");
   const [sortBy, setSortBy] = useState<"featured" | "low-to-high" | "high-to-low" | "code">("featured");
+  const [allProducts, setAllProducts] = useState<ProductItem[]>(PRODUCTS);
+
+  useEffect(() => {
+    fetch("/api/products")
+      .then((res) => (res.ok ? res.json() : null))
+      .then((data) => {
+        if (data && Array.isArray(data) && data.length > 0) {
+          setAllProducts(data);
+        }
+      })
+      .catch(() => {});
+  }, []);
 
   useEffect(() => {
     if (categoryParam) {
@@ -49,7 +61,7 @@ function CatalogueContent() {
   };
 
   const filteredAndSortedProducts = useMemo(() => {
-    let result = [...PRODUCTS];
+    let result = [...allProducts];
 
     // Filter by Category
     if (selectedCategory !== "All Collections") {

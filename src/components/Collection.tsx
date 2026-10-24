@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { ProductItem, PRODUCTS, CATEGORIES, matchesCategory } from "@/data/products";
 import ProductCard from "./ProductCard";
@@ -17,11 +17,23 @@ export default function Collection({
   onOpenConcierge,
 }: CollectionProps) {
   const [selectedCategory, setSelectedCategory] = useState("All Collections");
+  const [allProducts, setAllProducts] = useState<ProductItem[]>(PRODUCTS);
+
+  useEffect(() => {
+    fetch("/api/products")
+      .then((res) => (res.ok ? res.json() : null))
+      .then((data) => {
+        if (data && Array.isArray(data) && data.length > 0) {
+          setAllProducts(data);
+        }
+      })
+      .catch(() => {});
+  }, []);
 
   const filteredProducts = (
     selectedCategory === "All Collections"
-      ? PRODUCTS
-      : PRODUCTS.filter((p) => matchesCategory(p, selectedCategory))
+      ? allProducts
+      : allProducts.filter((p) => matchesCategory(p, selectedCategory))
   ).slice(0, 8);
 
   return (

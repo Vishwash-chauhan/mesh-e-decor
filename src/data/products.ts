@@ -7,6 +7,7 @@ export interface ProductItem {
   category: string;
   categories?: string[];
   image: string;
+  images?: string[];
   description?: string;
   material?: string;
   dimensions?: string;

@@ -162,8 +162,8 @@ export default function Footer() {
             <Link href="#" className="hover:text-espresso transition-colors py-1">
               Bespoke Terms
             </Link>
-            <Link href="#" className="hover:text-espresso transition-colors py-1">
-              Hallmarking Credentials
+            <Link href="/admin" className="hover:text-espresso transition-colors py-1 text-golddeep font-medium">
+              Curator Portal
             </Link>
           </div>
         </div>

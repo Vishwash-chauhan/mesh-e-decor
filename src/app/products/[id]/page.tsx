@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, use } from "react";
+import React, { useState, useEffect, use } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -19,11 +19,26 @@ export default function ProductDetailPage({ params }: ProductPageProps) {
   const resolvedParams = use(params);
   const productId = resolvedParams.id;
 
-  const product = PRODUCTS.find(
+  const staticProduct = PRODUCTS.find(
     (p) =>
       p.code.toLowerCase() === decodeURIComponent(productId).toLowerCase() ||
       p.id === productId
   );
+
+  const [product, setProduct] = useState<ProductItem | null>(staticProduct || null);
+  const [loading, setLoading] = useState(!staticProduct);
+
+  useEffect(() => {
+    fetch(`/api/products/${encodeURIComponent(productId)}`)
+      .then((res) => (res.ok ? res.json() : null))
+      .then((data) => {
+        if (data && data.code) {
+          setProduct(data);
+        }
+      })
+      .catch(() => {})
+      .finally(() => setLoading(false));
+  }, [productId]);
 
   const { addToCart } = useCart();
   const [modalOpen, setModalOpen] = useState(false);
@@ -32,6 +47,26 @@ export default function ProductDetailPage({ params }: ProductPageProps) {
   const [activeTab, setActiveTab] = useState<"craft" | "care" | "custom">(
     "craft"
   );
+  const [selectedGalleryImage, setSelectedGalleryImage] = useState<string | null>(null);
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex flex-col bg-alabaster text-espresso font-light">
+        <Navbar onOpenConcierge={() => setModalOpen(true)} />
+        <div className="flex-grow flex items-center justify-center py-32">
+          <div className="flex flex-col items-center gap-3">
+            <span className="material-symbols-outlined text-[32px] animate-spin text-golddeep">
+              progress_activity
+            </span>
+            <span className="text-xs uppercase tracking-[0.2em] font-medium text-mute">
+              Loading Specimen...
+            </span>
+          </div>
+        </div>
+        <Footer />
+      </div>
+    );
+  }
 
   if (!product) {
     return notFound();
@@ -123,14 +158,14 @@ Kindly confirm availability and share payment / delivery instructions. Thank you
                   }}
                 ></div>
 
-                {/* Main Hairline Frame */}
+                {/* Main Hairline Frame - 1:1 Square Specimen View */}
                 <div className="p-3 sm:p-5 bg-canvas border border-borderdelicate/90 shadow-[0_20px_50px_-20px_rgba(22,20,18,0.12)] relative z-10">
-                  <div className="relative aspect-[4/5] overflow-hidden bg-espresso">
+                  <div className="relative aspect-square overflow-hidden bg-espresso">
                     <Image
-                      src={product.image}
+                      src={selectedGalleryImage || product.image}
                       alt={product.code}
                       fill
-                      className="object-cover object-center"
+                      className="object-cover object-center transition-all duration-300"
                       unoptimized
                       priority
                     />
@@ -139,6 +174,41 @@ Kindly confirm availability and share payment / delivery instructions. Thank you
                       {product.code} • Atelier Specimen
                     </div>
                   </div>
+
+                  {/* Rest of the Images (Gallery Thumbnails) */}
+                  {product.images && product.images.length > 0 && (
+                    <div className="mt-4 pt-3 border-t border-borderdelicate/60">
+                      <span className="block text-[9px] uppercase tracking-[0.22em] text-mute mb-2 font-medium">
+                        Additional Angles &amp; Craftsmanship Views
+                      </span>
+                      <div className="flex items-center gap-2.5 overflow-x-auto no-scrollbar pb-1">
+                        {[product.image, ...product.images].map((imgUrl, idx) => {
+                          const isCurrent =
+                            (selectedGalleryImage || product.image) === imgUrl;
+                          return (
+                            <button
+                              key={idx}
+                              type="button"
+                              onClick={() => setSelectedGalleryImage(imgUrl)}
+                              className={`relative w-16 h-16 aspect-square shrink-0 border-2 transition-all overflow-hidden cursor-pointer ${
+                                isCurrent
+                                  ? "border-espresso shadow-xs scale-105"
+                                  : "border-borderdelicate/80 opacity-70 hover:opacity-100"
+                              }`}
+                            >
+                              <Image
+                                src={imgUrl}
+                                alt={`${product.code} angle ${idx + 1}`}
+                                fill
+                                className="object-cover object-center"
+                                unoptimized
+                              />
+                            </button>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  )}
                 </div>
               </div>
             </div>
