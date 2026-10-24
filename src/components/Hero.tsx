@@ -10,7 +10,7 @@ interface HeroProps {
 
 export default function Hero({ onOpenConcierge }: HeroProps) {
   return (
-    <section className="relative w-full min-h-[88vh] lg:min-h-[92vh] bg-[#110E0C] text-alabaster overflow-hidden flex flex-col justify-between border-b border-borderdelicate/30">
+    <section className="relative w-full min-h-[calc(100svh-3.5rem)] sm:min-h-[calc(100svh-4rem)] lg:h-[calc(100svh-4rem)] bg-[#110E0C] text-alabaster overflow-hidden flex flex-col justify-between border-b border-borderdelicate/30">
       {/* ========================================================= */}
       {/* 1. CINEMATIC HERO BACKGROUND IMAGE & LIGHTING OVERLAYS   */}
       {/* ========================================================= */}
@@ -33,10 +33,10 @@ export default function Hero({ onOpenConcierge }: HeroProps) {
         <div className="absolute inset-0 bg-gradient-to-b from-[#110E0C]/80 via-[#110E0C]/65 to-[#110E0C]/90 sm:hidden pointer-events-none" />
 
         {/* Top subtle fade from header */}
-        <div className="absolute inset-x-0 top-0 h-24 bg-gradient-to-b from-[#110E0C]/85 via-[#110E0C]/30 to-transparent pointer-events-none" />
+        <div className="absolute inset-x-0 top-0 h-20 bg-gradient-to-b from-[#110E0C]/85 via-[#110E0C]/30 to-transparent pointer-events-none" />
 
         {/* Bottom smooth fade to transition into section below */}
-        <div className="absolute inset-x-0 bottom-0 h-36 bg-gradient-to-t from-[#110E0C] via-[#110E0C]/70 to-transparent pointer-events-none" />
+        <div className="absolute inset-x-0 bottom-0 h-28 bg-gradient-to-t from-[#110E0C] via-[#110E0C]/70 to-transparent pointer-events-none" />
 
         {/* Delicate golden radial glow behind the text narrative */}
         <div
@@ -56,46 +56,46 @@ export default function Hero({ onOpenConcierge }: HeroProps) {
       {/* ========================================================= */}
       {/* 2. MAIN EDITORIAL CONTENT CONTAINER                       */}
       {/* ========================================================= */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-12 relative z-10 w-full pt-16 sm:pt-20 lg:pt-28 pb-12 flex-grow flex flex-col justify-center">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-12 relative z-10 w-full pt-4 sm:pt-6 lg:pt-8 pb-3 sm:pb-4 flex-grow flex flex-col justify-center">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-10 items-center">
           {/* Narrative Column */}
           <div className="lg:col-span-8 flex flex-col items-start max-w-2xl text-left">
             {/* Archival Edition Pill Tag */}
-            <div className="inline-flex items-center gap-2.5 px-3.5 py-1.5 bg-[#1F1B18]/80 backdrop-blur-md border border-goldaccent/40 rounded-full mb-6 shadow-sm">
+            <div className="inline-flex items-center gap-2.5 px-3 py-1 bg-[#1F1B18]/80 backdrop-blur-md border border-goldaccent/40 rounded-full mb-3 sm:mb-4 shadow-sm">
               <span className="w-1.5 h-1.5 rounded-full bg-goldaccent animate-pulse" />
-              <span className="text-[10px] uppercase tracking-[0.28em] text-goldaccent font-medium">
+              <span className="text-[9px] uppercase tracking-[0.26em] text-goldaccent font-medium">
                 Vol. IV Master Edition • 2026 Archive
               </span>
             </div>
 
             {/* Haute Grand Headline */}
-            <h1 className="serif-display text-4xl sm:text-6xl lg:text-[76px] text-alabaster font-normal leading-[1.05] tracking-tight mb-5">
+            <h1 className="serif-display text-3xl sm:text-5xl lg:text-[56px] xl:text-[64px] text-alabaster font-normal leading-[1.06] tracking-tight mb-3 sm:mb-4">
               Haute Artisanal Decor.{" "}
-              <span className="serif-display italic font-light block text-goldaccent mt-1">
+              <span className="serif-display italic font-light block text-goldaccent mt-0.5">
                 Bespoke Luxury Gifting.
               </span>
             </h1>
 
             {/* Architectural Sub-Manifesto */}
-            <p className="text-sm sm:text-base lg:text-lg text-alabaster/80 leading-relaxed max-w-xl mb-8 sm:mb-10 font-light">
+            <p className="text-xs sm:text-sm lg:text-[15px] text-alabaster/80 leading-relaxed max-w-xl mb-5 sm:mb-6 font-light">
               An atelier world where master metalsmithing converges with timeless living. Handcrafted solid brassware, sculptural centerpieces, and curated luxury gifts — forged for connoisseurs and exquisite spaces.
             </p>
 
             {/* Action CTAs */}
-            <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4 w-full sm:w-auto">
+            <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3.5 w-full sm:w-auto">
               <Link
                 href="#collection"
-                className="inline-flex items-center justify-center min-h-[50px] px-8 py-3.5 bg-goldaccent hover:bg-golddeep text-[#14110E] text-[11px] uppercase tracking-[0.24em] font-semibold transition-all duration-300 shadow-[0_4px_25px_rgba(197,168,128,0.25)] hover:shadow-[0_6px_30px_rgba(197,168,128,0.4)] group cursor-pointer active:scale-[0.99]"
+                className="inline-flex items-center justify-center min-h-[44px] sm:min-h-[46px] px-6 sm:px-7 py-2.5 bg-goldaccent hover:bg-golddeep text-[#14110E] text-[10px] sm:text-[11px] uppercase tracking-[0.24em] font-semibold transition-all duration-300 shadow-[0_4px_25px_rgba(197,168,128,0.25)] hover:shadow-[0_6px_30px_rgba(197,168,128,0.4)] group cursor-pointer active:scale-[0.99]"
               >
                 <span>Explore 2026 Collection</span>
-                <span className="material-symbols-outlined text-[17px] ml-2 group-hover:translate-x-1 transition-transform">
+                <span className="material-symbols-outlined text-[16px] ml-2 group-hover:translate-x-1 transition-transform">
                   arrow_forward
                 </span>
               </Link>
 
               <Link
                 href="/catalogue"
-                className="inline-flex items-center justify-center min-h-[50px] px-7 py-3.5 border border-alabaster/40 hover:border-goldaccent text-alabaster hover:text-goldaccent hover:bg-alabaster/5 backdrop-blur-xs text-[11px] uppercase tracking-[0.22em] font-medium transition-all duration-300 cursor-pointer"
+                className="inline-flex items-center justify-center min-h-[44px] sm:min-h-[46px] px-5 sm:px-6 py-2.5 border border-alabaster/40 hover:border-goldaccent text-alabaster hover:text-goldaccent hover:bg-alabaster/5 backdrop-blur-xs text-[10px] sm:text-[11px] uppercase tracking-[0.22em] font-medium transition-all duration-300 cursor-pointer"
               >
                 <span>View Full Catalogue</span>
               </Link>
@@ -104,9 +104,9 @@ export default function Hero({ onOpenConcierge }: HeroProps) {
 
           {/* Right Floating Specimen Plaque (Desktop Only) */}
           <div className="hidden lg:flex lg:col-span-4 justify-end items-end h-full">
-            <div className="bg-[#1F1B18]/85 backdrop-blur-md border border-goldaccent/40 p-5 max-w-xs shadow-[0_20px_50px_rgba(0,0,0,0.5)] relative">
+            <div className="bg-[#1F1B18]/85 backdrop-blur-md border border-goldaccent/40 p-4 max-w-xs shadow-[0_20px_50px_rgba(0,0,0,0.5)] relative">
               {/* Plaque Header */}
-              <div className="flex items-center justify-between pb-3 border-b border-goldaccent/25 mb-3">
+              <div className="flex items-center justify-between pb-2.5 border-b border-goldaccent/25 mb-2.5">
                 <span className="text-[9px] uppercase tracking-[0.25em] text-goldaccent font-medium">
                   Featured Specimen
                 </span>
@@ -116,15 +116,15 @@ export default function Hero({ onOpenConcierge }: HeroProps) {
               </div>
 
               {/* Plaque Body */}
-              <h3 className="serif-display text-xl text-alabaster font-normal italic mb-1">
+              <h3 className="serif-display text-lg text-alabaster font-normal italic mb-1">
                 The Imperial Stallion Chariot
               </h3>
-              <p className="text-[11px] text-mute leading-relaxed font-light mb-3">
+              <p className="text-[11px] text-mute leading-relaxed font-light mb-2.5">
                 Solid hand-cast brass with mirror sterling immersion and warm ambient luster.
               </p>
 
               {/* Status Indicator */}
-              <div className="flex items-center justify-between pt-2 border-t border-borderdelicate/15 text-[10px] uppercase tracking-[0.18em]">
+              <div className="flex items-center justify-between pt-2 border-t border-borderdelicate/15 text-[9px] uppercase tracking-[0.18em]">
                 <span className="text-goldaccent font-medium flex items-center gap-1.5">
                   <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
                   Live in Atelier
@@ -144,35 +144,35 @@ export default function Hero({ onOpenConcierge }: HeroProps) {
       {/* ========================================================= */}
       {/* 3. ATELIER CREDENTIALS STRIP (Bottom of Hero)             */}
       {/* ========================================================= */}
-      <div className="w-full relative z-10 border-t border-goldaccent/20 bg-[#161412]/80 backdrop-blur-md">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-12 py-5 sm:py-6">
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-8 divide-y sm:divide-y-0 sm:divide-x divide-borderdelicate/15 text-left">
+      <div className="w-full relative z-10 border-t border-goldaccent/20 bg-[#161412]/80 backdrop-blur-md shrink-0">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-12 py-3.5 sm:py-4">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-6 divide-y sm:divide-y-0 sm:divide-x divide-borderdelicate/15 text-left">
             {/* Item 1 */}
-            <div className="sm:pr-4 pt-2 sm:pt-0">
-              <span className="text-[10px] uppercase tracking-[0.25em] text-goldaccent font-medium block mb-1">
+            <div className="sm:pr-4 pt-1 sm:pt-0">
+              <span className="text-[9px] sm:text-[10px] uppercase tracking-[0.25em] text-goldaccent font-medium block mb-0.5">
                 01 / Master Craftsmanship
               </span>
-              <p className="text-xs text-alabaster/70 font-light">
+              <p className="text-[11px] sm:text-xs text-alabaster/70 font-light">
                 Centuries-old lost-wax casting &amp; hand-buffed finishes
               </p>
             </div>
 
             {/* Item 2 */}
-            <div className="sm:px-6 pt-3 sm:pt-0">
-              <span className="text-[10px] uppercase tracking-[0.25em] text-goldaccent font-medium block mb-1">
+            <div className="sm:px-6 pt-2 sm:pt-0">
+              <span className="text-[9px] sm:text-[10px] uppercase tracking-[0.25em] text-goldaccent font-medium block mb-0.5">
                 02 / Noble Materials
               </span>
-              <p className="text-xs text-alabaster/70 font-light">
+              <p className="text-[11px] sm:text-xs text-alabaster/70 font-light">
                 Virgin solid brass, sterling immersion &amp; natural inlays
               </p>
             </div>
 
             {/* Item 3 */}
-            <div className="sm:pl-6 pt-3 sm:pt-0">
-              <span className="text-[10px] uppercase tracking-[0.25em] text-goldaccent font-medium block mb-1">
+            <div className="sm:pl-6 pt-2 sm:pt-0">
+              <span className="text-[9px] sm:text-[10px] uppercase tracking-[0.25em] text-goldaccent font-medium block mb-0.5">
                 03 / Bespoke Luxury Gifting
               </span>
-              <p className="text-xs text-alabaster/70 font-light">
+              <p className="text-[11px] sm:text-xs text-alabaster/70 font-light">
                 Artisanal bespoke packaging &amp; global white-glove courier
               </p>
             </div>
