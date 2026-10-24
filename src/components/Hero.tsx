@@ -10,209 +10,171 @@ interface HeroProps {
 
 export default function Hero({ onOpenConcierge }: HeroProps) {
   return (
-    <section className="relative w-full bg-alabaster border-b border-borderdelicate/80 overflow-hidden py-8 sm:py-16 lg:py-24">
-      {/* Background Hairline Grid */}
-      <div className="absolute inset-0 pointer-events-none opacity-30">
-        <div className="max-w-7xl mx-auto h-full border-x border-borderdelicate/50"></div>
+    <section className="relative w-full min-h-[88vh] lg:min-h-[92vh] bg-[#110E0C] text-alabaster overflow-hidden flex flex-col justify-between border-b border-borderdelicate/30">
+      {/* ========================================================= */}
+      {/* 1. CINEMATIC HERO BACKGROUND IMAGE & LIGHTING OVERLAYS   */}
+      {/* ========================================================= */}
+      <div className="absolute inset-0 z-0 overflow-hidden">
+        <Image
+          src="/hero-bg.jpg"
+          alt="Handcrafted Imperial Stallion Brass Specimen"
+          fill
+          priority
+          sizes="100vw"
+          className="object-cover object-right sm:object-[80%_center] lg:object-right select-none"
+          style={{ filter: "contrast(1.03) brightness(1.01)" }}
+        />
+
+        {/* Ambient Dark Scrims for Flawless Editorial Contrast */}
+        {/* Left-to-right desktop gradient: elegant soft vignette behind narrative text */}
+        <div className="absolute inset-0 bg-gradient-to-r from-[#110E0C] via-[#110E0C]/80 lg:via-[#110E0C]/45 to-transparent hidden sm:block w-3/5 pointer-events-none" />
+
+        {/* Mobile scrim: gentle dark overlay over the entire image so text shines */}
+        <div className="absolute inset-0 bg-gradient-to-b from-[#110E0C]/80 via-[#110E0C]/65 to-[#110E0C]/90 sm:hidden pointer-events-none" />
+
+        {/* Top subtle fade from header */}
+        <div className="absolute inset-x-0 top-0 h-24 bg-gradient-to-b from-[#110E0C]/85 via-[#110E0C]/30 to-transparent pointer-events-none" />
+
+        {/* Bottom smooth fade to transition into section below */}
+        <div className="absolute inset-x-0 bottom-0 h-36 bg-gradient-to-t from-[#110E0C] via-[#110E0C]/70 to-transparent pointer-events-none" />
+
+        {/* Delicate golden radial glow behind the text narrative */}
+        <div
+          className="absolute top-1/4 left-0 w-[550px] h-[550px] rounded-full pointer-events-none blur-3xl opacity-20 z-0"
+          style={{
+            background:
+              "radial-gradient(circle, rgba(197, 168, 128, 0.45) 0%, rgba(17, 14, 12, 0) 70%)",
+          }}
+        />
       </div>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-12 relative z-10 w-full">
-        {/* ========================================================= */}
-        {/* MOBILE HERO DESIGN (Clean, Editorial & Visual First)     */}
-        {/* ========================================================= */}
-        <div className="lg:hidden flex flex-col items-center text-center">
-          {/* Top Pill Tag */}
-          <div className="inline-flex items-center gap-2 px-3 py-1 bg-surface border border-goldaccent/30 rounded-full mb-4 shadow-xs">
-            <span className="w-1.5 h-1.5 rounded-full bg-golddeep"></span>
-            <span className="text-[9px] uppercase tracking-[0.25em] text-golddeep font-medium">
-              Vol. IV Master Edition • 2026
-            </span>
-          </div>
+      {/* Background Architectural Hairline Grid */}
+      <div className="absolute inset-0 pointer-events-none z-1 hidden lg:block opacity-15">
+        <div className="max-w-7xl mx-auto h-full border-x border-goldaccent/30" />
+      </div>
 
-          {/* Headline */}
-          <h1 className="serif-display text-3xl sm:text-4xl text-espresso font-normal leading-[1.12] tracking-tight mb-3">
-            Haute Artisanal Decor.{" "}
-            <span className="italic font-light text-golddeep block sm:inline">
-              Bespoke Luxury Gifting.
-            </span>
-          </h1>
-
-          {/* Subtitle */}
-          <p className="text-[13px] text-subdued leading-relaxed max-w-sm mb-5 font-normal">
-            Handcrafted home accents, statement centerpieces, and curated luxury gifts — crafted for exquisite spaces &amp; discerning collectors.
-          </p>
-
-          {/* Hero Artwork Showcase Card */}
-          <div className="w-full max-w-sm my-2 relative">
-            <div
-              className="absolute -inset-4 pointer-events-none rounded-full blur-2xl opacity-50 z-0"
-              style={{
-                background:
-                  "radial-gradient(circle, rgba(213, 184, 144, 0.4) 0%, rgba(250, 247, 242, 0) 75%)",
-              }}
-            ></div>
-
-            <div className="relative p-2.5 bg-canvas border border-borderdelicate shadow-[0_15px_35px_-15px_rgba(22,20,18,0.15)] z-10">
-              <div className="relative aspect-[4/5] overflow-hidden bg-espresso">
-                <Image
-                  alt="The Imperial Stallion Statuette Catalogue 2026"
-                  className="w-full h-full object-cover object-center"
-                  src="https://lh3.googleusercontent.com/aida-public/AB6AXuDY4D1MJ5qd2TW8kKY3g023RgzN3o7jc-1yQIJISyAQItsIRa2XPJcoPp2JBzIVHTuvmPwDODW5EjLfnKkgdkhj_F3NZ1RqnJXBS3ufwC8XfoNdZJI0sEg2g-Zmd5PZiTzS2jAxK3aVCCN5IXiYe3KNcjmmZY1H9Xg3PkIo_deWUbBjaiF1GxnHknWfMO7jD3cLTxJSCwbXo6Tcn-DSdjkkVAMBY4SSurDrdaLG7cJ1nnSiiIfqmWCC"
-                  fill
-                  unoptimized
-                  priority
-                />
-
-                {/* Overlaid Badge */}
-                <div className="absolute top-3 left-3 bg-espresso/90 backdrop-blur-md px-2.5 py-1 border border-goldaccent/40 text-[8px] uppercase tracking-[0.2em] text-goldaccent font-medium">
-                  Frontispiece • Plate 01
-                </div>
-
-                {/* Overlaid Bottom Title */}
-                <div className="absolute bottom-0 inset-x-0 bg-gradient-to-t from-espresso/95 via-espresso/50 to-transparent p-4 text-left text-alabaster">
-                  <h3 className="serif-display text-xl font-normal italic">
-                    The Imperial Stallion
-                  </h3>
-                  <p className="text-[10px] text-mute font-light mt-0.5">
-                    Hand-sculpted centerpiece statuette with sterling finish
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* Action CTAs */}
-          <div className="flex flex-col gap-2.5 w-full max-w-sm mt-6">
-            <Link
-              href="#collection"
-              className="w-full inline-flex items-center justify-center min-h-[48px] px-6 bg-espresso text-alabaster text-[11px] uppercase tracking-[0.22em] font-medium transition-all shadow-sm active:scale-[0.99]"
-            >
-              Explore 2026 Collection
-            </Link>
-          </div>
-
-          {/* Minimal Credentials Strip */}
-          <div className="mt-6 pt-4 border-t border-borderdelicate/80 w-full max-w-sm flex items-center justify-center gap-3 text-[9px] uppercase tracking-[0.2em] text-mute">
-            <span>Handcrafted Gifts</span>
-            <span>•</span>
-            <span>Natural Inlay</span>
-            <span>•</span>
-            <span>New Delhi Atelier</span>
-          </div>
-        </div>
-
-        {/* ========================================================= */}
-        {/* DESKTOP HERO DESIGN (Spacious Editorial Layout)           */}
-        {/* ========================================================= */}
-        <div className="hidden lg:grid grid-cols-12 gap-16 items-center">
-          {/* Narrative Left Column */}
-          <div className="col-span-6 flex flex-col items-start pr-6">
-            <div className="inline-flex items-center gap-3 pb-3 mb-4 border-b border-goldaccent/40">
-              <span className="text-[10px] uppercase tracking-[0.32em] text-golddeep font-medium">
-                Vol. IV Master Edition • 2026
+      {/* ========================================================= */}
+      {/* 2. MAIN EDITORIAL CONTENT CONTAINER                       */}
+      {/* ========================================================= */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-12 relative z-10 w-full pt-16 sm:pt-20 lg:pt-28 pb-12 flex-grow flex flex-col justify-center">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
+          {/* Narrative Column */}
+          <div className="lg:col-span-8 flex flex-col items-start max-w-2xl text-left">
+            {/* Archival Edition Pill Tag */}
+            <div className="inline-flex items-center gap-2.5 px-3.5 py-1.5 bg-[#1F1B18]/80 backdrop-blur-md border border-goldaccent/40 rounded-full mb-6 shadow-sm">
+              <span className="w-1.5 h-1.5 rounded-full bg-goldaccent animate-pulse" />
+              <span className="text-[10px] uppercase tracking-[0.28em] text-goldaccent font-medium">
+                Vol. IV Master Edition • 2026 Archive
               </span>
             </div>
 
-            <h1 className="serif-display text-[72px] leading-[1.06] text-espresso font-normal tracking-[-0.01em] mb-6">
+            {/* Haute Grand Headline */}
+            <h1 className="serif-display text-4xl sm:text-6xl lg:text-[76px] text-alabaster font-normal leading-[1.05] tracking-tight mb-5">
               Haute Artisanal Decor.{" "}
-              <span className="italic font-light text-golddeep">
-                Bespoke Luxury Gifting,
-              </span>{" "}
-              Timeless Living.
+              <span className="serif-display italic font-light block text-goldaccent mt-1">
+                Bespoke Luxury Gifting.
+              </span>
             </h1>
 
-            <p className="text-[16px] leading-[1.8] text-subdued max-w-lg mb-10 font-normal">
-              A curated luxury world where master craftsmanship meets timeless aesthetics —
-              featuring handcrafted home accents, mother-of-pearl lapidary art,
-              statement centerpieces, and bespoke luxury gifts.
+            {/* Architectural Sub-Manifesto */}
+            <p className="text-sm sm:text-base lg:text-lg text-alabaster/80 leading-relaxed max-w-xl mb-8 sm:mb-10 font-light">
+              An atelier world where master metalsmithing converges with timeless living. Handcrafted solid brassware, sculptural centerpieces, and curated luxury gifts — forged for connoisseurs and exquisite spaces.
             </p>
 
-            <div className="flex items-center gap-5 w-auto mb-12">
+            {/* Action CTAs */}
+            <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4 w-full sm:w-auto">
               <Link
                 href="#collection"
-                className="inline-flex items-center justify-center min-h-[48px] px-8 py-3.5 bg-espresso text-alabaster hover:bg-[#2A2622] text-[11px] uppercase tracking-[0.24em] font-medium transition-all duration-300 shadow-sm cursor-pointer"
+                className="inline-flex items-center justify-center min-h-[50px] px-8 py-3.5 bg-goldaccent hover:bg-golddeep text-[#14110E] text-[11px] uppercase tracking-[0.24em] font-semibold transition-all duration-300 shadow-[0_4px_25px_rgba(197,168,128,0.25)] hover:shadow-[0_6px_30px_rgba(197,168,128,0.4)] group cursor-pointer active:scale-[0.99]"
               >
-                Explore 2026 Edition
+                <span>Explore 2026 Collection</span>
+                <span className="material-symbols-outlined text-[17px] ml-2 group-hover:translate-x-1 transition-transform">
+                  arrow_forward
+                </span>
               </Link>
-            </div>
 
-            {/* Archival Metadata strip */}
-            <div className="pt-8 border-t border-borderdelicate/80 grid grid-cols-3 gap-8 w-full max-w-lg text-[11px]">
-              <div>
-                <span className="block text-mute uppercase tracking-[0.2em] mb-1">
-                  Artistry
-                </span>
-                <span className="serif-display text-lg text-espresso font-normal">
-                  Handcrafted Gifts
-                </span>
-              </div>
-              <div>
-                <span className="block text-mute uppercase tracking-[0.2em] mb-1">
-                  Materials
-                </span>
-                <span className="serif-display text-lg text-espresso font-normal">
-                  Metals &amp; Inlay
-                </span>
-              </div>
-              <div>
-                <span className="block text-mute uppercase tracking-[0.2em] mb-1">
-                  Atelier Scope
-                </span>
-                <span className="serif-display text-lg text-espresso font-normal">
-                  Luxury Decor
-                </span>
-              </div>
+              <Link
+                href="/catalogue"
+                className="inline-flex items-center justify-center min-h-[50px] px-7 py-3.5 border border-alabaster/40 hover:border-goldaccent text-alabaster hover:text-goldaccent hover:bg-alabaster/5 backdrop-blur-xs text-[11px] uppercase tracking-[0.22em] font-medium transition-all duration-300 cursor-pointer"
+              >
+                <span>View Full Catalogue</span>
+              </Link>
             </div>
           </div>
 
-          {/* Hero Artwork Showcase Right Column */}
-          <div className="col-span-6 relative">
-            <div className="relative mx-auto">
-              <div
-                className="absolute -inset-10 pointer-events-none rounded-full blur-3xl opacity-60 z-0"
-                style={{
-                  background:
-                    "radial-gradient(circle, rgba(213, 184, 144, 0.35) 0%, rgba(250, 247, 242, 0) 70%)",
-                }}
-              ></div>
-
-              {/* Architectural hairline frame */}
-              <div className="p-5 bg-canvas border border-borderdelicate/90 shadow-[0_20px_50px_-20px_rgba(22,20,18,0.12)]">
-                <div className="relative aspect-[3/4] overflow-hidden bg-espresso">
-                  <Image
-                    alt="The Imperial Stallion Statuette Catalogue 2026"
-                    className="w-full h-full object-cover object-center grayscale-[15%] hover:grayscale-0 transition-all duration-700 hover:scale-[1.02]"
-                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuDY4D1MJ5qd2TW8kKY3g023RgzN3o7jc-1yQIJISyAQItsIRa2XPJcoPp2JBzIVHTuvmPwDODW5EjLfnKkgdkhj_F3NZ1RqnJXBS3ufwC8XfoNdZJI0sEg2g-Zmd5PZiTzS2jAxK3aVCCN5IXiYe3KNcjmmZY1H9Xg3PkIo_deWUbBjaiF1GxnHknWfMO7jD3cLTxJSCwbXo6Tcn-DSdjkkVAMBY4SSurDrdaLG7cJ1nnSiiIfqmWCC"
-                    fill
-                    unoptimized
-                    priority
-                  />
-                  {/* Understated Image Caption */}
-                  <div className="absolute bottom-0 inset-x-0 bg-gradient-to-t from-espresso/90 via-espresso/40 to-transparent p-6 text-alabaster flex justify-between items-end">
-                    <div>
-                      <span className="text-[9px] uppercase tracking-[0.3em] text-goldaccent block mb-1">
-                        Frontispiece • Plate 01
-                      </span>
-                      <h3 className="serif-display text-2xl font-normal italic tracking-wide">
-                        The Imperial Stallion
-                      </h3>
-                      <p className="text-[12px] text-mute font-light mt-0.5">
-                        Dual-toned solid cast brass with triple-plated sterling immersion
-                      </p>
-                    </div>
-                    <span className="text-[10px] tracking-[0.2em] uppercase text-alabaster/70 border-b border-goldaccent/60 pb-0.5">
-                      2026 Archive
-                    </span>
-                  </div>
-                </div>
-              </div>
-
-              {/* Offset Subtle Seal */}
-              <div className="absolute -top-4 -left-4 w-20 h-20 rounded-full border border-goldaccent/50 bg-alabaster/95 backdrop-blur-sm flex items-center justify-center p-2 text-center shadow-sm pointer-events-none">
-                <span className="text-[8px] uppercase tracking-[0.2em] text-golddeep font-medium leading-tight">
-                  Master Atelier Specimen
+          {/* Right Floating Specimen Plaque (Desktop Only) */}
+          <div className="hidden lg:flex lg:col-span-4 justify-end items-end h-full">
+            <div className="bg-[#1F1B18]/85 backdrop-blur-md border border-goldaccent/40 p-5 max-w-xs shadow-[0_20px_50px_rgba(0,0,0,0.5)] relative">
+              {/* Plaque Header */}
+              <div className="flex items-center justify-between pb-3 border-b border-goldaccent/25 mb-3">
+                <span className="text-[9px] uppercase tracking-[0.25em] text-goldaccent font-medium">
+                  Featured Specimen
+                </span>
+                <span className="text-[9px] uppercase tracking-[0.2em] text-mute font-mono">
+                  Plate 01
                 </span>
               </div>
+
+              {/* Plaque Body */}
+              <h3 className="serif-display text-xl text-alabaster font-normal italic mb-1">
+                The Imperial Stallion Chariot
+              </h3>
+              <p className="text-[11px] text-mute leading-relaxed font-light mb-3">
+                Solid hand-cast brass with mirror sterling immersion and warm ambient luster.
+              </p>
+
+              {/* Status Indicator */}
+              <div className="flex items-center justify-between pt-2 border-t border-borderdelicate/15 text-[10px] uppercase tracking-[0.18em]">
+                <span className="text-goldaccent font-medium flex items-center gap-1.5">
+                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
+                  Live in Atelier
+                </span>
+                <Link
+                  href="/catalogue"
+                  className="text-alabaster/70 hover:text-alabaster underline underline-offset-4 text-[9px]"
+                >
+                  Inspect
+                </Link>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* ========================================================= */}
+      {/* 3. ATELIER CREDENTIALS STRIP (Bottom of Hero)             */}
+      {/* ========================================================= */}
+      <div className="w-full relative z-10 border-t border-goldaccent/20 bg-[#161412]/80 backdrop-blur-md">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-12 py-5 sm:py-6">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-8 divide-y sm:divide-y-0 sm:divide-x divide-borderdelicate/15 text-left">
+            {/* Item 1 */}
+            <div className="sm:pr-4 pt-2 sm:pt-0">
+              <span className="text-[10px] uppercase tracking-[0.25em] text-goldaccent font-medium block mb-1">
+                01 / Master Craftsmanship
+              </span>
+              <p className="text-xs text-alabaster/70 font-light">
+                Centuries-old lost-wax casting &amp; hand-buffed finishes
+              </p>
+            </div>
+
+            {/* Item 2 */}
+            <div className="sm:px-6 pt-3 sm:pt-0">
+              <span className="text-[10px] uppercase tracking-[0.25em] text-goldaccent font-medium block mb-1">
+                02 / Noble Materials
+              </span>
+              <p className="text-xs text-alabaster/70 font-light">
+                Virgin solid brass, sterling immersion &amp; natural inlays
+              </p>
+            </div>
+
+            {/* Item 3 */}
+            <div className="sm:pl-6 pt-3 sm:pt-0">
+              <span className="text-[10px] uppercase tracking-[0.25em] text-goldaccent font-medium block mb-1">
+                03 / Bespoke Luxury Gifting
+              </span>
+              <p className="text-xs text-alabaster/70 font-light">
+                Artisanal bespoke packaging &amp; global white-glove courier
+              </p>
             </div>
           </div>
         </div>
