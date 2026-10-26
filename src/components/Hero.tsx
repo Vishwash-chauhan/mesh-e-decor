@@ -10,7 +10,7 @@ interface HeroProps {
 
 export default function Hero({ onOpenConcierge }: HeroProps) {
   return (
-    <section className="relative w-full min-h-[calc(100svh-3.5rem)] sm:min-h-[calc(100svh-4rem)] lg:h-[calc(100svh-4rem)] bg-[#110E0C] text-alabaster overflow-hidden flex flex-col justify-between border-b border-borderdelicate/30">
+    <section className="relative w-full min-h-screen min-h-svh bg-[#110E0C] text-alabaster overflow-hidden flex flex-col justify-between border-b border-borderdelicate/30">
       {/* ========================================================= */}
       {/* 1. CINEMATIC HERO BACKGROUND IMAGE & LIGHTING OVERLAYS   */}
       {/* ========================================================= */}
@@ -33,7 +33,7 @@ export default function Hero({ onOpenConcierge }: HeroProps) {
         <div className="absolute inset-0 bg-gradient-to-b from-[#110E0C]/80 via-[#110E0C]/65 to-[#110E0C]/90 sm:hidden pointer-events-none" />
 
         {/* Top subtle fade from header */}
-        <div className="absolute inset-x-0 top-0 h-20 bg-gradient-to-b from-[#110E0C]/85 via-[#110E0C]/30 to-transparent pointer-events-none" />
+        <div className="absolute inset-x-0 top-0 h-24 bg-gradient-to-b from-[#110E0C]/80 via-[#110E0C]/30 to-transparent pointer-events-none" />
 
         {/* Bottom smooth fade to transition into section below */}
         <div className="absolute inset-x-0 bottom-0 h-28 bg-gradient-to-t from-[#110E0C] via-[#110E0C]/70 to-transparent pointer-events-none" />
@@ -56,7 +56,7 @@ export default function Hero({ onOpenConcierge }: HeroProps) {
       {/* ========================================================= */}
       {/* 2. MAIN EDITORIAL CONTENT CONTAINER                       */}
       {/* ========================================================= */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-12 relative z-10 w-full pt-4 sm:pt-6 lg:pt-8 pb-3 sm:pb-4 flex-grow flex flex-col justify-center">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-12 relative z-10 w-full pt-20 sm:pt-24 lg:pt-28 pb-6 sm:pb-8 flex-grow flex flex-col justify-center">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-10 items-center">
           {/* Narrative Column */}
           <div className="lg:col-span-8 flex flex-col items-start max-w-2xl text-left">
@@ -144,7 +144,7 @@ export default function Hero({ onOpenConcierge }: HeroProps) {
       {/* ========================================================= */}
       {/* 3. ATELIER CREDENTIALS STRIP (Bottom of Hero)             */}
       {/* ========================================================= */}
-      <div className="w-full relative z-10 border-t border-goldaccent/20 bg-[#161412]/80 backdrop-blur-md shrink-0">
+      <div id="craft" className="w-full relative z-10 border-t border-goldaccent/20 bg-[#161412]/80 backdrop-blur-md shrink-0 scroll-mt-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-12 py-3.5 sm:py-4">
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-6 divide-y sm:divide-y-0 sm:divide-x divide-borderdelicate/15 text-left">
             {/* Item 1 */}

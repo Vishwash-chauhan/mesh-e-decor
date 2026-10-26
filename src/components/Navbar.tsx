@@ -18,27 +18,37 @@ export default function Navbar({ onOpenConcierge }: NavbarProps) {
   const pathname = usePathname();
   const { totalItems } = useCart();
 
+  const isHomePage = pathname === "/";
   const isCataloguePage = pathname === "/catalogue";
   const isCartPage = pathname === "/cart";
 
   useEffect(() => {
+    let ticking = false;
+    let lastScrollY = window.scrollY;
+
     const handleScroll = () => {
-      const currentScrollY = window.scrollY;
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          const currentScrollY = window.scrollY;
 
-      // When scrolled past initial top margin
-      setIsScrolled(currentScrollY > 20);
+          // When scrolled past initial top margin
+          setIsScrolled(currentScrollY > 20);
 
-      // Collapsing / hide logic on scroll
-      if (currentScrollY > 70 && currentScrollY > lastScrollYRef.current) {
-        // Scrolling down -> hide navbar
-        setIsVisible(false);
-        setMobileMenuOpen(false);
-      } else {
-        // Scrolling up or at top -> reveal navbar
-        setIsVisible(true);
+          // Smooth collapsing / reveal with hysteresis to eliminate jitter
+          if (currentScrollY > 160 && currentScrollY - lastScrollY > 15) {
+            // Scrolling down firmly -> hide navbar
+            setIsVisible(false);
+            setMobileMenuOpen(false);
+          } else if (lastScrollY - currentScrollY > 10 || currentScrollY <= 40) {
+            // Scrolling up or near top -> smoothly reveal navbar
+            setIsVisible(true);
+          }
+
+          lastScrollY = currentScrollY;
+          ticking = false;
+        });
+        ticking = true;
       }
-
-      lastScrollYRef.current = currentScrollY;
     };
 
     window.addEventListener("scroll", handleScroll, { passive: true });
@@ -46,20 +56,19 @@ export default function Navbar({ onOpenConcierge }: NavbarProps) {
   }, []);
 
   return (
-    <header
-      className={`sticky top-0 z-50 w-full transition-all duration-300 ease-in-out ${
-        isVisible ? "translate-y-0" : "-translate-y-full"
-      } ${
-        isScrolled
-          ? "bg-alabaster/95 backdrop-blur-md shadow-xs border-b border-borderdelicate/80"
-          : "bg-alabaster/90 backdrop-blur-sm border-b border-borderdelicate/50"
-      }`}
-    >
-      <div
-        className={`max-w-7xl mx-auto px-4 sm:px-6 lg:px-12 grid grid-cols-2 md:grid-cols-12 items-center transition-all duration-300 ${
-          isScrolled ? "h-12 sm:h-14" : "h-14 sm:h-16"
+    <>
+      <header
+        className={`fixed top-0 left-0 right-0 z-50 w-full transition-all duration-300 ease-out will-change-transform ${
+          isVisible ? "translate-y-0" : "-translate-y-full"
+        } ${
+          isScrolled
+            ? "bg-alabaster/55 backdrop-blur-md shadow-xs border-b border-borderdelicate/40"
+            : isHomePage
+            ? "bg-alabaster/40 backdrop-blur-md border-b border-white/20"
+            : "bg-alabaster/55 backdrop-blur-md border-b border-borderdelicate/40"
         }`}
       >
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-12 grid grid-cols-2 md:grid-cols-12 items-center h-14 sm:h-16">
         {/* Left: Atelier Brandmark */}
         <div className="md:col-span-4 flex items-center justify-start">
           <Link href="/" className="flex items-center gap-2 sm:gap-3 group">
@@ -139,7 +148,7 @@ export default function Navbar({ onOpenConcierge }: NavbarProps) {
 
       {/* Mobile Navigation Drawer */}
       {mobileMenuOpen && (
-        <div id="mobile-navigation" className="md:hidden bg-alabaster border-b border-borderdelicate px-5 py-4 flex flex-col gap-2 text-[11px] uppercase tracking-[0.2em] text-subdued font-normal shadow-xl">
+        <div id="mobile-navigation" className="md:hidden bg-alabaster/90 backdrop-blur-md border-b border-borderdelicate/60 px-5 py-4 flex flex-col gap-2 text-[11px] uppercase tracking-[0.2em] text-subdued font-normal shadow-xl">
           <Link
             href="/catalogue"
             onClick={() => setMobileMenuOpen(false)}
@@ -178,6 +187,10 @@ export default function Navbar({ onOpenConcierge }: NavbarProps) {
           </Link>
         </div>
       )}
-    </header>
+      </header>
+      {!isHomePage && (
+        <div className="h-14 sm:h-16 shrink-0 w-full" aria-hidden="true" />
+      )}
+    </>
   );
 }

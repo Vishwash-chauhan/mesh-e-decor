@@ -38,7 +38,7 @@ export default function Collection({
 
   return (
     <section
-      className="w-full bg-surface py-16 sm:py-20 lg:py-28 px-4 sm:px-6 lg:px-12 border-b border-borderdelicate/80"
+      className="w-full bg-surface py-16 sm:py-20 lg:py-28 px-4 sm:px-6 lg:px-12 border-b border-borderdelicate/80 scroll-mt-16 sm:scroll-mt-20"
       id="collection"
     >
       <div className="max-w-7xl mx-auto">

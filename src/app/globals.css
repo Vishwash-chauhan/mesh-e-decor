@@ -19,6 +19,9 @@
 }
 
 @layer base {
+  html {
+    scroll-behavior: smooth;
+  }
   html, body {
     margin: 0;
     padding: 0;
@@ -34,6 +37,26 @@
 .no-scrollbar {
   -ms-overflow-style: none;  /* IE and Edge */
   scrollbar-width: none;  /* Firefox */
+}
+
+/* Custom Refined Atelier Scrollbar (Never turns white) */
+::-webkit-scrollbar {
+  width: 7px;
+  height: 7px;
+}
+::-webkit-scrollbar-track {
+  background: transparent !important;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(197, 168, 128, 0.45);
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(158, 123, 79, 0.75);
+}
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(197, 168, 128, 0.45) transparent;
 }
 
 .serif-display {
