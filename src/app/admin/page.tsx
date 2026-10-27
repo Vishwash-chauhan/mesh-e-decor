@@ -8,7 +8,6 @@ import { useRouter } from "next/navigation";
 interface ProductData {
   id: string;
   code: string;
-  name: string;
   price: string;
   numericPrice: number;
   category: string;
@@ -16,15 +15,12 @@ interface ProductData {
   image: string;
   images?: string[];
   description?: string;
-  material?: string;
-  dimensions?: string;
 }
 
 const AVAILABLE_CATEGORIES = [
   "Home Decor",
   "Festive Items",
   "New Arrivals",
-  "Decor Items",
   "Candle Wear",
   "Gift Boxes",
   "Photo Frames",
@@ -43,7 +39,6 @@ export default function AdminDashboardPage() {
 
   // Form Fields
   const [code, setCode] = useState("");
-  const [name, setName] = useState("");
   const [numericPrice, setNumericPrice] = useState<number>(5000);
   const [price, setPrice] = useState("₹5,000");
   const [category, setCategory] = useState(AVAILABLE_CATEGORIES[0]);
@@ -53,8 +48,6 @@ export default function AdminDashboardPage() {
   const [image, setImage] = useState(""); // Cover Image
   const [images, setImages] = useState<string[]>([]); // Rest of the images (Gallery)
   const [description, setDescription] = useState("");
-  const [material, setMaterial] = useState("");
-  const [dimensions, setDimensions] = useState("");
   const [formError, setFormError] = useState<string | null>(null);
   const [submitting, setSubmitting] = useState(false);
 
@@ -93,7 +86,9 @@ export default function AdminDashboardPage() {
 
   async function fetchProducts() {
     try {
-      const res = await fetch("/api/products");
+      const res = await fetch(`/api/products?t=${Date.now()}`, {
+        cache: "no-store",
+      });
       if (res.ok) {
         const data = await res.json();
         setProducts(data);
@@ -116,7 +111,6 @@ export default function AdminDashboardPage() {
   const handleOpenAddModal = () => {
     setEditingProduct(null);
     setCode("");
-    setName("");
     setNumericPrice(5000);
     setPrice("₹5,000");
     setCategory(AVAILABLE_CATEGORIES[0]);
@@ -124,8 +118,6 @@ export default function AdminDashboardPage() {
     setImage("");
     setImages([]);
     setDescription("");
-    setMaterial("Virgin Hand-Cast Brass");
-    setDimensions("");
     setFormError(null);
     setUploadError(null);
     setIsModalOpen(true);
@@ -134,7 +126,6 @@ export default function AdminDashboardPage() {
   const handleOpenEditModal = (p: ProductData) => {
     setEditingProduct(p);
     setCode(p.code);
-    setName(p.code);
     setNumericPrice(p.numericPrice);
     setPrice(p.price);
     setCategory(p.category);
@@ -144,8 +135,6 @@ export default function AdminDashboardPage() {
     setImage(p.image);
     setImages(p.images && Array.isArray(p.images) ? p.images : []);
     setDescription(p.description || "");
-    setMaterial(p.material || "");
-    setDimensions(p.dimensions || "");
     setFormError(null);
     setUploadError(null);
     setIsModalOpen(true);
@@ -154,11 +143,16 @@ export default function AdminDashboardPage() {
   const handleToggleCategory = (cat: string) => {
     if (selectedCategories.includes(cat)) {
       if (selectedCategories.length === 1) return; // Keep at least one
-      setSelectedCategories(selectedCategories.filter((c) => c !== cat));
+      const updated = selectedCategories.filter((c) => c !== cat);
+      setSelectedCategories(updated);
+      if (category === cat && updated.length > 0) {
+        setCategory(updated[0]);
+      }
     } else {
       setSelectedCategories([...selectedCategories, cat]);
     }
   };
+
 
   const handleNumericPriceChange = (num: number) => {
     setNumericPrice(num);
@@ -245,20 +239,20 @@ export default function AdminDashboardPage() {
     setSubmitting(true);
 
     const formattedCode = code.trim().toUpperCase();
+    const primaryCategory =
+      selectedCategories.includes(category)
+        ? category
+        : (selectedCategories[0] || category);
+
     const payload = {
       code: formattedCode,
-      name: formattedCode,
       price: price.trim(),
       numericPrice: Number(numericPrice),
-      category,
-      categories: selectedCategories.includes(category)
-        ? selectedCategories
-        : [category, ...selectedCategories],
+      category: primaryCategory,
+      categories: selectedCategories,
       image: image.trim(),
       images,
       description: description.trim(),
-      material: material.trim(),
-      dimensions: dimensions.trim(),
     };
 
     try {
@@ -317,9 +311,7 @@ export default function AdminDashboardPage() {
   const filteredProducts = products.filter((p) => {
     const matchesSearch =
       searchQuery.trim() === "" ||
-      p.code.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      p.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      (p.material && p.material.toLowerCase().includes(searchQuery.toLowerCase()));
+      p.code.toLowerCase().includes(searchQuery.toLowerCase());
 
     const matchesCat =
       selectedFilterCategory === "All" ||
@@ -551,11 +543,6 @@ export default function AdminDashboardPage() {
                         <div className="font-mono text-sm sm:text-base text-espresso font-semibold tracking-wider">
                           {p.code}
                         </div>
-                        {p.dimensions && (
-                          <span className="text-[10px] text-mute font-light block mt-0.5">
-                            {p.dimensions}
-                          </span>
-                        )}
                       </td>
 
                       {/* Gallery count & preview */}
@@ -968,33 +955,6 @@ export default function AdminDashboardPage() {
                 )}
               </div>
 
-              {/* Dimensions & Material */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-[10px] uppercase tracking-[0.18em] text-mute mb-1 font-medium">
-                    Material Core
-                  </label>
-                  <input
-                    type="text"
-                    placeholder="e.g. Hand-Cast Solid Brass"
-                    value={material}
-                    onChange={(e) => setMaterial(e.target.value)}
-                    className="w-full bg-surface border border-borderdelicate p-2.5 text-xs text-espresso focus:outline-none focus:border-espresso"
-                  />
-                </div>
-                <div>
-                  <label className="block text-[10px] uppercase tracking-[0.18em] text-mute mb-1 font-medium">
-                    Dimensions Spec
-                  </label>
-                  <input
-                    type="text"
-                    placeholder="e.g. 14 in Diameter • 8.5 in Height"
-                    value={dimensions}
-                    onChange={(e) => setDimensions(e.target.value)}
-                    className="w-full bg-surface border border-borderdelicate p-2.5 text-xs text-espresso focus:outline-none focus:border-espresso"
-                  />
-                </div>
-              </div>
 
               {/* Description */}
               <div>
