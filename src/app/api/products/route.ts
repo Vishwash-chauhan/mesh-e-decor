@@ -19,6 +19,8 @@ async function isAuthenticated(req: Request): Promise<boolean> {
   return false;
 }
 
+export const dynamic = "force-dynamic";
+
 export async function GET() {
   try {
     const dbProducts = await prisma.product.findMany({
@@ -47,7 +49,6 @@ export async function GET() {
       return {
         id: p.id,
         code: p.code,
-        name: p.name,
         price: p.price,
         numericPrice: p.numericPrice,
         category: p.category,
@@ -55,8 +56,6 @@ export async function GET() {
         image: p.image,
         images: imagesList,
         description: p.description || "",
-        material: p.material || "",
-        dimensions: p.dimensions || "",
       };
     });
 
@@ -77,7 +76,6 @@ export async function POST(req: Request) {
     const body = await req.json();
     const {
       code,
-      name,
       price,
       numericPrice,
       category,
@@ -85,12 +83,9 @@ export async function POST(req: Request) {
       image,
       images,
       description,
-      material,
-      dimensions,
     } = body;
 
     const productCode = code ? String(code).trim().toUpperCase() : "";
-    const productName = name && String(name).trim() ? String(name).trim() : productCode;
 
     if (!productCode || !category) {
       return NextResponse.json(
@@ -119,7 +114,6 @@ export async function POST(req: Request) {
     const created = await prisma.product.create({
       data: {
         code: productCode,
-        name: productName,
         price: formattedPrice,
         numericPrice: parsedNumeric,
         category: category.trim(),
@@ -127,8 +121,6 @@ export async function POST(req: Request) {
         image: image || "https://images.unsplash.com/photo-1579783900882-c0d3dad7b119?auto=format&fit=crop&w=800&q=80",
         images: JSON.stringify(imagesArray),
         description: description || "",
-        material: material || "",
-        dimensions: dimensions || "",
       },
     });
 

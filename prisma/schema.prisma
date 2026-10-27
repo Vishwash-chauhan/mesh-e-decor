@@ -10,7 +10,6 @@ datasource db {
 model Product {
   id           String   @id @default(cuid())
   code         String   @unique
-  name         String
   price        String
   numericPrice Float
   category     String
@@ -18,8 +17,6 @@ model Product {
   image        String   // Cover image (1:1)
   images       String   @default("[]") // JSON array of additional gallery image URLs (1:1)
   description  String?
-  material     String?
-  dimensions   String?
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
 }

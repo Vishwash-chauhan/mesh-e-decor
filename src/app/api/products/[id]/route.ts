@@ -17,6 +17,8 @@ async function isAuthenticated(req: Request): Promise<boolean> {
   return false;
 }
 
+export const dynamic = "force-dynamic";
+
 export async function GET(
   req: Request,
   { params }: { params: Promise<{ id: string }> }
@@ -76,7 +78,6 @@ export async function PUT(
     const body = await req.json();
     const {
       code,
-      name,
       price,
       numericPrice,
       category,
@@ -84,8 +85,6 @@ export async function PUT(
       image,
       images,
       description,
-      material,
-      dimensions,
     } = body;
 
     const parsedNumeric =
@@ -114,13 +113,11 @@ export async function PUT(
     }
 
     const newCode = code ? code.trim().toUpperCase() : undefined;
-    const newName = name && name.trim() ? name.trim() : (newCode ?? undefined);
 
     const updated = await prisma.product.update({
       where: { id: existing.id },
       data: {
         ...(newCode ? { code: newCode } : {}),
-        ...(newName ? { name: newName } : {}),
         price: formattedPrice,
         numericPrice: parsedNumeric,
         ...(category ? { category: category.trim() } : {}),
@@ -128,8 +125,6 @@ export async function PUT(
         ...(image ? { image } : {}),
         ...(images !== undefined ? { images: JSON.stringify(Array.isArray(images) ? images : []) } : {}),
         description: description ?? existing.description,
-        material: material ?? existing.material,
-        dimensions: dimensions ?? existing.dimensions,
       },
     });
 
