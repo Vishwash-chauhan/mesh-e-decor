@@ -246,41 +246,6 @@ Kindly confirm availability and share payment / delivery instructions. Thank you
                   "Hand-sculpted virgin brass specimen dipped in multi-tank electrolyte silver plating, engineered to illuminate executive suites and royal banquet halls."}
               </p>
 
-              {/* Technical Specifications Grid */}
-              <div className="grid grid-cols-2 gap-4 w-full bg-canvas p-4 sm:p-5 border border-borderdelicate/90 mb-8 text-[11px]">
-                <div>
-                  <span className="block text-mute uppercase tracking-[0.18em] mb-1">
-                    Atelier Standard
-                  </span>
-                  <span className="serif-display text-base text-espresso font-normal block">
-                    Hand-Chased Masterwork
-                  </span>
-                </div>
-                <div>
-                  <span className="block text-mute uppercase tracking-[0.18em] mb-1">
-                    Finish Bath
-                  </span>
-                  <span className="serif-display text-base text-espresso font-normal block">
-                    Sterling Immersion
-                  </span>
-                </div>
-                <div>
-                  <span className="block text-mute uppercase tracking-[0.18em] mb-1">
-                    Tarnish Defense
-                  </span>
-                  <span className="serif-display text-base text-espresso font-normal block">
-                    10-Yr Micro-Lacquer
-                  </span>
-                </div>
-                <div>
-                  <span className="block text-mute uppercase tracking-[0.18em] mb-1">
-                    Certification
-                  </span>
-                  <span className="serif-display text-base text-espresso font-normal block">
-                    Authentic Atelier Hallmark
-                  </span>
-                </div>
-              </div>
 
               {/* Quantity Controller */}
               <div className="w-full mb-8">
