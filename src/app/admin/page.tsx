@@ -348,105 +348,107 @@ export default function AdminDashboardPage() {
     <div className="min-h-screen bg-alabaster text-espresso font-light flex flex-col">
       {/* Top Navigation Strip */}
       <header className="w-full bg-canvas border-b border-borderdelicate/80 sticky top-0 z-40 backdrop-blur-md">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-12 h-16 sm:h-20 flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <Link href="/" className="flex items-center gap-3">
+        <div className="max-w-7xl mx-auto px-3.5 sm:px-6 lg:px-12 h-16 sm:h-20 flex items-center justify-between gap-2">
+          <div className="flex items-center gap-2 sm:gap-3 min-w-0">
+            <Link href="/" className="flex items-center gap-2.5 sm:gap-3 min-w-0">
               <Image
                 alt="Mesh 'E' Decor"
-                className="h-8 w-auto object-contain"
+                className="h-7 sm:h-8 w-auto object-contain shrink-0"
                 src="https://lh3.googleusercontent.com/aida-public/AB6AXuDpqcGZ0BeH_fqgXUIEgQatWQTbaOWDHb5pQAYuFeAhW6-gZlEzfRkO1G8yjEw3HYRnAfS90zEz6gW4kGljiX8xHJFjPOeaV5atYaQEdHrQCbDmoS1COfeyrNcALBpTiK1Ufv0DTY1dNd2X1CxxcJheAgmzGoW3LEA79f22kOUt7KUckcK1QzwuhHlvbXrUr7TPMLQFYbDEbY1b55MwJ-doRzDxPeXmhXZy9VrVUPFADPQ9xNCdhWD6"
                 width={32}
                 height={32}
                 unoptimized
               />
-              <div className="border-l border-borderdelicate pl-3">
-                <span className="serif-display text-base sm:text-lg tracking-[0.14em] uppercase text-espresso block leading-none">
+              <div className="border-l border-borderdelicate pl-2.5 sm:pl-3 truncate">
+                <span className="serif-display text-sm sm:text-lg tracking-[0.12em] sm:tracking-[0.14em] uppercase text-espresso block leading-tight truncate">
                   Mesh ‘E’ Decor
                 </span>
-                <span className="text-[9px] uppercase tracking-[0.24em] text-golddeep font-medium block mt-0.5">
-                  Curator Atelier Dashboard
+                <span className="text-[8.5px] sm:text-[9px] uppercase tracking-[0.2em] sm:tracking-[0.24em] text-golddeep font-medium block">
+                  Curator Dashboard
                 </span>
               </div>
             </Link>
           </div>
 
-          <div className="flex items-center gap-3 sm:gap-4">
+          <div className="flex items-center gap-1.5 sm:gap-4 shrink-0">
             <Link
               href="/catalogue"
               target="_blank"
-              className="text-[10px] sm:text-[11px] uppercase tracking-[0.2em] text-mute hover:text-espresso px-3 py-1.5 border border-borderdelicate hover:border-espresso transition-all flex items-center gap-1.5"
+              className="text-[10px] sm:text-[11px] uppercase tracking-[0.14em] sm:tracking-[0.2em] text-mute hover:text-espresso px-2.5 sm:px-3 py-1.5 sm:py-2 border border-borderdelicate hover:border-espresso transition-all flex items-center gap-1 min-h-[38px] sm:min-h-[40px]"
+              title="View Live Boutique"
             >
-              <span>View Boutique</span>
-              <span className="material-symbols-outlined text-[14px]">open_in_new</span>
+              <span className="material-symbols-outlined text-[15px]">storefront</span>
+              <span className="hidden xs:inline">Boutique</span>
             </Link>
 
             <button
               onClick={handleLogout}
-              className="text-[10px] sm:text-[11px] uppercase tracking-[0.2em] text-espresso hover:bg-espresso hover:text-alabaster px-3.5 py-1.5 border border-espresso transition-all flex items-center gap-1.5 cursor-pointer"
+              className="text-[10px] sm:text-[11px] uppercase tracking-[0.14em] sm:tracking-[0.2em] text-espresso hover:bg-espresso hover:text-alabaster px-2.5 sm:px-3.5 py-1.5 sm:py-2 border border-espresso transition-all flex items-center gap-1 cursor-pointer min-h-[38px] sm:min-h-[40px]"
+              title="Sign Out"
             >
-              <span className="material-symbols-outlined text-[14px]">logout</span>
-              <span>Sign Out</span>
+              <span className="material-symbols-outlined text-[15px]">logout</span>
+              <span className="hidden xs:inline">Sign Out</span>
             </button>
           </div>
         </div>
       </header>
 
       {/* Main Admin Content */}
-      <main className="max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-12 py-8 sm:py-12 flex-grow">
+      <main className="max-w-7xl w-full mx-auto px-3.5 sm:px-6 lg:px-12 py-6 sm:py-12 flex-grow">
         {/* Metric Cards Banner */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8 sm:mb-10">
-          <div className="bg-canvas border border-borderdelicate/80 p-5 shadow-2xs">
-            <span className="block text-mute uppercase tracking-[0.2em] text-[9px] mb-1 font-medium">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 mb-6 sm:mb-10">
+          <div className="bg-canvas border border-borderdelicate/80 p-3.5 sm:p-5 shadow-2xs">
+            <span className="block text-mute uppercase tracking-[0.18em] text-[8.5px] sm:text-[9px] mb-1 font-medium truncate">
               Total Specimens
             </span>
-            <span className="serif-display text-3xl sm:text-4xl text-espresso font-normal">
+            <span className="serif-display text-2xl sm:text-4xl text-espresso font-normal">
               {products.length}
             </span>
-            <span className="block text-[11px] text-mute mt-1">Live in Database</span>
+            <span className="block text-[10px] sm:text-[11px] text-mute mt-0.5 sm:mt-1">In Database</span>
           </div>
 
-          <div className="bg-canvas border border-borderdelicate/80 p-5 shadow-2xs">
-            <span className="block text-mute uppercase tracking-[0.2em] text-[9px] mb-1 font-medium">
-              Active Categories
+          <div className="bg-canvas border border-borderdelicate/80 p-3.5 sm:p-5 shadow-2xs">
+            <span className="block text-mute uppercase tracking-[0.18em] text-[8.5px] sm:text-[9px] mb-1 font-medium truncate">
+              Collections
             </span>
-            <span className="serif-display text-3xl sm:text-4xl text-golddeep font-normal">
+            <span className="serif-display text-2xl sm:text-4xl text-golddeep font-normal">
               {AVAILABLE_CATEGORIES.length}
             </span>
-            <span className="block text-[11px] text-mute mt-1">Curated Collections</span>
+            <span className="block text-[10px] sm:text-[11px] text-mute mt-0.5 sm:mt-1">Active Tags</span>
           </div>
 
-          <div className="bg-canvas border border-borderdelicate/80 p-5 shadow-2xs">
-            <span className="block text-mute uppercase tracking-[0.2em] text-[9px] mb-1 font-medium">
+          <div className="bg-canvas border border-borderdelicate/80 p-3.5 sm:p-5 shadow-2xs">
+            <span className="block text-mute uppercase tracking-[0.18em] text-[8.5px] sm:text-[9px] mb-1 font-medium truncate">
               Catalog Value
             </span>
-            <span className="serif-display text-2xl sm:text-3xl text-espresso font-normal">
+            <span className="serif-display text-lg sm:text-3xl text-espresso font-normal truncate block">
               ₹{totalInventoryValue.toLocaleString("en-IN")}
             </span>
-            <span className="block text-[11px] text-mute mt-1">Sum of Specimen Prices</span>
+            <span className="block text-[10px] sm:text-[11px] text-mute mt-0.5 sm:mt-1">Inventory Sum</span>
           </div>
 
-          <div className="bg-canvas border border-borderdelicate/80 p-5 shadow-2xs flex flex-col justify-between">
+          <div className="bg-canvas border border-borderdelicate/80 p-3.5 sm:p-5 shadow-2xs flex flex-col justify-between">
             <div>
-              <span className="block text-mute uppercase tracking-[0.2em] text-[9px] mb-1 font-medium">
-                Atelier Quick Action
+              <span className="block text-mute uppercase tracking-[0.18em] text-[8.5px] sm:text-[9px] mb-1 font-medium truncate">
+                Quick Action
               </span>
-              <span className="text-[12px] text-subdued font-light">
-                Add handcrafted piece to public boutique
+              <span className="text-[11px] sm:text-[12px] text-subdued font-light hidden sm:block">
+                Add handcrafted piece
               </span>
             </div>
             <button
               onClick={handleOpenAddModal}
-              className="mt-3 w-full py-2.5 bg-espresso text-alabaster hover:bg-golddeep text-[10px] uppercase tracking-[0.22em] font-medium transition-all flex items-center justify-center gap-1.5 cursor-pointer shadow-xs"
+              className="mt-2 sm:mt-3 w-full py-2 sm:py-2.5 bg-espresso text-alabaster hover:bg-golddeep text-[9.5px] sm:text-[10px] uppercase tracking-[0.18em] sm:tracking-[0.22em] font-medium transition-all flex items-center justify-center gap-1.5 cursor-pointer shadow-xs min-h-[38px] sm:min-h-[40px]"
             >
-              <span className="material-symbols-outlined text-[16px]">add</span>
-              <span>Add Specimen</span>
+              <span className="material-symbols-outlined text-[15px]">add</span>
+              <span>+ Add Piece</span>
             </button>
           </div>
         </div>
 
         {/* Toolbar: Search, Category Filter, and Add Button */}
-        <div className="bg-canvas border border-borderdelicate/80 p-4 sm:p-5 mb-8 shadow-xs flex flex-col md:flex-row items-stretch md:items-center justify-between gap-4">
-          <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 flex-grow max-w-2xl">
+        <div className="bg-canvas border border-borderdelicate/80 p-3.5 sm:p-5 mb-6 sm:mb-8 shadow-xs flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 sm:gap-4">
+          <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2.5 sm:gap-3 flex-grow">
             {/* Search Input */}
             <div className="relative flex-grow">
               <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-mute text-[18px]">
@@ -454,15 +456,15 @@ export default function AdminDashboardPage() {
               </span>
               <input
                 type="text"
-                placeholder="Search by product code or material..."
+                placeholder="Search specimen code..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full bg-surface border border-borderdelicate pl-10 pr-4 py-2.5 text-xs text-espresso focus:outline-none focus:border-espresso transition-colors placeholder:text-mute"
+                className="w-full bg-surface border border-borderdelicate pl-10 pr-9 py-2.5 text-[15px] sm:text-xs text-espresso focus:outline-none focus:border-espresso transition-colors placeholder:text-mute min-h-[42px]"
               />
               {searchQuery && (
                 <button
                   onClick={() => setSearchQuery("")}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-mute hover:text-espresso text-xs"
+                  className="absolute right-2.5 top-1/2 -translate-y-1/2 text-mute hover:text-espresso text-xs p-1"
                 >
                   ✕
                 </button>
@@ -474,7 +476,7 @@ export default function AdminDashboardPage() {
               <select
                 value={selectedFilterCategory}
                 onChange={(e) => setSelectedFilterCategory(e.target.value)}
-                className="w-full sm:w-auto bg-surface border border-borderdelicate px-3.5 py-2.5 text-xs text-espresso focus:outline-none focus:border-espresso transition-colors cursor-pointer"
+                className="w-full sm:w-auto bg-surface border border-borderdelicate px-3.5 py-2.5 text-[15px] sm:text-xs text-espresso focus:outline-none focus:border-espresso transition-colors cursor-pointer min-h-[42px]"
               >
                 <option value="All">All Categories ({products.length})</option>
                 {AVAILABLE_CATEGORIES.map((cat) => (
@@ -488,15 +490,132 @@ export default function AdminDashboardPage() {
 
           <button
             onClick={handleOpenAddModal}
-            className="py-3 px-5 bg-espresso text-alabaster hover:bg-golddeep text-[11px] uppercase tracking-[0.22em] font-medium transition-all flex items-center justify-center gap-2 cursor-pointer shadow-sm shrink-0"
+            className="py-3 px-5 bg-espresso text-alabaster hover:bg-golddeep text-[11px] uppercase tracking-[0.2em] font-medium transition-all flex items-center justify-center gap-2 cursor-pointer shadow-sm shrink-0 min-h-[44px] w-full sm:w-auto"
           >
-            <span className="material-symbols-outlined text-[16px]">add_circle</span>
+            <span className="material-symbols-outlined text-[17px]">add_circle</span>
             <span>New Specimen</span>
           </button>
         </div>
 
-        {/* Products Table */}
-        <div className="bg-canvas border border-borderdelicate/80 shadow-xs overflow-hidden">
+        {/* MOBILE SPECIMEN CARDS (Visible on phone/tablet < md) */}
+        <div className="md:hidden space-y-3">
+          {filteredProducts.length === 0 ? (
+            <div className="bg-canvas border border-borderdelicate/80 p-8 text-center text-subdued shadow-2xs">
+              <span className="material-symbols-outlined text-[36px] text-mute block mb-2 mx-auto">
+                inventory_2
+              </span>
+              <p className="text-sm text-espresso font-medium">No specimens found</p>
+              <p className="text-xs text-mute mt-1">Try clearing your search query or filters</p>
+            </div>
+          ) : (
+            filteredProducts.map((p) => (
+              <div
+                key={p.id}
+                className="bg-canvas border border-borderdelicate/90 p-3.5 shadow-xs relative flex flex-col gap-3 transition-all"
+              >
+                {/* Top row: 1:1 Cover Thumbnail + Details */}
+                <div className="flex items-start gap-3">
+                  <div className="relative w-20 h-20 aspect-square bg-espresso/5 border border-borderdelicate overflow-hidden shrink-0 shadow-2xs">
+                    <Image
+                      src={p.image}
+                      alt={p.code}
+                      fill
+                      className="object-cover object-center"
+                      unoptimized
+                    />
+                  </div>
+
+                  <div className="flex-grow min-w-0">
+                    <div className="flex items-start justify-between gap-1.5">
+                      <span className="font-mono text-base font-bold text-espresso tracking-wider block truncate">
+                        {p.code}
+                      </span>
+                      <span className="serif-display text-base font-medium text-espresso shrink-0">
+                        {p.price}
+                      </span>
+                    </div>
+
+                    <div className="mt-1 flex flex-wrap items-center gap-1.5">
+                      <span className="inline-block px-2 py-0.5 bg-surface border border-borderdelicate text-[9px] uppercase tracking-wider text-espresso font-medium">
+                        {p.category}
+                      </span>
+
+                      {p.images && p.images.length > 0 && (
+                        <span className="inline-flex items-center gap-1 text-[9px] font-mono text-golddeep font-medium bg-golddeep/10 px-1.5 py-0.5 border border-golddeep/20">
+                          <span className="material-symbols-outlined text-[13px]">photo_library</span>
+                          +{p.images.length}
+                        </span>
+                      )}
+                    </div>
+
+                    {p.categories && p.categories.filter((c) => c !== p.category).length > 0 && (
+                      <div className="flex flex-wrap gap-1 mt-1.5">
+                        {p.categories
+                          .filter((c) => c !== p.category)
+                          .map((cat) => (
+                            <span
+                              key={cat}
+                              className="text-[8.5px] uppercase tracking-wider px-1.5 py-0.5 bg-alabaster border border-borderdelicate/60 text-mute"
+                            >
+                              {cat}
+                            </span>
+                          ))}
+                      </div>
+                    )}
+                  </div>
+                </div>
+
+                {/* Bottom Row: Full Touch Action Bar */}
+                <div className="pt-2.5 border-t border-borderdelicate/70 flex items-center justify-between gap-2">
+                  <Link
+                    href={`/products/${p.code}`}
+                    target="_blank"
+                    className="flex-1 py-2 px-2.5 bg-surface border border-borderdelicate text-mute hover:text-espresso text-[10px] uppercase tracking-wider font-medium flex items-center justify-center gap-1.5 min-h-[40px] active:bg-canvas"
+                  >
+                    <span className="material-symbols-outlined text-[15px]">visibility</span>
+                    <span>Preview</span>
+                  </Link>
+
+                  <button
+                    onClick={() => handleOpenEditModal(p)}
+                    className="flex-1 py-2 px-2.5 bg-surface border border-espresso text-espresso hover:bg-espresso hover:text-alabaster text-[10px] uppercase tracking-wider font-medium flex items-center justify-center gap-1.5 min-h-[40px] active:bg-espresso active:text-white cursor-pointer"
+                  >
+                    <span className="material-symbols-outlined text-[15px]">edit</span>
+                    <span>Edit</span>
+                  </button>
+
+                  {deleteConfirmId === p.id ? (
+                    <div className="flex-1 flex items-center gap-1">
+                      <button
+                        onClick={() => handleDeleteProduct(p.id)}
+                        className="flex-1 py-2 px-1 bg-red-600 text-white text-[9.5px] uppercase tracking-wider font-bold hover:bg-red-700 min-h-[40px] cursor-pointer"
+                      >
+                        Delete?
+                      </button>
+                      <button
+                        onClick={() => setDeleteConfirmId(null)}
+                        className="py-2 px-2 bg-surface border border-borderdelicate text-subdued text-[10px] min-h-[40px] cursor-pointer"
+                      >
+                        ✕
+                      </button>
+                    </div>
+                  ) : (
+                    <button
+                      onClick={() => setDeleteConfirmId(p.id)}
+                      className="py-2 px-3 bg-surface border border-red-200 text-red-700 hover:bg-red-50 text-[10px] uppercase tracking-wider font-medium flex items-center justify-center gap-1 min-h-[40px] cursor-pointer"
+                      title="Delete specimen"
+                    >
+                      <span className="material-symbols-outlined text-[16px]">delete</span>
+                    </button>
+                  )}
+                </div>
+              </div>
+            ))
+          )}
+        </div>
+
+        {/* DESKTOP PRODUCTS TABLE (Visible on md+) */}
+        <div className="hidden md:block bg-canvas border border-borderdelicate/80 shadow-xs overflow-hidden">
           <div className="overflow-x-auto">
             <table className="w-full text-left border-collapse text-xs">
               <thead>
@@ -650,62 +769,64 @@ export default function AdminDashboardPage() {
 
       {/* Add / Edit Product Modal */}
       {isModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-espresso/70 backdrop-blur-xs animate-fadeIn">
-          <div className="bg-alabaster border border-goldaccent/50 max-w-3xl w-full p-6 sm:p-8 relative shadow-2xl overflow-y-auto max-h-[92vh]">
-            <div className="flex items-center justify-between pb-4 border-b border-borderdelicate/80 mb-6">
-              <div>
-                <span className="text-[10px] uppercase tracking-[0.26em] text-golddeep font-semibold block">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-2.5 sm:p-4 bg-espresso/70 backdrop-blur-xs animate-fadeIn">
+          <div className="bg-alabaster border border-goldaccent/50 max-w-3xl w-full p-4 sm:p-7 relative shadow-2xl overflow-y-auto max-h-[94vh] flex flex-col">
+            {/* Sticky Modal Header */}
+            <div className="sticky top-0 bg-alabaster z-20 pb-3 border-b border-borderdelicate/80 mb-4 flex items-center justify-between gap-2">
+              <div className="min-w-0 pr-2">
+                <span className="text-[9px] sm:text-[10px] uppercase tracking-[0.24em] text-golddeep font-semibold block truncate">
                   {editingProduct ? "Specimen Modification" : "New Collection Addition"}
                 </span>
-                <h3 className="serif-display text-2xl text-espresso font-normal">
+                <h3 className="serif-display text-xl sm:text-2xl text-espresso font-normal truncate">
                   {editingProduct ? `Edit ${editingProduct.code}` : "Add New Handcrafted Specimen"}
                 </h3>
               </div>
               <button
                 onClick={() => setIsModalOpen(false)}
-                className="text-mute hover:text-espresso p-1.5 border border-borderdelicate cursor-pointer"
+                className="text-mute hover:text-espresso p-1.5 border border-borderdelicate hover:border-espresso cursor-pointer shrink-0 min-h-[38px] min-w-[38px] flex items-center justify-center"
+                aria-label="Close modal"
               >
                 ✕
               </button>
             </div>
 
             {/* Ideal Image Dimension Guideline Alert */}
-            <div className="mb-6 p-4 bg-surface border border-goldaccent/40 rounded-none text-xs">
-              <div className="flex items-start gap-3">
-                <span className="material-symbols-outlined text-[20px] text-golddeep shrink-0 mt-0.5">
+            <div className="mb-4 sm:mb-6 p-3 sm:p-4 bg-surface border border-goldaccent/40 rounded-none text-xs">
+              <div className="flex items-start gap-2.5 sm:gap-3">
+                <span className="material-symbols-outlined text-[18px] sm:text-[20px] text-golddeep shrink-0 mt-0.5">
                   aspect_ratio
                 </span>
-                <div className="space-y-1">
+                <div className="space-y-1 min-w-0">
                   <div className="flex items-center gap-2 flex-wrap">
-                    <span className="font-medium text-espresso uppercase tracking-wider text-[11px]">
+                    <span className="font-medium text-espresso uppercase tracking-wider text-[10.5px] sm:text-[11px]">
                       Ideal Image Spec: 1:1 Aspect Ratio (Square)
                     </span>
-                    <span className="px-2 py-0.5 bg-golddeep/15 text-golddeep border border-golddeep/30 text-[9px] font-semibold uppercase tracking-wider">
+                    <span className="px-1.5 py-0.5 bg-golddeep/15 text-golddeep border border-golddeep/30 text-[8.5px] font-semibold uppercase tracking-wider">
                       Recommended 1000 × 1000 px
                     </span>
                   </div>
-                  <p className="text-[11px] text-subdued font-light leading-relaxed">
-                    Square (1:1) images ensure your brassware specimens look impeccably framed and razor-sharp across boutique cards, catalog grids, and mobile screens. You can upload a primary <strong>Cover Image</strong> and additional <strong>Gallery Views</strong> below.
+                  <p className="text-[10.5px] sm:text-[11px] text-subdued font-light leading-relaxed">
+                    Square (1:1) images ensure your brassware specimens look impeccably framed and razor-sharp across boutique cards, catalog grids, and mobile screens.
                   </p>
                 </div>
               </div>
             </div>
 
             {formError && (
-              <div className="mb-5 p-3 bg-red-50 border border-red-200 text-red-700 text-xs flex items-center gap-2">
-                <span className="material-symbols-outlined text-[18px]">error</span>
+              <div className="mb-4 p-3 bg-red-50 border border-red-200 text-red-700 text-xs flex items-center gap-2">
+                <span className="material-symbols-outlined text-[18px] shrink-0">error</span>
                 <span>{formError}</span>
               </div>
             )}
 
             {uploadError && (
-              <div className="mb-5 p-3 bg-red-50 border border-red-200 text-red-700 text-xs flex items-center gap-2">
-                <span className="material-symbols-outlined text-[18px]">cloud_off</span>
+              <div className="mb-4 p-3 bg-red-50 border border-red-200 text-red-700 text-xs flex items-center gap-2">
+                <span className="material-symbols-outlined text-[18px] shrink-0">cloud_off</span>
                 <span>{uploadError}</span>
               </div>
             )}
 
-            <form onSubmit={handleSubmitProduct} className="flex flex-col gap-5 text-xs">
+            <form onSubmit={handleSubmitProduct} className="flex flex-col gap-4 sm:gap-5 text-xs">
               {/* Product Code */}
               <div>
                 <label className="block text-[10px] uppercase tracking-[0.18em] text-mute mb-1 font-medium">
@@ -717,12 +838,12 @@ export default function AdminDashboardPage() {
                   placeholder="e.g. JGM-0140"
                   value={code}
                   onChange={(e) => setCode(e.target.value)}
-                  className="w-full bg-surface border border-borderdelicate p-2.5 text-xs text-espresso font-mono uppercase focus:outline-none focus:border-espresso"
+                  className="w-full bg-surface border border-borderdelicate p-2.5 text-[16px] sm:text-xs text-espresso font-mono uppercase focus:outline-none focus:border-espresso min-h-[42px]"
                 />
               </div>
 
               {/* Price & Primary Category */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 sm:gap-4">
                 <div>
                   <label className="block text-[10px] uppercase tracking-[0.18em] text-mute mb-1 font-medium">
                     Price (INR ₹) *
@@ -736,9 +857,9 @@ export default function AdminDashboardPage() {
                       onChange={(e) =>
                         handleNumericPriceChange(parseFloat(e.target.value) || 0)
                       }
-                      className="w-full bg-surface border border-borderdelicate p-2.5 text-xs text-espresso font-medium focus:outline-none focus:border-espresso"
+                      className="w-full bg-surface border border-borderdelicate p-2.5 text-[16px] sm:text-xs text-espresso font-medium focus:outline-none focus:border-espresso min-h-[42px]"
                     />
-                    <span className="p-2.5 bg-canvas border border-borderdelicate text-espresso whitespace-nowrap font-medium">
+                    <span className="px-3 py-2.5 bg-canvas border border-borderdelicate text-espresso whitespace-nowrap font-medium min-h-[42px] flex items-center text-xs">
                       {price}
                     </span>
                   </div>
@@ -757,7 +878,7 @@ export default function AdminDashboardPage() {
                         setSelectedCategories([...selectedCategories, newCat]);
                       }
                     }}
-                    className="w-full bg-surface border border-borderdelicate p-2.5 text-xs text-espresso focus:outline-none focus:border-espresso cursor-pointer"
+                    className="w-full bg-surface border border-borderdelicate p-2.5 text-[16px] sm:text-xs text-espresso focus:outline-none focus:border-espresso cursor-pointer min-h-[42px]"
                   >
                     {AVAILABLE_CATEGORIES.map((cat) => (
                       <option key={cat} value={cat}>
@@ -770,10 +891,10 @@ export default function AdminDashboardPage() {
 
               {/* Multi-category tags */}
               <div>
-                <label className="block text-[10px] uppercase tracking-[0.18em] text-mute mb-2 font-medium">
+                <label className="block text-[10px] uppercase tracking-[0.18em] text-mute mb-1.5 font-medium">
                   Additional Category Tags (Display in multiple collections)
                 </label>
-                <div className="flex flex-wrap gap-2 bg-canvas p-3 border border-borderdelicate">
+                <div className="flex flex-wrap gap-1.5 sm:gap-2 bg-canvas p-2.5 sm:p-3 border border-borderdelicate">
                   {AVAILABLE_CATEGORIES.map((cat) => {
                     const active = selectedCategories.includes(cat);
                     return (
@@ -781,14 +902,14 @@ export default function AdminDashboardPage() {
                         type="button"
                         key={cat}
                         onClick={() => handleToggleCategory(cat)}
-                        className={`px-3 py-1 text-[10px] uppercase tracking-wider font-medium border transition-all cursor-pointer ${
+                        className={`px-2.5 sm:px-3 py-1.5 text-[10px] uppercase tracking-wider font-medium border transition-all cursor-pointer min-h-[36px] flex items-center gap-1 ${
                           active
                             ? "bg-espresso text-alabaster border-espresso"
                             : "bg-surface text-mute border-borderdelicate hover:text-espresso"
                         }`}
                       >
-                        {active ? "✓ " : "+ "}
-                        {cat}
+                        <span>{active ? "✓ " : "+ "}</span>
+                        <span>{cat}</span>
                       </button>
                     );
                   })}
@@ -796,24 +917,24 @@ export default function AdminDashboardPage() {
               </div>
 
               {/* COVER IMAGE SECTION (1:1 Primary) */}
-              <div className="p-4 bg-canvas border border-borderdelicate/90 space-y-3">
-                <div className="flex items-center justify-between">
+              <div className="p-3.5 sm:p-4 bg-canvas border border-borderdelicate/90 space-y-3">
+                <div className="flex items-center justify-between gap-2 flex-wrap">
                   <div>
                     <span className="text-[10px] uppercase tracking-[0.2em] font-semibold text-espresso block">
                       1. Cover Image * (1:1 Ratio)
                     </span>
-                    <span className="text-[11px] text-mute font-light">
+                    <span className="text-[11px] text-mute font-light block">
                       Primary showcase image shown on catalogue cards and hero views.
                     </span>
                   </div>
-                  <span className="px-2 py-0.5 text-[9px] uppercase tracking-wider font-mono bg-surface border border-borderdelicate text-golddeep">
-                    1:1 Ratio Required
+                  <span className="px-2 py-0.5 text-[9px] uppercase tracking-wider font-mono bg-surface border border-borderdelicate text-golddeep shrink-0">
+                    1:1 Required
                   </span>
                 </div>
 
-                <div className="flex flex-col sm:flex-row items-start gap-4">
+                <div className="flex flex-col sm:flex-row items-center sm:items-start gap-3.5 sm:gap-4">
                   {/* Square Cover Preview Container */}
-                  <div className="relative w-28 h-28 aspect-square bg-surface border-2 border-dashed border-borderdelicate flex items-center justify-center overflow-hidden shrink-0">
+                  <div className="relative w-28 h-28 aspect-square bg-surface border-2 border-dashed border-borderdelicate flex items-center justify-center overflow-hidden shrink-0 shadow-2xs">
                     {image ? (
                       <Image
                         src={image}
@@ -842,7 +963,7 @@ export default function AdminDashboardPage() {
                   </div>
 
                   {/* Upload Button */}
-                  <div className="flex-grow space-y-2.5 w-full">
+                  <div className="flex-grow space-y-2 w-full">
                     <input
                       type="file"
                       ref={coverInputRef}
@@ -851,12 +972,12 @@ export default function AdminDashboardPage() {
                       className="hidden"
                     />
 
-                    <div className="flex flex-wrap gap-2">
+                    <div className="flex flex-col xs:flex-row gap-2">
                       <button
                         type="button"
                         onClick={() => coverInputRef.current?.click()}
                         disabled={uploadingCover}
-                        className="py-2.5 px-4 bg-espresso text-alabaster hover:bg-golddeep text-[10px] uppercase tracking-[0.2em] font-medium transition-all flex items-center gap-2 cursor-pointer shadow-xs disabled:opacity-50"
+                        className="w-full xs:w-auto py-2.5 px-4 bg-espresso text-alabaster hover:bg-golddeep text-[10px] uppercase tracking-[0.2em] font-medium transition-all flex items-center justify-center gap-2 cursor-pointer shadow-xs disabled:opacity-50 min-h-[42px]"
                       >
                         <span className="material-symbols-outlined text-[16px]">
                           cloud_upload
@@ -868,7 +989,7 @@ export default function AdminDashboardPage() {
                         <button
                           type="button"
                           onClick={() => setImage("")}
-                          className="py-2.5 px-3 border border-red-300 text-red-700 hover:bg-red-50 text-[10px] uppercase tracking-wider font-medium cursor-pointer"
+                          className="w-full xs:w-auto py-2.5 px-3 border border-red-300 text-red-700 hover:bg-red-50 text-[10px] uppercase tracking-wider font-medium cursor-pointer min-h-[42px]"
                         >
                           Remove
                         </button>
@@ -879,18 +1000,18 @@ export default function AdminDashboardPage() {
               </div>
 
               {/* REST OF THE IMAGES SECTION (Gallery / Additional Views) */}
-              <div className="p-4 bg-canvas border border-borderdelicate/90 space-y-3">
-                <div className="flex items-center justify-between">
+              <div className="p-3.5 sm:p-4 bg-canvas border border-borderdelicate/90 space-y-3">
+                <div className="flex items-center justify-between gap-2 flex-wrap">
                   <div>
                     <span className="text-[10px] uppercase tracking-[0.2em] font-semibold text-espresso block">
-                      2. Additional Specimen Images (Rest of the Views)
+                      2. Additional Specimen Images (Gallery Views)
                     </span>
-                    <span className="text-[11px] text-mute font-light">
-                      Angles, close-up metal engraving, packaging trunks, or craftsmanship details (1:1 Square).
+                    <span className="text-[11px] text-mute font-light block">
+                      Angles, engravings, boxes, or details (1:1 Square).
                     </span>
                   </div>
-                  <span className="px-2 py-0.5 text-[9px] uppercase tracking-wider font-mono bg-surface border border-borderdelicate text-subdued">
-                    {images.length} Additional {images.length === 1 ? "Image" : "Images"}
+                  <span className="px-2 py-0.5 text-[9px] uppercase tracking-wider font-mono bg-surface border border-borderdelicate text-subdued shrink-0">
+                    {images.length} {images.length === 1 ? "Image" : "Images"}
                   </span>
                 </div>
 
@@ -908,7 +1029,7 @@ export default function AdminDashboardPage() {
                     type="button"
                     onClick={() => galleryInputRef.current?.click()}
                     disabled={uploadingGallery}
-                    className="py-2.5 px-4 bg-surface border border-espresso text-espresso hover:bg-espresso hover:text-alabaster text-[10px] uppercase tracking-[0.2em] font-medium transition-all flex items-center gap-2 cursor-pointer disabled:opacity-50"
+                    className="w-full xs:w-auto py-2.5 px-4 bg-surface border border-espresso text-espresso hover:bg-espresso hover:text-alabaster text-[10px] uppercase tracking-[0.2em] font-medium transition-all flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50 min-h-[42px]"
                   >
                     <span className="material-symbols-outlined text-[16px]">
                       add_photo_alternate
@@ -921,7 +1042,7 @@ export default function AdminDashboardPage() {
 
                 {/* Uploaded Gallery Grid */}
                 {images.length > 0 ? (
-                  <div className="grid grid-cols-3 sm:grid-cols-6 gap-3 pt-2">
+                  <div className="grid grid-cols-3 sm:grid-cols-6 gap-2 sm:gap-3 pt-2">
                     {images.map((imgUrl, index) => (
                       <div
                         key={index}
@@ -940,7 +1061,7 @@ export default function AdminDashboardPage() {
                         <button
                           type="button"
                           onClick={() => handleRemoveGalleryImage(index)}
-                          className="absolute top-1 right-1 bg-red-600 hover:bg-red-700 text-white w-5 h-5 flex items-center justify-center text-[10px] font-bold shadow-xs cursor-pointer opacity-90 group-hover:opacity-100"
+                          className="absolute top-1 right-1 bg-red-600 hover:bg-red-700 text-white w-6 h-6 min-h-[24px] min-w-[24px] flex items-center justify-center text-xs font-bold shadow-xs cursor-pointer opacity-90 group-hover:opacity-100"
                           title="Remove image"
                         >
                           ✕
@@ -955,7 +1076,6 @@ export default function AdminDashboardPage() {
                 )}
               </div>
 
-
               {/* Description */}
               <div>
                 <label className="block text-[10px] uppercase tracking-[0.18em] text-mute mb-1 font-medium">
@@ -966,23 +1086,23 @@ export default function AdminDashboardPage() {
                   placeholder="Details on foundry casting, silver electroplating bath, or lapidary work..."
                   value={description}
                   onChange={(e) => setDescription(e.target.value)}
-                  className="w-full bg-surface border border-borderdelicate p-2.5 text-xs text-espresso focus:outline-none focus:border-espresso"
+                  className="w-full bg-surface border border-borderdelicate p-2.5 text-[16px] sm:text-xs text-espresso focus:outline-none focus:border-espresso min-h-[80px]"
                 />
               </div>
 
-              {/* Actions */}
-              <div className="flex items-center justify-end gap-3 pt-4 border-t border-borderdelicate mt-2">
+              {/* Sticky Modal Action Buttons */}
+              <div className="flex flex-col-reverse sm:flex-row items-stretch sm:items-center justify-end gap-2.5 sm:gap-3 pt-3.5 border-t border-borderdelicate sticky bottom-0 bg-alabaster z-20 mt-1">
                 <button
                   type="button"
                   onClick={() => setIsModalOpen(false)}
-                  className="px-4 py-2.5 border border-borderdelicate text-[11px] uppercase tracking-[0.18em] text-mute hover:text-espresso cursor-pointer"
+                  className="w-full sm:w-auto px-5 py-3 sm:py-2.5 border border-borderdelicate text-[11px] uppercase tracking-[0.18em] text-mute hover:text-espresso cursor-pointer min-h-[44px] flex items-center justify-center active:bg-canvas"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
                   disabled={submitting || uploadingCover || uploadingGallery}
-                  className="px-6 py-2.5 bg-espresso text-alabaster hover:bg-golddeep text-[11px] uppercase tracking-[0.2em] font-medium transition-all cursor-pointer shadow-sm disabled:opacity-50 flex items-center gap-2"
+                  className="w-full sm:w-auto px-7 py-3 sm:py-2.5 bg-espresso text-alabaster hover:bg-golddeep text-[11px] uppercase tracking-[0.2em] font-medium transition-all cursor-pointer shadow-sm disabled:opacity-50 flex items-center justify-center gap-2 min-h-[44px]"
                 >
                   {submitting && (
                     <span className="material-symbols-outlined text-[15px] animate-spin">
