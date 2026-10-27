@@ -250,18 +250,10 @@ Kindly confirm availability and share payment / delivery instructions. Thank you
               <div className="grid grid-cols-2 gap-4 w-full bg-canvas p-4 sm:p-5 border border-borderdelicate/90 mb-8 text-[11px]">
                 <div>
                   <span className="block text-mute uppercase tracking-[0.18em] mb-1">
-                    Foundry Core
+                    Atelier Standard
                   </span>
                   <span className="serif-display text-base text-espresso font-normal block">
-                    {product.material || "100% Virgin Brass"}
-                  </span>
-                </div>
-                <div>
-                  <span className="block text-mute uppercase tracking-[0.18em] mb-1">
-                    Dimensions
-                  </span>
-                  <span className="serif-display text-base text-espresso font-normal block">
-                    {product.dimensions || "Standard Specimen"}
+                    Hand-Chased Masterwork
                   </span>
                 </div>
                 <div>
@@ -278,6 +270,14 @@ Kindly confirm availability and share payment / delivery instructions. Thank you
                   </span>
                   <span className="serif-display text-base text-espresso font-normal block">
                     10-Yr Micro-Lacquer
+                  </span>
+                </div>
+                <div>
+                  <span className="block text-mute uppercase tracking-[0.18em] mb-1">
+                    Certification
+                  </span>
+                  <span className="serif-display text-base text-espresso font-normal block">
+                    Authentic Atelier Hallmark
                   </span>
                 </div>
               </div>

@@ -54,11 +54,6 @@ export default function ProductCard({
           </h3>
         </Link>
 
-        {product.dimensions && (
-          <p className="text-[11px] text-mute font-light mb-3 hidden sm:block">
-            {product.dimensions}
-          </p>
-        )}
 
         <div className="pt-3.5 mt-auto flex items-center justify-between border-t border-borderdelicate/60 text-espresso">
           <span className="serif-display text-lg sm:text-xl font-normal">

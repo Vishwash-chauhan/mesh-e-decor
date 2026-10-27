@@ -73,11 +73,9 @@ function CatalogueContent() {
       const q = searchQuery.toLowerCase();
       result = result.filter(
         (p) =>
-          p.name.toLowerCase().includes(q) ||
           p.code.toLowerCase().includes(q) ||
           p.category.toLowerCase().includes(q) ||
-          (p.categories && p.categories.some((c) => c.toLowerCase().includes(q))) ||
-          (p.material && p.material.toLowerCase().includes(q))
+          (p.categories && p.categories.some((c) => c.toLowerCase().includes(q)))
       );
     }
 
@@ -131,7 +129,7 @@ function CatalogueContent() {
                 </span>
                 <input
                   type="text"
-                  placeholder="Search by title, code (e.g. JGM-0076), or material..."
+                  placeholder="Search by specimen code (e.g. JGM-0076) or category..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   className="w-full bg-surface border border-borderdelicate pl-10 pr-4 py-3 min-h-[44px] text-xs text-espresso placeholder:text-mute focus:outline-none focus:border-espresso transition-colors"

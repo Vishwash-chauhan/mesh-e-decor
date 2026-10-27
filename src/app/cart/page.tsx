@@ -184,11 +184,6 @@ Kindly confirm my order and share dispatch instructions. Thank you!`;
                           <span className="text-xs text-subdued font-medium mb-1">
                             {item.product.price} each
                           </span>
-                          {item.product.material && (
-                            <span className="text-[11px] text-mute font-light hidden sm:inline">
-                              {item.product.material}
-                            </span>
-                          )}
                         </div>
                       </div>
 
