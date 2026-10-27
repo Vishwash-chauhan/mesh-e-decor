@@ -81,9 +81,6 @@ export default function Footer() {
               <Link href="/catalogue?category=New%20Arrivals" className="hover:text-espresso transition-colors py-1">
                 New Arrivals
               </Link>
-              <Link href="/catalogue?category=Decor%20Items" className="hover:text-espresso transition-colors py-1">
-                Decor Items
-              </Link>
               <Link href="/catalogue?category=Candle%20Wear" className="hover:text-espresso transition-colors py-1">
                 Candle Wear
               </Link>
