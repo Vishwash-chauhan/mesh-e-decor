@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useMemo, useEffect, Suspense } from "react";
+import React, { useState, useMemo, useEffect, useRef, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -35,6 +35,40 @@ function CatalogueContent() {
       })
       .catch(() => {});
   }, []);
+
+  const categoryStripRef = useRef<HTMLDivElement>(null);
+
+  const categoryCounts = useMemo(() => {
+    const counts: Record<string, number> = {};
+    CATEGORIES.forEach((cat) => {
+      if (cat === "All Collections") {
+        counts[cat] = allProducts.length;
+      } else {
+        counts[cat] = allProducts.filter((p) => matchesCategory(p, cat)).length;
+      }
+    });
+    return counts;
+  }, [allProducts]);
+
+  const handleCategorySelect = (cat: string) => {
+    setSelectedCategory(cat);
+    if (typeof window !== "undefined") {
+      const url = new URL(window.location.href);
+      if (cat === "All Collections") {
+        url.searchParams.delete("category");
+      } else {
+        url.searchParams.set("category", cat);
+      }
+      window.history.replaceState({}, "", url.toString());
+    }
+  };
+
+  const scrollCategoryStrip = (direction: "left" | "right") => {
+    if (categoryStripRef.current) {
+      const offset = direction === "left" ? -220 : 220;
+      categoryStripRef.current.scrollBy({ left: offset, behavior: "smooth" });
+    }
+  };
 
   useEffect(() => {
     if (categoryParam) {
@@ -144,21 +178,47 @@ function CatalogueContent() {
                 )}
               </div>
 
-              {/* Sort Selector */}
-              <div className="flex items-center gap-3">
-                <span className="text-[11px] uppercase tracking-[0.18em] text-mute whitespace-nowrap hidden sm:inline">
-                  Sort By:
-                </span>
-                <select
-                  value={sortBy}
-                  onChange={(e) => setSortBy(e.target.value as any)}
-                  className="bg-surface border border-borderdelicate px-4 py-3 min-h-[44px] text-xs uppercase tracking-[0.15em] text-espresso focus:outline-none focus:border-espresso cursor-pointer"
-                >
-                  <option value="featured">Featured Curations</option>
-                  <option value="low-to-high">Price: Low to High</option>
-                  <option value="high-to-low">Price: High to Low</option>
-                  <option value="code">Catalogue Code</option>
-                </select>
+              {/* Controls: Category Dropdown & Sort Selector */}
+              <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
+                {/* Category Dropdown (Mobile-First Accessible) */}
+                <div className="flex items-center gap-2">
+                  <span className="text-[11px] uppercase tracking-[0.18em] text-mute whitespace-nowrap hidden sm:inline">
+                    Category:
+                  </span>
+                  <select
+                    value={selectedCategory}
+                    onChange={(e) => handleCategorySelect(e.target.value)}
+                    className="w-full sm:w-auto bg-surface border border-borderdelicate px-4 py-3 min-h-[44px] text-xs uppercase tracking-[0.15em] text-espresso focus:outline-none focus:border-espresso cursor-pointer"
+                    aria-label="Filter by Category"
+                  >
+                    {CATEGORIES.map((cat) => {
+                      const count = categoryCounts[cat] ?? 0;
+                      return (
+                        <option key={cat} value={cat}>
+                          {cat} ({count})
+                        </option>
+                      );
+                    })}
+                  </select>
+                </div>
+
+                {/* Sort Selector */}
+                <div className="flex items-center gap-2">
+                  <span className="text-[11px] uppercase tracking-[0.18em] text-mute whitespace-nowrap hidden sm:inline">
+                    Sort By:
+                  </span>
+                  <select
+                    value={sortBy}
+                    onChange={(e) => setSortBy(e.target.value as any)}
+                    className="w-full sm:w-auto bg-surface border border-borderdelicate px-4 py-3 min-h-[44px] text-xs uppercase tracking-[0.15em] text-espresso focus:outline-none focus:border-espresso cursor-pointer"
+                    aria-label="Sort Specimens"
+                  >
+                    <option value="featured">Featured Curations</option>
+                    <option value="low-to-high">Price: Low to High</option>
+                    <option value="high-to-low">Price: High to Low</option>
+                    <option value="code">Catalogue Code</option>
+                  </select>
+                </div>
               </div>
             </div>
           </div>
@@ -167,21 +227,80 @@ function CatalogueContent() {
         {/* Main Products Grid & Category Navigation */}
         <section className="w-full bg-surface py-12 sm:py-20 px-4 sm:px-6 lg:px-12">
           <div className="max-w-7xl mx-auto">
-            {/* Category Filter Horizontal Strip */}
-            <div className="flex overflow-x-auto no-scrollbar gap-2 pb-4 mb-8 sm:mb-12 border-b border-borderdelicate/80 -mx-4 px-4 sm:mx-0 sm:px-0">
-              {CATEGORIES.map((cat) => (
+            {/* Category Filter Horizontal Strip with Left/Right Chevrons & Piece Counts */}
+            <div className="relative mb-8 sm:mb-12 border-b border-borderdelicate/80 pb-4">
+              <div className="flex items-center gap-2">
+                {/* Left Scroll Button */}
                 <button
-                  key={cat}
-                  onClick={() => setSelectedCategory(cat)}
-                  className={`px-4 py-2.5 text-[10px] uppercase tracking-[0.2em] font-medium transition-all cursor-pointer whitespace-nowrap min-h-[44px] flex items-center justify-center ${
-                    selectedCategory === cat
-                      ? "bg-espresso text-alabaster shadow-sm"
-                      : "bg-alabaster border border-borderdelicate text-subdued hover:text-espresso hover:border-espresso"
-                  }`}
+                  type="button"
+                  onClick={() => scrollCategoryStrip("left")}
+                  className="hidden sm:flex shrink-0 w-9 h-9 items-center justify-center border border-borderdelicate bg-alabaster hover:bg-espresso hover:text-alabaster text-espresso transition-colors cursor-pointer"
+                  aria-label="Scroll categories left"
                 >
-                  {cat}
+                  <span className="material-symbols-outlined text-[18px]">chevron_left</span>
                 </button>
-              ))}
+
+                {/* Scrollable Categories List */}
+                <div
+                  ref={categoryStripRef}
+                  className="flex overflow-x-auto no-scrollbar gap-2 scroll-smooth py-1 px-1 touch-pan-x w-full"
+                  style={{ WebkitOverflowScrolling: "touch" }}
+                >
+                  {CATEGORIES.map((cat) => {
+                    const isSelected = selectedCategory === cat;
+                    const count = categoryCounts[cat] ?? 0;
+                    return (
+                      <button
+                        key={cat}
+                        type="button"
+                        onClick={(e) => {
+                          handleCategorySelect(cat);
+                          e.currentTarget.scrollIntoView({
+                            behavior: "smooth",
+                            inline: "center",
+                            block: "nearest",
+                          });
+                        }}
+                        className={`px-4 py-2.5 text-[10px] uppercase tracking-[0.18em] font-medium transition-all cursor-pointer whitespace-nowrap min-h-[44px] flex items-center gap-2 shrink-0 active:scale-95 ${
+                          isSelected
+                            ? "bg-espresso text-alabaster shadow-sm ring-1 ring-espresso"
+                            : "bg-alabaster border border-borderdelicate text-subdued hover:text-espresso hover:border-espresso"
+                        }`}
+                      >
+                        <span>{cat}</span>
+                        <span
+                          className={`text-[9px] px-1.5 py-0.5 rounded-full font-mono ${
+                            isSelected
+                              ? "bg-alabaster/20 text-alabaster"
+                              : "bg-canvas text-mute"
+                          }`}
+                        >
+                          {count}
+                        </span>
+                      </button>
+                    );
+                  })}
+                </div>
+
+                {/* Right Scroll Button */}
+                <button
+                  type="button"
+                  onClick={() => scrollCategoryStrip("right")}
+                  className="hidden sm:flex shrink-0 w-9 h-9 items-center justify-center border border-borderdelicate bg-alabaster hover:bg-espresso hover:text-alabaster text-espresso transition-colors cursor-pointer"
+                  aria-label="Scroll categories right"
+                >
+                  <span className="material-symbols-outlined text-[18px]">chevron_right</span>
+                </button>
+              </div>
+
+              {/* Mobile Swipe Hint */}
+              <div className="flex sm:hidden items-center justify-between text-[9px] uppercase tracking-[0.2em] text-mute pt-2 px-1">
+                <span className="flex items-center gap-1">
+                  <span className="material-symbols-outlined text-[13px]">swipe</span>
+                  Swipe categories or use dropdown above
+                </span>
+                <span className="font-medium text-golddeep">{selectedCategory}</span>
+              </div>
             </div>
 
             {/* Results Summary Bar */}
@@ -191,8 +310,9 @@ function CatalogueContent() {
               </span>
               {(selectedCategory !== "All Collections" || searchQuery) && (
                 <button
+                  type="button"
                   onClick={() => {
-                    setSelectedCategory("All Collections");
+                    handleCategorySelect("All Collections");
                     setSearchQuery("");
                   }}
                   className="text-golddeep hover:text-espresso underline cursor-pointer"
