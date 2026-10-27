@@ -89,7 +89,7 @@ function CatalogueContent() {
     }
 
     return result;
-  }, [selectedCategory, searchQuery, sortBy]);
+  }, [allProducts, selectedCategory, searchQuery, sortBy]);
 
   return (
     <div className="min-h-screen flex flex-col bg-alabaster text-espresso font-light">
@@ -187,7 +187,7 @@ function CatalogueContent() {
             {/* Results Summary Bar */}
             <div className="flex items-center justify-between pb-6 mb-8 text-[11px] uppercase tracking-[0.2em] text-mute border-b border-borderdelicate/40">
               <span>
-                Showing {filteredAndSortedProducts.length} of {PRODUCTS.length} Specimen Pieces
+                Showing {filteredAndSortedProducts.length} of {allProducts.length} Specimen Pieces
               </span>
               {(selectedCategory !== "All Collections" || searchQuery) && (
                 <button
