@@ -255,38 +255,32 @@ Kindly confirm availability and share payment / delivery instructions. Thank you
                       {product.code} • Atelier Specimen
                     </div>
 
-                    {/* Navigation Arrows (Move pics Left & Right) */}
-                    <button
-                      type="button"
-                      onClick={handlePrevImage}
-                      disabled={allImages.length <= 1}
-                      aria-label="Previous image"
-                      className={`absolute left-3 top-1/2 -translate-y-1/2 z-20 w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-alabaster/90 hover:bg-espresso text-espresso hover:text-alabaster border border-borderdelicate/80 shadow-lg backdrop-blur-md flex items-center justify-center transition-all duration-200 ${
-                        allImages.length > 1
-                          ? "cursor-pointer active:scale-95 group/prev opacity-90 hover:opacity-100"
-                          : "opacity-35 cursor-not-allowed pointer-events-none"
-                      }`}
-                    >
-                      <span className="material-symbols-outlined text-[24px] leading-none transition-transform group-hover/prev:-translate-x-0.5">
-                        chevron_left
-                      </span>
-                    </button>
+                    {/* Navigation Arrows (Move pics Left & Right) - Only shown if multiple images */}
+                    {allImages.length > 1 && (
+                      <>
+                        <button
+                          type="button"
+                          onClick={handlePrevImage}
+                          aria-label="Previous image"
+                          className="absolute left-3 top-1/2 -translate-y-1/2 z-20 w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-alabaster/90 hover:bg-espresso text-espresso hover:text-alabaster border border-borderdelicate/80 shadow-lg backdrop-blur-md flex items-center justify-center transition-all duration-200 cursor-pointer active:scale-95 group/prev opacity-90 hover:opacity-100"
+                        >
+                          <span className="material-symbols-outlined text-[24px] leading-none transition-transform group-hover/prev:-translate-x-0.5">
+                            chevron_left
+                          </span>
+                        </button>
 
-                    <button
-                      type="button"
-                      onClick={handleNextImage}
-                      disabled={allImages.length <= 1}
-                      aria-label="Next image"
-                      className={`absolute right-3 top-1/2 -translate-y-1/2 z-20 w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-alabaster/90 hover:bg-espresso text-espresso hover:text-alabaster border border-borderdelicate/80 shadow-lg backdrop-blur-md flex items-center justify-center transition-all duration-200 ${
-                        allImages.length > 1
-                          ? "cursor-pointer active:scale-95 group/next opacity-90 hover:opacity-100"
-                          : "opacity-35 cursor-not-allowed pointer-events-none"
-                      }`}
-                    >
-                      <span className="material-symbols-outlined text-[24px] leading-none transition-transform group-hover/next:translate-x-0.5">
-                        chevron_right
-                      </span>
-                    </button>
+                        <button
+                          type="button"
+                          onClick={handleNextImage}
+                          aria-label="Next image"
+                          className="absolute right-3 top-1/2 -translate-y-1/2 z-20 w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-alabaster/90 hover:bg-espresso text-espresso hover:text-alabaster border border-borderdelicate/80 shadow-lg backdrop-blur-md flex items-center justify-center transition-all duration-200 cursor-pointer active:scale-95 group/next opacity-90 hover:opacity-100"
+                        >
+                          <span className="material-symbols-outlined text-[24px] leading-none transition-transform group-hover/next:translate-x-0.5">
+                            chevron_right
+                          </span>
+                        </button>
+                      </>
+                    )}
 
                     {/* Dots / Slide Indicator */}
                     {allImages.length > 1 && (
