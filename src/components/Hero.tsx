@@ -12,33 +12,25 @@ export default function Hero({ onOpenConcierge }: HeroProps) {
   return (
     <section className="relative w-full min-h-screen min-h-svh bg-[#110E0C] text-alabaster overflow-hidden flex flex-col justify-between border-b border-borderdelicate/30">
       {/* ========================================================= */}
-      {/* 1. CINEMATIC HERO BACKGROUND IMAGE & LIGHTING OVERLAYS   */}
+      {/* 1. DESKTOP HERO BACKGROUND & SCRIMS (sm: and up)          */}
       {/* ========================================================= */}
-      <div className="absolute inset-0 z-0 overflow-hidden">
+      <div className="hidden sm:block absolute inset-0 z-0 overflow-hidden">
         <Image
           src="/hero-bg.jpg"
           alt="Handcrafted Imperial Stallion Brass Specimen"
           fill
           priority
           sizes="100vw"
-          className="object-cover object-right sm:object-[80%_center] lg:object-right select-none"
+          className="object-cover sm:object-[80%_center] lg:object-right select-none"
           style={{ filter: "contrast(1.03) brightness(1.01)" }}
         />
 
-        {/* Ambient Dark Scrims for Flawless Editorial Contrast */}
-        {/* Left-to-right desktop gradient: elegant soft vignette behind narrative text */}
-        <div className="absolute inset-0 bg-gradient-to-r from-[#110E0C] via-[#110E0C]/80 lg:via-[#110E0C]/45 to-transparent hidden sm:block w-3/5 pointer-events-none" />
-
-        {/* Mobile scrim: gentle dark overlay over the entire image so text shines */}
-        <div className="absolute inset-0 bg-gradient-to-b from-[#110E0C]/80 via-[#110E0C]/65 to-[#110E0C]/90 sm:hidden pointer-events-none" />
-
-        {/* Top subtle fade from header */}
+        {/* Ambient Dark Scrims for Desktop Editorial Contrast */}
+        <div className="absolute inset-0 bg-gradient-to-r from-[#110E0C] via-[#110E0C]/80 lg:via-[#110E0C]/45 to-transparent w-3/5 pointer-events-none" />
         <div className="absolute inset-x-0 top-0 h-24 bg-gradient-to-b from-[#110E0C]/80 via-[#110E0C]/30 to-transparent pointer-events-none" />
-
-        {/* Bottom smooth fade to transition into section below */}
         <div className="absolute inset-x-0 bottom-0 h-28 bg-gradient-to-t from-[#110E0C] via-[#110E0C]/70 to-transparent pointer-events-none" />
 
-        {/* Delicate golden radial glow behind the text narrative */}
+        {/* Golden radial glow */}
         <div
           className="absolute top-1/4 left-0 w-[550px] h-[550px] rounded-full pointer-events-none blur-3xl opacity-20 z-0"
           style={{
@@ -48,15 +40,112 @@ export default function Hero({ onOpenConcierge }: HeroProps) {
         />
       </div>
 
-      {/* Background Architectural Hairline Grid */}
+      {/* Desktop Architectural Hairline Grid */}
       <div className="absolute inset-0 pointer-events-none z-1 hidden lg:block opacity-15">
         <div className="max-w-7xl mx-auto h-full border-x border-goldaccent/30" />
       </div>
 
       {/* ========================================================= */}
-      {/* 2. MAIN EDITORIAL CONTENT CONTAINER                       */}
+      {/* 2. MOBILE HERO EXPERIENCE (< sm) - CLEAN & UNCROWDED      */}
       {/* ========================================================= */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-12 relative z-10 w-full pt-20 sm:pt-24 lg:pt-28 pb-6 sm:pb-8 flex-grow flex flex-col justify-center">
+      <div className="sm:hidden relative z-10 w-full min-h-screen min-h-svh flex flex-col justify-between pt-16 pb-5 px-5 overflow-hidden">
+        {/* Mobile Dedicated Horse Image & Scrims */}
+        <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
+          <Image
+            src="/hero-horse.jpg"
+            alt="Handcrafted Imperial Stallion Brass Specimen"
+            fill
+            priority
+            sizes="100vw"
+            className="object-cover object-[center_22%] select-none"
+            style={{ filter: "contrast(1.06) brightness(1.02)" }}
+          />
+
+          {/* Top header protection fade */}
+          <div className="absolute inset-x-0 top-0 h-24 bg-gradient-to-b from-[#110E0C] via-[#110E0C]/65 to-transparent" />
+
+          {/* Center-to-bottom dark gradient: preserves full rearing stallion visibility while grounding the typography */}
+          <div className="absolute inset-x-0 bottom-0 h-[56%] bg-gradient-to-t from-[#110E0C] from-40% via-[#110E0C]/90 via-70% to-transparent" />
+
+          {/* Subtle warm golden ambient aura behind the stallion */}
+          <div
+            className="absolute top-[22%] left-1/2 -translate-x-1/2 w-80 h-80 rounded-full blur-3xl opacity-40 pointer-events-none"
+            style={{
+              background:
+                "radial-gradient(circle, rgba(212, 175, 55, 0.45) 0%, rgba(17, 14, 12, 0) 70%)",
+            }}
+          />
+        </div>
+
+        {/* Mobile Top: Archival Badge & Specimen Callout */}
+        <div className="relative z-10 pt-2 flex items-center justify-between">
+          <div className="inline-flex items-center gap-2 px-2.5 py-1 bg-[#1F1B18]/85 backdrop-blur-md border border-goldaccent/40 rounded-full shadow-xs">
+            <span className="w-1.5 h-1.5 rounded-full bg-goldaccent animate-pulse" />
+            <span className="text-[8.5px] uppercase tracking-[0.24em] text-goldaccent font-medium">
+              Vol. IV • 2026 Archive
+            </span>
+          </div>
+
+          <div className="inline-flex items-center gap-1.5 px-2.5 py-1 bg-[#110E0C]/60 backdrop-blur-md border border-borderdelicate/30 rounded-full text-[8.5px] uppercase tracking-[0.2em] text-alabaster/70 font-mono">
+            <span>Plate 01</span>
+            <span className="text-goldaccent">•</span>
+            <span>Stallion</span>
+          </div>
+        </div>
+
+        {/* Mobile Visual Focal Space (Rearing Horse breathing room) */}
+        <div className="relative z-10 flex-grow min-h-[180px] pointer-events-none" />
+
+        {/* Mobile Bottom: Narrative Typography & Actions */}
+        <div className="relative z-10 flex flex-col space-y-3.5 pb-1">
+          {/* Haute Grand Headline */}
+          <div>
+            <h1 className="serif-display text-[32px] xs:text-[36px] text-alabaster font-normal leading-[1.08] tracking-tight">
+              Haute Artisanal Decor.
+              <span className="serif-display italic font-light block text-goldaccent mt-0.5 text-[28px] xs:text-[32px]">
+                Bespoke Luxury Gifting.
+              </span>
+            </h1>
+            <p className="text-[12px] text-alabaster/80 leading-relaxed font-light mt-2 max-w-sm">
+              Solid brassware, sculptural centerpieces, and curated luxury gifts — forged for connoisseurs.
+            </p>
+          </div>
+
+          {/* Action CTAs in a sleek single-row flex */}
+          <div className="flex items-center gap-2.5 w-full pt-0.5">
+            <Link
+              href="#collection"
+              className="flex-1 inline-flex items-center justify-center min-h-[44px] px-4 py-2.5 bg-goldaccent hover:bg-golddeep text-[#14110E] text-[10px] uppercase tracking-[0.22em] font-semibold transition-all duration-300 shadow-[0_4px_20px_rgba(197,168,128,0.3)] active:scale-[0.98]"
+            >
+              <span>Explore Collection</span>
+              <span className="material-symbols-outlined text-[15px] ml-1.5">
+                arrow_forward
+              </span>
+            </Link>
+
+            <Link
+              href="/catalogue"
+              className="inline-flex items-center justify-center min-h-[44px] px-4 py-2.5 border border-alabaster/35 text-alabaster hover:text-goldaccent hover:border-goldaccent bg-[#1F1B18]/70 backdrop-blur-md text-[10px] uppercase tracking-[0.2em] font-medium transition-all duration-300 active:scale-[0.98]"
+            >
+              <span>Catalogue</span>
+            </Link>
+          </div>
+
+          {/* Mobile Atelier Credentials Strip (Slim, elegant single line) */}
+          <div className="pt-2.5 border-t border-goldaccent/20 flex items-center justify-between text-[8.5px] uppercase tracking-[0.18em] text-alabaster/70">
+            <span>01 / Lost-Wax Cast</span>
+            <span className="text-goldaccent/40">•</span>
+            <span>02 / Sterling Immersion</span>
+            <span className="text-goldaccent/40">•</span>
+            <span>03 / Royal Gifting</span>
+          </div>
+        </div>
+      </div>
+
+      {/* ========================================================= */}
+      {/* 3. DESKTOP MAIN EDITORIAL CONTAINER (sm: and up)          */}
+      {/* ========================================================= */}
+      <div className="hidden sm:flex max-w-7xl mx-auto px-4 sm:px-6 lg:px-12 relative z-10 w-full pt-20 sm:pt-24 lg:pt-28 pb-6 sm:pb-8 flex-grow flex-col justify-center">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-10 items-center">
           {/* Narrative Column */}
           <div className="lg:col-span-8 flex flex-col items-start max-w-2xl text-left">
@@ -142,9 +231,9 @@ export default function Hero({ onOpenConcierge }: HeroProps) {
       </div>
 
       {/* ========================================================= */}
-      {/* 3. ATELIER CREDENTIALS STRIP (Bottom of Hero)             */}
+      {/* 4. ATELIER CREDENTIALS STRIP (Desktop sm: and up)         */}
       {/* ========================================================= */}
-      <div id="craft" className="w-full relative z-10 border-t border-goldaccent/20 bg-[#161412]/80 backdrop-blur-md shrink-0 scroll-mt-20">
+      <div id="craft" className="hidden sm:block w-full relative z-10 border-t border-goldaccent/20 bg-[#161412]/80 backdrop-blur-md shrink-0 scroll-mt-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-12 py-3.5 sm:py-4">
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-6 divide-y sm:divide-y-0 sm:divide-x divide-borderdelicate/15 text-left">
             {/* Item 1 */}
@@ -182,3 +271,4 @@ export default function Hero({ onOpenConcierge }: HeroProps) {
     </section>
   );
 }
+

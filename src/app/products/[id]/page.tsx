@@ -8,6 +8,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import InquiryModal from "@/components/InquiryModal";
 import ProductCard from "@/components/ProductCard";
+import Collection from "@/components/Collection";
 import { PRODUCTS, ProductItem, getParentCategory } from "@/data/products";
 import { useCart } from "@/context/CartContext";
 
@@ -42,12 +43,23 @@ export default function ProductDetailPage({ params }: ProductPageProps) {
 
   const { addToCart } = useCart();
   const [modalOpen, setModalOpen] = useState(false);
+  const [selectedProduct, setSelectedProduct] = useState<ProductItem | null>(null);
   const [quantity, setQuantity] = useState(1);
   const [added, setAdded] = useState(false);
   const [activeTab, setActiveTab] = useState<"craft" | "care" | "custom">(
     "craft"
   );
   const [selectedGalleryImage, setSelectedGalleryImage] = useState<string | null>(null);
+
+  const handleOpenConcierge = () => {
+    setSelectedProduct(null);
+    setModalOpen(true);
+  };
+
+  const handleInquirePiece = (p: ProductItem) => {
+    setSelectedProduct(p);
+    setModalOpen(true);
+  };
 
   if (loading) {
     return (
@@ -343,7 +355,8 @@ Kindly confirm availability and share payment / delivery instructions. Thank you
           </div>
         </section>
 
-        {/* Detailed Tabs: Craftsmanship, Care & Customization */}
+        {/* Detailed Tabs: Craftsmanship, Care & Customization (Commented out per request) */}
+        {/*
         <section className="w-full bg-surface py-12 sm:py-16 px-4 sm:px-6 lg:px-12 border-b border-borderdelicate/80">
           <div className="max-w-4xl mx-auto">
             <div className="flex border-b border-borderdelicate/80 justify-center gap-8 text-[11px] uppercase tracking-[0.24em] font-medium">
@@ -421,6 +434,13 @@ Kindly confirm availability and share payment / delivery instructions. Thank you
             </div>
           </div>
         </section>
+        */}
+
+        {/* Product Catalogue Repertoire */}
+        <Collection
+          onInquirePiece={handleInquirePiece}
+          onOpenConcierge={handleOpenConcierge}
+        />
 
         {/* Related Products Grid */}
         {relatedProducts.length > 0 && (
@@ -455,8 +475,11 @@ Kindly confirm availability and share payment / delivery instructions. Thank you
       {/* Bespoke Inquiry Dossier Modal */}
       <InquiryModal
         isOpen={modalOpen}
-        onClose={() => setModalOpen(false)}
-        product={product}
+        onClose={() => {
+          setModalOpen(false);
+          setSelectedProduct(null);
+        }}
+        product={selectedProduct || product}
       />
     </div>
   );

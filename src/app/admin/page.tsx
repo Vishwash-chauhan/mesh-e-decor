@@ -854,7 +854,7 @@ export default function AdminDashboardPage() {
                     )}
                   </div>
 
-                  {/* Upload Button & Fallback */}
+                  {/* Upload Button */}
                   <div className="flex-grow space-y-2.5 w-full">
                     <input
                       type="file"
@@ -886,20 +886,6 @@ export default function AdminDashboardPage() {
                           Remove
                         </button>
                       )}
-                    </div>
-
-                    {/* Or URL input fallback */}
-                    <div className="pt-1">
-                      <span className="text-[10px] text-mute uppercase tracking-wider block mb-1">
-                        Or provide direct image URL:
-                      </span>
-                      <input
-                        type="url"
-                        placeholder="https://... or /uploads/..."
-                        value={image}
-                        onChange={(e) => setImage(e.target.value)}
-                        className="w-full bg-surface border border-borderdelicate p-2 text-xs text-espresso focus:outline-none focus:border-espresso font-mono text-[11px]"
-                      />
                     </div>
                   </div>
                 </div>
