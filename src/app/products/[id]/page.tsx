@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect, use } from "react";
+import React, { useState, useEffect, useMemo, use } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -50,6 +50,71 @@ export default function ProductDetailPage({ params }: ProductPageProps) {
     "craft"
   );
   const [selectedGalleryImage, setSelectedGalleryImage] = useState<string | null>(null);
+
+  const allImages = useMemo(() => {
+    if (!product) return [];
+    const list: string[] = [];
+    if (product.image) list.push(product.image);
+    if (Array.isArray(product.images)) {
+      product.images.forEach((img) => {
+        if (img && !list.includes(img)) {
+          list.push(img);
+        }
+      });
+    }
+    return list;
+  }, [product]);
+
+  const currentImage = selectedGalleryImage || (allImages[0] ?? (product?.image || ""));
+  const activeIndex = Math.max(0, allImages.indexOf(currentImage));
+
+  const handlePrevImage = () => {
+    if (allImages.length <= 1) return;
+    const newIndex = (activeIndex - 1 + allImages.length) % allImages.length;
+    setSelectedGalleryImage(allImages[newIndex]);
+  };
+
+  const handleNextImage = () => {
+    if (allImages.length <= 1) return;
+    const newIndex = (activeIndex + 1) % allImages.length;
+    setSelectedGalleryImage(allImages[newIndex]);
+  };
+
+  const [touchStartX, setTouchStartX] = useState<number | null>(null);
+
+  const handleTouchStart = (e: React.TouchEvent) => {
+    setTouchStartX(e.touches[0].clientX);
+  };
+
+  const handleTouchEnd = (e: React.TouchEvent) => {
+    if (touchStartX === null || allImages.length <= 1) return;
+    const touchEndX = e.changedTouches[0].clientX;
+    const diff = touchStartX - touchEndX;
+    if (Math.abs(diff) > 40) {
+      if (diff > 0) {
+        handleNextImage();
+      } else {
+        handlePrevImage();
+      }
+    }
+    setTouchStartX(null);
+  };
+
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (allImages.length <= 1) return;
+      if (e.target instanceof HTMLInputElement || e.target instanceof HTMLTextAreaElement) {
+        return;
+      }
+      if (e.key === "ArrowLeft") {
+        handlePrevImage();
+      } else if (e.key === "ArrowRight") {
+        handleNextImage();
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [allImages, activeIndex]);
 
   const handleOpenConcierge = () => {
     setSelectedProduct(null);
@@ -171,10 +236,14 @@ Kindly confirm availability and share payment / delivery instructions. Thank you
                 ></div>
 
                 {/* Main Hairline Frame - 1:1 Square Specimen View */}
-                <div className="p-3 sm:p-5 bg-canvas border border-borderdelicate/90 shadow-[0_20px_50px_-20px_rgba(22,20,18,0.12)] relative z-10">
-                  <div className="relative aspect-square overflow-hidden bg-espresso">
+                <div
+                  className="p-3 sm:p-5 bg-canvas border border-borderdelicate/90 shadow-[0_20px_50px_-20px_rgba(22,20,18,0.12)] relative z-10 group"
+                  onTouchStart={handleTouchStart}
+                  onTouchEnd={handleTouchEnd}
+                >
+                  <div className="relative aspect-square overflow-hidden bg-espresso select-none">
                     <Image
-                      src={selectedGalleryImage || product.image}
+                      src={currentImage}
                       alt={product.code}
                       fill
                       className="object-cover object-center transition-all duration-300"
@@ -182,21 +251,72 @@ Kindly confirm availability and share payment / delivery instructions. Thank you
                       priority
                     />
                     {/* Floating Specimen Badge */}
-                    <div className="absolute top-4 left-4 bg-alabaster/95 backdrop-blur-md px-3 py-1.5 border border-borderdelicate/60 text-[9px] uppercase tracking-[0.22em] text-golddeep font-medium shadow-xs">
+                    <div className="absolute top-4 left-4 bg-alabaster/95 backdrop-blur-md px-3 py-1.5 border border-borderdelicate/60 text-[9px] uppercase tracking-[0.22em] text-golddeep font-medium shadow-xs z-10">
                       {product.code} • Atelier Specimen
                     </div>
+
+                    {/* Navigation Arrows (Move pics Left & Right) */}
+                    <button
+                      type="button"
+                      onClick={handlePrevImage}
+                      disabled={allImages.length <= 1}
+                      aria-label="Previous image"
+                      className={`absolute left-3 top-1/2 -translate-y-1/2 z-20 w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-alabaster/90 hover:bg-espresso text-espresso hover:text-alabaster border border-borderdelicate/80 shadow-lg backdrop-blur-md flex items-center justify-center transition-all duration-200 ${
+                        allImages.length > 1
+                          ? "cursor-pointer active:scale-95 group/prev opacity-90 hover:opacity-100"
+                          : "opacity-35 cursor-not-allowed pointer-events-none"
+                      }`}
+                    >
+                      <span className="material-symbols-outlined text-[24px] leading-none transition-transform group-hover/prev:-translate-x-0.5">
+                        chevron_left
+                      </span>
+                    </button>
+
+                    <button
+                      type="button"
+                      onClick={handleNextImage}
+                      disabled={allImages.length <= 1}
+                      aria-label="Next image"
+                      className={`absolute right-3 top-1/2 -translate-y-1/2 z-20 w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-alabaster/90 hover:bg-espresso text-espresso hover:text-alabaster border border-borderdelicate/80 shadow-lg backdrop-blur-md flex items-center justify-center transition-all duration-200 ${
+                        allImages.length > 1
+                          ? "cursor-pointer active:scale-95 group/next opacity-90 hover:opacity-100"
+                          : "opacity-35 cursor-not-allowed pointer-events-none"
+                      }`}
+                    >
+                      <span className="material-symbols-outlined text-[24px] leading-none transition-transform group-hover/next:translate-x-0.5">
+                        chevron_right
+                      </span>
+                    </button>
+
+                    {/* Dots / Slide Indicator */}
+                    {allImages.length > 1 && (
+                      <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-20 flex items-center gap-1.5 bg-espresso/60 backdrop-blur-md px-3 py-1.5 rounded-full">
+                        {allImages.map((_, idx) => (
+                          <button
+                            key={idx}
+                            type="button"
+                            onClick={() => setSelectedGalleryImage(allImages[idx])}
+                            aria-label={`View image ${idx + 1}`}
+                            className={`h-1.5 rounded-full transition-all duration-300 cursor-pointer ${
+                              idx === activeIndex
+                                ? "w-5 bg-alabaster"
+                                : "w-1.5 bg-alabaster/50 hover:bg-alabaster/80"
+                            }`}
+                          />
+                        ))}
+                      </div>
+                    )}
                   </div>
 
                   {/* Rest of the Images (Gallery Thumbnails) */}
-                  {product.images && product.images.length > 0 && (
+                  {allImages.length > 1 && (
                     <div className="mt-4 pt-3 border-t border-borderdelicate/60">
                       <span className="block text-[9px] uppercase tracking-[0.22em] text-mute mb-2 font-medium">
-                        Additional Angles &amp; Craftsmanship Views
+                        Additional Angles &amp; Craftsmanship Views ({allImages.length} Photographs)
                       </span>
                       <div className="flex items-center gap-2.5 overflow-x-auto no-scrollbar pb-1">
-                        {[product.image, ...product.images].map((imgUrl, idx) => {
-                          const isCurrent =
-                            (selectedGalleryImage || product.image) === imgUrl;
+                        {allImages.map((imgUrl, idx) => {
+                          const isCurrent = currentImage === imgUrl;
                           return (
                             <button
                               key={idx}
