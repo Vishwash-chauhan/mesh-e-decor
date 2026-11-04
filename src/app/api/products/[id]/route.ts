@@ -4,6 +4,7 @@ import { prisma } from "@/lib/prisma";
 
 const COOKIE_NAME = "admin_auth_token";
 const SESSION_VALUE = "authenticated_atelier_curator_session_token";
+const MAX_FEATURED = 6;
 
 async function isAuthenticated(req: Request): Promise<boolean> {
   const cookieStore = await cookies();
@@ -85,21 +86,8 @@ export async function PUT(
       image,
       images,
       description,
+      featured,
     } = body;
-
-    const parsedNumeric =
-      typeof numericPrice === "number"
-        ? numericPrice
-        : parseFloat(String(price).replace(/[^0-9.]/g, "")) || 0;
-
-    const formattedPrice =
-      price && price.startsWith("₹")
-        ? price
-        : `₹${parsedNumeric.toLocaleString("en-IN")}`;
-
-    const categoriesArray = Array.isArray(categories)
-      ? categories
-      : [category];
 
     // Find the record first by id or code
     const existing = await prisma.product.findFirst({
@@ -112,7 +100,46 @@ export async function PUT(
       return NextResponse.json({ error: "Product not found" }, { status: 404 });
     }
 
+    // Check max featured limit if turning featured on
+    if (featured === true && !existing.featured) {
+      const featuredCount = await prisma.product.count({
+        where: {
+          featured: true,
+          id: { not: existing.id },
+        },
+      });
+
+      if (featuredCount >= MAX_FEATURED) {
+        return NextResponse.json(
+          {
+            error: `Featured Collection is limited to ${MAX_FEATURED} specimens. Please unstar an existing featured piece first.`,
+          },
+          { status: 400 }
+        );
+      }
+    }
+
     const newCode = code ? code.trim().toUpperCase() : undefined;
+
+    const hasPriceUpdate = price !== undefined || numericPrice !== undefined;
+    const parsedNumeric = hasPriceUpdate
+      ? typeof numericPrice === "number"
+        ? numericPrice
+        : parseFloat(String(price).replace(/[^0-9.]/g, "")) || 0
+      : existing.numericPrice;
+
+    const formattedPrice = hasPriceUpdate
+      ? price && String(price).startsWith("₹")
+        ? String(price)
+        : `₹${parsedNumeric.toLocaleString("en-IN")}`
+      : existing.price;
+
+    const categoriesJson =
+      categories !== undefined
+        ? JSON.stringify(Array.isArray(categories) ? categories : [category || existing.category])
+        : category !== undefined
+        ? JSON.stringify([category])
+        : existing.categories;
 
     const updated = await prisma.product.update({
       where: { id: existing.id },
@@ -121,10 +148,11 @@ export async function PUT(
         price: formattedPrice,
         numericPrice: parsedNumeric,
         ...(category ? { category: category.trim() } : {}),
-        categories: JSON.stringify(categoriesArray),
+        categories: categoriesJson,
         ...(image ? { image } : {}),
         ...(images !== undefined ? { images: JSON.stringify(Array.isArray(images) ? images : []) } : {}),
         description: description ?? existing.description,
+        ...(featured !== undefined ? { featured: Boolean(featured) } : {}),
       },
     });
 

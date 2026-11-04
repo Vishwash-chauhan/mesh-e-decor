@@ -5,6 +5,7 @@ import { PRODUCTS } from "@/data/products";
 
 const COOKIE_NAME = "admin_auth_token";
 const SESSION_VALUE = "authenticated_atelier_curator_session_token";
+const MAX_FEATURED = 6;
 
 async function isAuthenticated(req: Request): Promise<boolean> {
   const cookieStore = await cookies();
@@ -24,14 +25,14 @@ export const dynamic = "force-dynamic";
 export async function GET() {
   try {
     const dbProducts = await prisma.product.findMany({
-      orderBy: { createdAt: "desc" },
+      orderBy: [{ sortOrder: "asc" }, { createdAt: "desc" }],
     });
 
     if (dbProducts.length === 0) {
       return NextResponse.json(PRODUCTS);
     }
 
-    const formatted = dbProducts.map((p) => {
+    const formatted = dbProducts.map((p, index) => {
       let categoriesList: string[] = [];
       try {
         categoriesList = JSON.parse(p.categories || "[]");
@@ -56,6 +57,8 @@ export async function GET() {
         image: p.image,
         images: imagesList,
         description: p.description || "",
+        featured: Boolean(p.featured),
+        sortOrder: typeof p.sortOrder === "number" ? p.sortOrder : index,
       };
     });
 
@@ -83,6 +86,7 @@ export async function POST(req: Request) {
       image,
       images,
       description,
+      featured,
     } = body;
 
     const productCode = code ? String(code).trim().toUpperCase() : "";
@@ -92,6 +96,21 @@ export async function POST(req: Request) {
         { error: "Product code and category are required" },
         { status: 400 }
       );
+    }
+
+    const isFeatured = Boolean(featured);
+    if (isFeatured) {
+      const featuredCount = await prisma.product.count({
+        where: { featured: true },
+      });
+      if (featuredCount >= MAX_FEATURED) {
+        return NextResponse.json(
+          {
+            error: `Featured Collection is limited to ${MAX_FEATURED} specimens. Please unstar an existing featured piece first.`,
+          },
+          { status: 400 }
+        );
+      }
     }
 
     // Clean numeric price
@@ -111,6 +130,11 @@ export async function POST(req: Request) {
 
     const imagesArray = Array.isArray(images) ? images : [];
 
+    const minOrderAgg = await prisma.product.aggregate({
+      _min: { sortOrder: true },
+    });
+    const nextSortOrder = (minOrderAgg._min.sortOrder ?? 1) - 1;
+
     const created = await prisma.product.create({
       data: {
         code: productCode,
@@ -121,6 +145,8 @@ export async function POST(req: Request) {
         image: image || "https://images.unsplash.com/photo-1579783900882-c0d3dad7b119?auto=format&fit=crop&w=800&q=80",
         images: JSON.stringify(imagesArray),
         description: description || "",
+        featured: isFeatured,
+        sortOrder: nextSortOrder,
       },
     });
 
@@ -135,6 +161,53 @@ export async function POST(req: Request) {
     }
     return NextResponse.json(
       { error: "Failed to create product", details: String(error) },
+      { status: 500 }
+    );
+  }
+}
+
+export async function PATCH(req: Request) {
+  try {
+    const authed = await isAuthenticated(req);
+    if (!authed) {
+      return NextResponse.json({ error: "Unauthorized access" }, { status: 401 });
+    }
+
+    const body = await req.json();
+    const { items, orderedIds } = body;
+
+    if (Array.isArray(items) && items.length > 0) {
+      await prisma.$transaction(
+        items.map((item: { id: string; sortOrder: number }) =>
+          prisma.product.update({
+            where: { id: item.id },
+            data: { sortOrder: Number(item.sortOrder) },
+          })
+        )
+      );
+      return NextResponse.json({ success: true });
+    }
+
+    if (Array.isArray(orderedIds) && orderedIds.length > 0) {
+      await prisma.$transaction(
+        orderedIds.map((id: string, idx: number) =>
+          prisma.product.update({
+            where: { id },
+            data: { sortOrder: idx },
+          })
+        )
+      );
+      return NextResponse.json({ success: true });
+    }
+
+    return NextResponse.json(
+      { error: "Expected items or orderedIds array" },
+      { status: 400 }
+    );
+  } catch (error) {
+    console.error("Error reordering products:", error);
+    return NextResponse.json(
+      { error: "Failed to reorder products", details: String(error) },
       { status: 500 }
     );
   }

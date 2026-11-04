@@ -81,7 +81,7 @@ export default function Navbar({ onOpenConcierge }: NavbarProps) {
           isScrolled || mobileMenuOpen
             ? "bg-[#FAF7F2] shadow-xs border-b border-borderdelicate/60"
             : isHomePage
-            ? "bg-alabaster/40 backdrop-blur-md border-b border-white/20"
+            ? "bg-[#FAF7F2]/85 backdrop-blur-md border-b border-borderdelicate/50"
             : "bg-[#FAF7F2]/95 backdrop-blur-md border-b border-borderdelicate/50"
         }`}
       >
@@ -106,20 +106,20 @@ export default function Navbar({ onOpenConcierge }: NavbarProps) {
           </div>
 
           {/* Center: Desktop Nav Links */}
-          <nav className="hidden md:flex items-center justify-center gap-8 text-[11px] uppercase tracking-[0.2em] text-subdued font-normal">
+          <nav className="hidden md:flex items-center justify-center gap-9 text-[12px] uppercase tracking-[0.22em] text-espresso font-medium">
             <Link
               href="/catalogue"
-              className={`py-1 transition-colors hover:text-espresso relative ${
+              className={`py-1 transition-colors hover:text-golddeep relative ${
                 isCataloguePage
-                  ? "text-espresso font-medium after:content-[''] after:absolute after:bottom-0 after:left-0 after:right-0 after:h-[1.5px] after:bg-goldaccent"
-                  : "hover:after:content-[''] hover:after:absolute hover:after:bottom-0 hover:after:left-0 hover:after:right-0 hover:after:h-[1.5px] hover:after:bg-borderdelicate"
+                  ? "text-espresso font-semibold after:content-[''] after:absolute after:bottom-0 after:left-0 after:right-0 after:h-[2px] after:bg-golddeep"
+                  : "hover:after:content-[''] hover:after:absolute hover:after:bottom-0 hover:after:left-0 hover:after:right-0 hover:after:h-[1.5px] hover:after:bg-golddeep"
               }`}
             >
               Catalogue
             </Link>
             <Link
               href="/#craft"
-              className="py-1 transition-colors hover:text-espresso relative hover:after:content-[''] hover:after:absolute hover:after:bottom-0 hover:after:left-0 hover:after:right-0 hover:after:h-[1.5px] hover:after:bg-borderdelicate"
+              className="py-1 transition-colors hover:text-golddeep relative hover:after:content-[''] hover:after:absolute hover:after:bottom-0 hover:after:left-0 hover:after:right-0 hover:after:h-[1.5px] hover:after:bg-golddeep"
             >
               About Us
             </Link>
@@ -184,7 +184,7 @@ export default function Navbar({ onOpenConcierge }: NavbarProps) {
         {mobileMenuOpen && (
           <div
             id="mobile-navigation"
-            className="md:hidden w-full bg-[#FAF7F2] border-b border-borderdelicate shadow-2xl px-6 py-5 flex flex-col gap-1 text-[11px] uppercase tracking-[0.2em] text-subdued font-normal animate-in slide-in-from-top-2 duration-200"
+            className="md:hidden w-full bg-[#FAF7F2] border-b border-borderdelicate shadow-2xl px-6 py-5 flex flex-col gap-1 text-[11px] uppercase tracking-[0.2em] text-espresso font-medium animate-in slide-in-from-top-2 duration-200"
           >
             <div className="flex items-center justify-between pb-3 mb-2 border-b border-borderdelicate/60 text-[10px] tracking-[0.25em] text-golddeep font-medium">
               <span>Haute Artisanal Collections</span>

@@ -15,7 +15,11 @@ interface ProductData {
   image: string;
   images?: string[];
   description?: string;
+  featured?: boolean;
+  sortOrder?: number;
 }
+
+const MAX_FEATURED = 6;
 
 const AVAILABLE_CATEGORIES = [
   "Home Decor",
@@ -48,6 +52,9 @@ export default function AdminDashboardPage() {
   const [image, setImage] = useState(""); // Cover Image
   const [images, setImages] = useState<string[]>([]); // Rest of the images (Gallery)
   const [description, setDescription] = useState("");
+  const [featured, setFeatured] = useState(false);
+  const [togglingFeaturedId, setTogglingFeaturedId] = useState<string | null>(null);
+  const [featuredNotice, setFeaturedNotice] = useState<string | null>(null);
   const [formError, setFormError] = useState<string | null>(null);
   const [submitting, setSubmitting] = useState(false);
 
@@ -118,6 +125,7 @@ export default function AdminDashboardPage() {
     setImage("");
     setImages([]);
     setDescription("");
+    setFeatured(false);
     setFormError(null);
     setUploadError(null);
     setIsModalOpen(true);
@@ -135,9 +143,50 @@ export default function AdminDashboardPage() {
     setImage(p.image);
     setImages(p.images && Array.isArray(p.images) ? p.images : []);
     setDescription(p.description || "");
+    setFeatured(Boolean(p.featured));
     setFormError(null);
     setUploadError(null);
     setIsModalOpen(true);
+  };
+
+  const featuredCount = products.filter((p) => p.featured).length;
+
+  const handleToggleFeatured = async (p: ProductData) => {
+    const nextFeatured = !p.featured;
+    setFeaturedNotice(null);
+
+    if (nextFeatured && featuredCount >= MAX_FEATURED) {
+      setFeaturedNotice(
+        `Maximum of ${MAX_FEATURED} featured specimens reached (${featuredCount}/${MAX_FEATURED}). Unstar an existing featured piece first.`
+      );
+      setTimeout(() => setFeaturedNotice(null), 5000);
+      return;
+    }
+
+    setTogglingFeaturedId(p.id);
+    try {
+      const res = await fetch(`/api/products/${p.id}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ featured: nextFeatured }),
+      });
+
+      const data = await res.json();
+      if (!res.ok) {
+        setFeaturedNotice(data.error || "Failed to update featured status.");
+        setTimeout(() => setFeaturedNotice(null), 5000);
+      } else {
+        setProducts((prev) =>
+          prev.map((item) =>
+            item.id === p.id ? { ...item, featured: nextFeatured } : item
+          )
+        );
+      }
+    } catch {
+      setFeaturedNotice("Network error while updating featured status.");
+    } finally {
+      setTogglingFeaturedId(null);
+    }
   };
 
   const handleToggleCategory = (cat: string) => {
@@ -253,6 +302,7 @@ export default function AdminDashboardPage() {
       image: image.trim(),
       images,
       description: description.trim(),
+      featured,
     };
 
     try {
@@ -315,6 +365,7 @@ export default function AdminDashboardPage() {
 
     const matchesCat =
       selectedFilterCategory === "All" ||
+      (selectedFilterCategory === "Featured" && Boolean(p.featured)) ||
       p.category.toLowerCase() === selectedFilterCategory.toLowerCase() ||
       (p.categories &&
         p.categories.some(
@@ -323,6 +374,58 @@ export default function AdminDashboardPage() {
 
     return matchesSearch && matchesCat;
   });
+
+  const handleMoveProduct = async (
+    productId: string,
+    direction: "up" | "down"
+  ) => {
+    const visibleIdx = filteredProducts.findIndex((p) => p.id === productId);
+    if (visibleIdx === -1) return;
+
+    const targetVisibleIdx =
+      direction === "up" ? visibleIdx - 1 : visibleIdx + 1;
+    if (
+      targetVisibleIdx < 0 ||
+      targetVisibleIdx >= filteredProducts.length
+    ) {
+      return;
+    }
+
+    const currentItem = filteredProducts[visibleIdx];
+    const targetItem = filteredProducts[targetVisibleIdx];
+
+    const masterIdxA = products.findIndex((p) => p.id === currentItem.id);
+    const masterIdxB = products.findIndex((p) => p.id === targetItem.id);
+    if (masterIdxA === -1 || masterIdxB === -1) return;
+
+    const updated = [...products];
+    const temp = updated[masterIdxA];
+    updated[masterIdxA] = updated[masterIdxB];
+    updated[masterIdxB] = temp;
+
+    const reindexed = updated.map((item, idx) => ({
+      ...item,
+      sortOrder: idx,
+    }));
+
+    setProducts(reindexed);
+
+    try {
+      await fetch("/api/products", {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          items: [
+            { id: reindexed[masterIdxA].id, sortOrder: masterIdxA },
+            { id: reindexed[masterIdxB].id, sortOrder: masterIdxB },
+          ],
+        }),
+      });
+    } catch (err) {
+      console.error("Failed to save new product order:", err);
+      await fetchProducts();
+    }
+  };
 
   const totalInventoryValue = products.reduce(
     (sum, p) => sum + (p.numericPrice || 0),
@@ -409,12 +512,12 @@ export default function AdminDashboardPage() {
 
           <div className="bg-canvas border border-borderdelicate/80 p-3.5 sm:p-5 shadow-2xs">
             <span className="block text-mute uppercase tracking-[0.18em] text-[8.5px] sm:text-[9px] mb-1 font-medium truncate">
-              Collections
+              Featured Pieces
             </span>
             <span className="serif-display text-2xl sm:text-4xl text-golddeep font-normal">
-              {AVAILABLE_CATEGORIES.length}
+              {featuredCount} / {MAX_FEATURED}
             </span>
-            <span className="block text-[10px] sm:text-[11px] text-mute mt-0.5 sm:mt-1">Active Tags</span>
+            <span className="block text-[10px] sm:text-[11px] text-mute mt-0.5 sm:mt-1">Homepage Showcase</span>
           </div>
 
           <div className="bg-canvas border border-borderdelicate/80 p-3.5 sm:p-5 shadow-2xs">
@@ -479,6 +582,9 @@ export default function AdminDashboardPage() {
                 className="w-full sm:w-auto bg-surface border border-borderdelicate px-3.5 py-2.5 text-[15px] sm:text-xs text-espresso focus:outline-none focus:border-espresso transition-colors cursor-pointer min-h-[42px]"
               >
                 <option value="All">All Categories ({products.length})</option>
+                <option value="Featured">
+                  ★ Featured Collection ({featuredCount}/{MAX_FEATURED})
+                </option>
                 {AVAILABLE_CATEGORIES.map((cat) => (
                   <option key={cat} value={cat}>
                     {cat}
@@ -497,6 +603,23 @@ export default function AdminDashboardPage() {
           </button>
         </div>
 
+        {featuredNotice && (
+          <div className="mb-5 p-3.5 bg-amber-50 border border-golddeep/60 text-espresso text-xs flex items-center justify-between gap-3">
+            <div className="flex items-center gap-2">
+              <span className="material-symbols-outlined text-[18px] text-golddeep shrink-0">
+                star
+              </span>
+              <span>{featuredNotice}</span>
+            </div>
+            <button
+              onClick={() => setFeaturedNotice(null)}
+              className="text-mute hover:text-espresso text-xs px-1.5 cursor-pointer"
+            >
+              ✕
+            </button>
+          </div>
+        )}
+
         {/* MOBILE SPECIMEN CARDS (Visible on phone/tablet < md) */}
         <div className="md:hidden space-y-3">
           {filteredProducts.length === 0 ? (
@@ -508,11 +631,39 @@ export default function AdminDashboardPage() {
               <p className="text-xs text-mute mt-1">Try clearing your search query or filters</p>
             </div>
           ) : (
-            filteredProducts.map((p) => (
+            filteredProducts.map((p, index) => (
               <div
                 key={p.id}
                 className="bg-canvas border border-borderdelicate/90 p-3.5 shadow-xs relative flex flex-col gap-3 transition-all"
               >
+                {/* Position / Order Control Bar */}
+                <div className="flex items-center justify-between bg-surface border border-borderdelicate/80 px-2.5 py-1.5">
+                  <span className="text-[10px] uppercase tracking-[0.18em] text-mute font-medium">
+                    Position <strong className="text-espresso font-mono">#{index + 1}</strong>
+                  </span>
+                  <div className="inline-flex items-center gap-1">
+                    <button
+                      type="button"
+                      onClick={() => handleMoveProduct(p.id, "up")}
+                      disabled={index === 0}
+                      className="px-2.5 py-1 bg-canvas border border-borderdelicate text-espresso hover:border-espresso disabled:opacity-35 disabled:pointer-events-none text-[10px] uppercase tracking-wider font-medium flex items-center gap-0.5 cursor-pointer"
+                      title="Move Up"
+                    >
+                      <span className="material-symbols-outlined text-[14px]">arrow_upward</span>
+                      <span>Up</span>
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => handleMoveProduct(p.id, "down")}
+                      disabled={index === filteredProducts.length - 1}
+                      className="px-2.5 py-1 bg-canvas border border-borderdelicate text-espresso hover:border-espresso disabled:opacity-35 disabled:pointer-events-none text-[10px] uppercase tracking-wider font-medium flex items-center gap-0.5 cursor-pointer"
+                      title="Move Down"
+                    >
+                      <span className="material-symbols-outlined text-[14px]">arrow_downward</span>
+                      <span>Down</span>
+                    </button>
+                  </div>
+                </div>
                 {/* Top row: 1:1 Cover Thumbnail + Details */}
                 <div className="flex items-start gap-3">
                   <div className="relative w-20 h-20 aspect-square bg-espresso/5 border border-borderdelicate overflow-hidden shrink-0 shadow-2xs">
@@ -567,6 +718,22 @@ export default function AdminDashboardPage() {
 
                 {/* Bottom Row: Full Touch Action Bar */}
                 <div className="pt-2.5 border-t border-borderdelicate/70 flex items-center justify-between gap-2">
+                  <button
+                    type="button"
+                    onClick={() => handleToggleFeatured(p)}
+                    disabled={togglingFeaturedId === p.id}
+                    className={`py-2 px-3 border text-[11px] uppercase tracking-wider font-medium flex items-center justify-center gap-1 min-h-[40px] cursor-pointer transition-colors ${
+                      p.featured
+                        ? "bg-amber-50 border-golddeep text-golddeep font-semibold"
+                        : "bg-surface border-borderdelicate text-mute hover:text-espresso"
+                    }`}
+                    title={p.featured ? "Remove from Featured" : "Add to Featured (Max 6)"}
+                  >
+                    <span className="text-sm leading-none">
+                      {p.featured ? "★" : "☆"}
+                    </span>
+                  </button>
+
                   <Link
                     href={`/products/${p.code}`}
                     target="_blank"
@@ -620,7 +787,8 @@ export default function AdminDashboardPage() {
             <table className="w-full text-left border-collapse text-xs">
               <thead>
                 <tr className="border-b border-borderdelicate bg-surface/80 text-[10px] uppercase tracking-[0.2em] text-mute font-medium">
-                  <th className="py-4 px-4 sm:px-6">Cover (1:1)</th>
+                  <th className="py-4 px-4 sm:px-5">Order</th>
+                  <th className="py-4 px-4">Cover (1:1)</th>
                   <th className="py-4 px-4">Product Code & Details</th>
                   <th className="py-4 px-4">Gallery</th>
                   <th className="py-4 px-4">Category & Tags</th>
@@ -631,7 +799,7 @@ export default function AdminDashboardPage() {
               <tbody className="divide-y divide-borderdelicate/60 text-espresso">
                 {filteredProducts.length === 0 ? (
                   <tr>
-                    <td colSpan={6} className="py-12 text-center text-subdued">
+                    <td colSpan={7} className="py-12 text-center text-subdued">
                       <span className="material-symbols-outlined text-[32px] text-mute block mb-2">
                         inventory_2
                       </span>
@@ -639,13 +807,44 @@ export default function AdminDashboardPage() {
                     </td>
                   </tr>
                 ) : (
-                  filteredProducts.map((p) => (
+                  filteredProducts.map((p, index) => (
                     <tr
                       key={p.id}
                       className="hover:bg-surface/50 transition-colors group"
                     >
+                      {/* Position / Order Control Bar */}
+                      <td className="py-3.5 px-4 sm:px-5">
+                        <div className="inline-flex items-center border border-borderdelicate bg-surface shadow-2xs">
+                          <button
+                            type="button"
+                            onClick={() => handleMoveProduct(p.id, "up")}
+                            disabled={index === 0}
+                            className="p-1.5 text-espresso hover:bg-espresso hover:text-alabaster disabled:opacity-30 disabled:pointer-events-none transition-colors cursor-pointer"
+                            title="Move Up"
+                          >
+                            <span className="material-symbols-outlined text-[15px] block">
+                              arrow_upward
+                            </span>
+                          </button>
+                          <span className="px-2 py-1 text-[11px] font-mono font-semibold text-espresso border-x border-borderdelicate min-w-[32px] text-center">
+                            #{index + 1}
+                          </span>
+                          <button
+                            type="button"
+                            onClick={() => handleMoveProduct(p.id, "down")}
+                            disabled={index === filteredProducts.length - 1}
+                            className="p-1.5 text-espresso hover:bg-espresso hover:text-alabaster disabled:opacity-30 disabled:pointer-events-none transition-colors cursor-pointer"
+                            title="Move Down"
+                          >
+                            <span className="material-symbols-outlined text-[15px] block">
+                              arrow_downward
+                            </span>
+                          </button>
+                        </div>
+                      </td>
+
                       {/* Image Thumbnail (1:1 Square) */}
-                      <td className="py-3.5 px-4 sm:px-6">
+                      <td className="py-3.5 px-4">
                         <div className="relative w-14 h-14 aspect-square bg-espresso/5 border border-borderdelicate overflow-hidden shrink-0 shadow-2xs">
                           <Image
                             src={p.image}
@@ -709,6 +908,24 @@ export default function AdminDashboardPage() {
                       {/* Actions */}
                       <td className="py-3.5 px-4 sm:px-6 text-right">
                         <div className="inline-flex items-center gap-1.5">
+                          <button
+                            type="button"
+                            onClick={() => handleToggleFeatured(p)}
+                            disabled={togglingFeaturedId === p.id}
+                            className={`px-2 py-1 border transition-all cursor-pointer text-sm leading-none ${
+                              p.featured
+                                ? "text-golddeep border-golddeep/50 bg-amber-50/80"
+                                : "text-mute hover:text-golddeep border-transparent hover:border-borderdelicate"
+                            }`}
+                            title={
+                              p.featured
+                                ? "Featured on Homepage (Click to unstar)"
+                                : `Star as Featured (${featuredCount}/${MAX_FEATURED})`
+                            }
+                          >
+                            {p.featured ? "★" : "☆"}
+                          </button>
+
                           <Link
                             href={`/products/${p.code}`}
                             target="_blank"
@@ -827,19 +1044,53 @@ export default function AdminDashboardPage() {
             )}
 
             <form onSubmit={handleSubmitProduct} className="flex flex-col gap-4 sm:gap-5 text-xs">
-              {/* Product Code */}
-              <div>
-                <label className="block text-[10px] uppercase tracking-[0.18em] text-mute mb-1 font-medium">
-                  Product Code *
-                </label>
-                <input
-                  type="text"
-                  required
-                  placeholder="e.g. JGM-0140"
-                  value={code}
-                  onChange={(e) => setCode(e.target.value)}
-                  className="w-full bg-surface border border-borderdelicate p-2.5 text-[16px] sm:text-xs text-espresso font-mono uppercase focus:outline-none focus:border-espresso min-h-[42px]"
-                />
+              {/* Product Code & Featured Star Toggle */}
+              <div className="flex flex-col sm:flex-row sm:items-end gap-3.5 sm:gap-4">
+                <div className="flex-grow">
+                  <label className="block text-[10px] uppercase tracking-[0.18em] text-mute mb-1 font-medium">
+                    Product Code *
+                  </label>
+                  <input
+                    type="text"
+                    required
+                    placeholder="e.g. JGM-0140"
+                    value={code}
+                    onChange={(e) => setCode(e.target.value)}
+                    className="w-full bg-surface border border-borderdelicate p-2.5 text-[16px] sm:text-xs text-espresso font-mono uppercase focus:outline-none focus:border-espresso min-h-[42px]"
+                  />
+                </div>
+
+                <div className="shrink-0">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      if (
+                        !featured &&
+                        featuredCount >= MAX_FEATURED &&
+                        !editingProduct?.featured
+                      ) {
+                        setFormError(
+                          `Featured Collection is limited to ${MAX_FEATURED} specimens (${featuredCount}/${MAX_FEATURED}). Unstar an existing piece first.`
+                        );
+                        return;
+                      }
+                      setFormError(null);
+                      setFeatured(!featured);
+                    }}
+                    className={`w-full sm:w-auto px-4 py-2.5 border text-[10px] uppercase tracking-[0.18em] font-medium transition-all cursor-pointer min-h-[42px] flex items-center justify-center gap-2 ${
+                      featured
+                        ? "bg-amber-50 border-golddeep text-espresso font-semibold"
+                        : "bg-surface border-borderdelicate text-mute hover:text-espresso"
+                    }`}
+                  >
+                    <span className="text-sm text-golddeep leading-none">
+                      {featured ? "★" : "☆"}
+                    </span>
+                    <span>
+                      {featured ? "Featured on Home" : "Set as Featured"} ({featuredCount}/{MAX_FEATURED})
+                    </span>
+                  </button>
+                </div>
               </div>
 
               {/* Price & Primary Category */}

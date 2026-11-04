@@ -17,6 +17,8 @@ model Product {
   image        String   // Cover image (1:1)
   images       String   @default("[]") // JSON array of additional gallery image URLs (1:1)
   description  String?
+  featured     Boolean  @default(false)
+  sortOrder    Int      @default(0)
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
 }

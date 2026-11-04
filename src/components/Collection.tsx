@@ -12,11 +12,16 @@ interface CollectionProps {
   onOpenConcierge?: () => void;
 }
 
+const HOME_CATEGORIES = [
+  "Featured Collection",
+  ...CATEGORIES.filter((c) => c !== "All Collections"),
+];
+
 export default function Collection({
   onInquirePiece,
   onOpenConcierge,
 }: CollectionProps) {
-  const [selectedCategory, setSelectedCategory] = useState("All Collections");
+  const [selectedCategory, setSelectedCategory] = useState("Featured Collection");
   const [allProducts, setAllProducts] = useState<ProductItem[]>(PRODUCTS);
 
   useEffect(() => {
@@ -30,11 +35,14 @@ export default function Collection({
       .catch(() => {});
   }, []);
 
+  const featuredList = allProducts.filter((p) => p.featured);
   const filteredProducts = (
-    selectedCategory === "All Collections"
-      ? allProducts
+    selectedCategory === "Featured Collection"
+      ? featuredList.length > 0
+        ? featuredList
+        : allProducts
       : allProducts.filter((p) => matchesCategory(p, selectedCategory))
-  ).slice(0, 8);
+  ).slice(0, 6);
 
   return (
     <section
@@ -65,7 +73,7 @@ export default function Collection({
 
         {/* Elegant Minimalist Category Navigation Tabs */}
         <div className="flex justify-start sm:justify-center items-center overflow-x-auto no-scrollbar gap-4 sm:gap-8 pb-3 mb-12 sm:mb-16 border-b border-borderdelicate/80 -mx-4 px-4 sm:mx-0 sm:px-0">
-          {CATEGORIES.map((cat) => (
+          {HOME_CATEGORIES.map((cat) => (
             <button
               key={cat}
               onClick={() => setSelectedCategory(cat)}
@@ -91,8 +99,25 @@ export default function Collection({
           ))}
         </div>
 
+        {/* View All Products CTA */}
+        <div className="mt-10 sm:mt-14 flex justify-center">
+          <Link
+            href={
+              selectedCategory === "Featured Collection"
+                ? "/catalogue"
+                : `/catalogue?category=${encodeURIComponent(selectedCategory)}`
+            }
+            className="inline-flex items-center justify-center gap-3 text-[11px] sm:text-[12px] uppercase tracking-[0.26em] font-medium text-alabaster bg-espresso px-8 py-4 hover:bg-golddeep transition-all duration-300 cursor-pointer min-h-[48px] shadow-sm"
+          >
+            <span>View All Products</span>
+            <span className="material-symbols-outlined text-[16px]">
+              arrow_forward
+            </span>
+          </Link>
+        </div>
+
         {/* Editorial Catalogue Citation */}
-        <div className="mt-14 sm:mt-20 pt-8 border-t border-borderdelicate/80 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6">
+        <div className="mt-12 sm:mt-16 pt-8 border-t border-borderdelicate/80 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6">
           <div className="flex items-center gap-4">
             <span className="serif-display text-2xl sm:text-3xl text-golddeep italic">
               200+
@@ -103,15 +128,6 @@ export default function Collection({
             </p>
           </div>
           <div className="flex items-center gap-4 flex-wrap">
-            <Link
-              href="/catalogue"
-              className="inline-flex items-center gap-2 text-[11px] uppercase tracking-[0.24em] font-medium text-alabaster bg-espresso px-6 py-3 hover:bg-[#2A2622] transition-colors cursor-pointer min-h-[44px]"
-            >
-              <span>Explore Full Catalogue</span>
-              <span className="material-symbols-outlined text-[15px]">
-                arrow_forward
-              </span>
-            </Link>
             <button
               onClick={onOpenConcierge}
               className="inline-flex items-center gap-2 text-[11px] uppercase tracking-[0.24em] font-medium text-espresso hover:text-golddeep transition-colors border-b border-espresso hover:border-golddeep pb-1 min-h-[44px] cursor-pointer"
