@@ -22,7 +22,7 @@ export default function Footer() {
       <div className="max-w-7xl mx-auto">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-12 gap-10 sm:gap-12 pb-12 sm:pb-16 border-b border-borderdelicate/80">
           {/* Brand & Contact */}
-          <div className="lg:col-span-5 flex flex-col items-start pr-0 lg:pr-8">
+          <div className="sm:col-span-2 lg:col-span-5 flex flex-col items-start pr-0 lg:pr-8">
             <div className="flex items-center gap-3.5 mb-5 sm:mb-6">
               <Image
                 alt="Mesh 'E' Decor Logo"
@@ -67,7 +67,7 @@ export default function Footer() {
           </div>
 
           {/* Curated Links */}
-          <div className="lg:col-span-2 flex flex-col">
+          <div className="lg:col-span-3 flex flex-col">
             <span className="text-[10px] uppercase tracking-[0.28em] text-golddeep font-medium mb-4 sm:mb-5">
               Collections
             </span>
@@ -93,32 +93,8 @@ export default function Footer() {
             </nav>
           </div>
 
-          {/* Bespoke Commissions */}
-          <div className="lg:col-span-2 flex flex-col">
-            <span className="text-[10px] uppercase tracking-[0.28em] text-golddeep font-medium mb-4 sm:mb-5">
-              Atelier Services
-            </span>
-            <nav className="flex flex-col gap-3 text-[13px] text-subdued font-light">
-              <Link href="#corporate" className="hover:text-espresso transition-colors py-1">
-                Bespoke Gifting
-              </Link>
-              <Link href="#corporate" className="hover:text-espresso transition-colors py-1">
-                Laser Monogramming
-              </Link>
-              <Link href="#corporate" className="hover:text-espresso transition-colors py-1">
-                Custom Velvet Trunks
-              </Link>
-              <Link href="#craft" className="hover:text-espresso transition-colors py-1">
-                Architectural Specifiers
-              </Link>
-              <Link href="#corporate" className="hover:text-espresso transition-colors py-1">
-                Artisanal Care Guide
-              </Link>
-            </nav>
-          </div>
-
           {/* Private Inquiry Dispatch */}
-          <div className="lg:col-span-3 flex flex-col">
+          <div className="lg:col-span-4 flex flex-col">
             <span className="text-[10px] uppercase tracking-[0.28em] text-golddeep font-medium mb-4 sm:mb-5">
               Private Gazette
             </span>
