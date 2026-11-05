@@ -62,6 +62,8 @@ export default function AdminDashboardPage() {
   const [uploadingCover, setUploadingCover] = useState(false);
   const [uploadingGallery, setUploadingGallery] = useState(false);
   const [uploadError, setUploadError] = useState<string | null>(null);
+  const [isDraggingCover, setIsDraggingCover] = useState(false);
+  const [isDraggingGallery, setIsDraggingGallery] = useState(false);
 
   // Hidden File Input Refs
   const coverInputRef = useRef<HTMLInputElement>(null);
@@ -128,6 +130,8 @@ export default function AdminDashboardPage() {
     setFeatured(false);
     setFormError(null);
     setUploadError(null);
+    setIsDraggingCover(false);
+    setIsDraggingGallery(false);
     setIsModalOpen(true);
   };
 
@@ -146,6 +150,8 @@ export default function AdminDashboardPage() {
     setFeatured(Boolean(p.featured));
     setFormError(null);
     setUploadError(null);
+    setIsDraggingCover(false);
+    setIsDraggingGallery(false);
     setIsModalOpen(true);
   };
 
@@ -208,10 +214,11 @@ export default function AdminDashboardPage() {
     setPrice(`₹${num.toLocaleString("en-IN")}`);
   };
 
-  // Upload Cover Image Handler
-  const handleUploadCover = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
+  const uploadCoverFile = async (file: File) => {
+    if (!file.type.startsWith("image/")) {
+      setUploadError(`File "${file.name}" is not a valid image.`);
+      return;
+    }
 
     setUploadingCover(true);
     setUploadError(null);
@@ -239,18 +246,57 @@ export default function AdminDashboardPage() {
     }
   };
 
-  // Upload Additional Gallery Images Handler
-  const handleUploadGallery = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const files = e.target.files;
-    if (!files || files.length === 0) return;
+  // Upload Cover Image Handler
+  const handleUploadCover = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    await uploadCoverFile(file);
+  };
+
+  const handleCoverDragOver = (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    e.stopPropagation();
+    if (!uploadingCover) {
+      setIsDraggingCover(true);
+    }
+  };
+
+  const handleCoverDragLeave = (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    e.stopPropagation();
+    if (e.currentTarget.contains(e.relatedTarget as Node)) return;
+    setIsDraggingCover(false);
+  };
+
+  const handleCoverDrop = async (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setIsDraggingCover(false);
+    if (uploadingCover) return;
+
+    const file = e.dataTransfer.files?.[0];
+    if (file) {
+      await uploadCoverFile(file);
+    }
+  };
+
+  const uploadGalleryFiles = async (files: FileList | File[]) => {
+    const fileArray = Array.from(files);
+    if (fileArray.length === 0) return;
+
+    const invalidFile = fileArray.find((f) => !f.type.startsWith("image/"));
+    if (invalidFile) {
+      setUploadError(`File "${invalidFile.name}" is not a valid image.`);
+      return;
+    }
 
     setUploadingGallery(true);
     setUploadError(null);
 
     try {
       const formData = new FormData();
-      for (let i = 0; i < files.length; i++) {
-        formData.append("files", files[i]);
+      for (const file of fileArray) {
+        formData.append("files", file);
       }
 
       const res = await fetch("/api/upload", {
@@ -269,6 +315,40 @@ export default function AdminDashboardPage() {
     } finally {
       setUploadingGallery(false);
       if (galleryInputRef.current) galleryInputRef.current.value = "";
+    }
+  };
+
+  // Upload Additional Gallery Images Handler
+  const handleUploadGallery = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = e.target.files;
+    if (!files || files.length === 0) return;
+    await uploadGalleryFiles(files);
+  };
+
+  const handleGalleryDragOver = (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    e.stopPropagation();
+    if (!uploadingGallery) {
+      setIsDraggingGallery(true);
+    }
+  };
+
+  const handleGalleryDragLeave = (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    e.stopPropagation();
+    if (e.currentTarget.contains(e.relatedTarget as Node)) return;
+    setIsDraggingGallery(false);
+  };
+
+  const handleGalleryDrop = async (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setIsDraggingGallery(false);
+    if (uploadingGallery) return;
+
+    const files = e.dataTransfer.files;
+    if (files && files.length > 0) {
+      await uploadGalleryFiles(files);
     }
   };
 
@@ -1168,7 +1248,16 @@ export default function AdminDashboardPage() {
               </div>
 
               {/* COVER IMAGE SECTION (1:1 Primary) */}
-              <div className="p-3.5 sm:p-4 bg-canvas border border-borderdelicate/90 space-y-3">
+              <div
+                onDragOver={handleCoverDragOver}
+                onDragLeave={handleCoverDragLeave}
+                onDrop={handleCoverDrop}
+                className={`p-3.5 sm:p-4 border transition-all space-y-3 ${
+                  isDraggingCover
+                    ? "bg-amber-50/70 border-golddeep border-dashed ring-2 ring-golddeep/25"
+                    : "bg-canvas border-borderdelicate/90"
+                }`}
+              >
                 <div className="flex items-center justify-between gap-2 flex-wrap">
                   <div>
                     <span className="text-[10px] uppercase tracking-[0.2em] font-semibold text-espresso block">
@@ -1183,9 +1272,17 @@ export default function AdminDashboardPage() {
                   </span>
                 </div>
 
-                <div className="flex flex-col sm:flex-row items-center sm:items-start gap-3.5 sm:gap-4">
+                <div className="flex flex-col sm:flex-row items-center sm:items-stretch gap-3.5 sm:gap-4">
                   {/* Square Cover Preview Container */}
-                  <div className="relative w-28 h-28 aspect-square bg-surface border-2 border-dashed border-borderdelicate flex items-center justify-center overflow-hidden shrink-0 shadow-2xs">
+                  <div
+                    onClick={() => !uploadingCover && coverInputRef.current?.click()}
+                    className={`relative w-28 h-28 aspect-square bg-surface border-2 border-dashed flex items-center justify-center overflow-hidden shrink-0 shadow-2xs cursor-pointer transition-colors ${
+                      isDraggingCover
+                        ? "border-golddeep bg-amber-50"
+                        : "border-borderdelicate hover:border-espresso"
+                    }`}
+                    title="Click or drag & drop cover image"
+                  >
                     {image ? (
                       <Image
                         src={image}
@@ -1213,8 +1310,8 @@ export default function AdminDashboardPage() {
                     )}
                   </div>
 
-                  {/* Upload Button */}
-                  <div className="flex-grow space-y-2 w-full">
+                  {/* Drag & Drop Zone + Upload Buttons */}
+                  <div className="flex-grow flex flex-col justify-between gap-2.5 w-full">
                     <input
                       type="file"
                       ref={coverInputRef}
@@ -1222,6 +1319,29 @@ export default function AdminDashboardPage() {
                       accept="image/*"
                       className="hidden"
                     />
+
+                    <div
+                      onClick={() => !uploadingCover && coverInputRef.current?.click()}
+                      className={`p-3 border border-dashed transition-all cursor-pointer flex items-center gap-3 ${
+                        isDraggingCover
+                          ? "border-golddeep bg-amber-50/90 text-espresso"
+                          : "border-borderdelicate bg-surface/60 hover:bg-surface hover:border-espresso/60 text-mute"
+                      }`}
+                    >
+                      <span className="material-symbols-outlined text-[22px] text-golddeep shrink-0">
+                        upload_file
+                      </span>
+                      <div className="text-left">
+                        <span className="text-[11px] font-medium text-espresso block">
+                          {isDraggingCover
+                            ? "Drop image here to set as Cover Image"
+                            : "Drag & drop cover image here, or click to browse"}
+                        </span>
+                        <span className="text-[10px] text-mute block">
+                          Supports JPG, PNG, WEBP, AVIF (Max 15MB)
+                        </span>
+                      </div>
+                    </div>
 
                     <div className="flex flex-col xs:flex-row gap-2">
                       <button
@@ -1251,7 +1371,16 @@ export default function AdminDashboardPage() {
               </div>
 
               {/* REST OF THE IMAGES SECTION (Gallery / Additional Views) */}
-              <div className="p-3.5 sm:p-4 bg-canvas border border-borderdelicate/90 space-y-3">
+              <div
+                onDragOver={handleGalleryDragOver}
+                onDragLeave={handleGalleryDragLeave}
+                onDrop={handleGalleryDrop}
+                className={`p-3.5 sm:p-4 border transition-all space-y-3 ${
+                  isDraggingGallery
+                    ? "bg-amber-50/70 border-golddeep border-dashed ring-2 ring-golddeep/25"
+                    : "bg-canvas border-borderdelicate/90"
+                }`}
+              >
                 <div className="flex items-center justify-between gap-2 flex-wrap">
                   <div>
                     <span className="text-[10px] uppercase tracking-[0.2em] font-semibold text-espresso block">
@@ -1275,18 +1404,45 @@ export default function AdminDashboardPage() {
                   className="hidden"
                 />
 
-                <div className="flex flex-wrap gap-2">
-                  <button
-                    type="button"
-                    onClick={() => galleryInputRef.current?.click()}
-                    disabled={uploadingGallery}
-                    className="w-full xs:w-auto py-2.5 px-4 bg-surface border border-espresso text-espresso hover:bg-espresso hover:text-alabaster text-[10px] uppercase tracking-[0.2em] font-medium transition-all flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50 min-h-[42px]"
-                  >
-                    <span className="material-symbols-outlined text-[16px]">
+                {/* Gallery Drag & Drop Zone */}
+                <div
+                  onClick={() => !uploadingGallery && galleryInputRef.current?.click()}
+                  className={`p-4 border border-dashed transition-all cursor-pointer flex flex-col sm:flex-row items-center justify-between gap-3 ${
+                    isDraggingGallery
+                      ? "border-golddeep bg-amber-50/90 text-espresso"
+                      : "border-borderdelicate bg-surface/60 hover:bg-surface hover:border-espresso/60 text-mute"
+                  }`}
+                >
+                  <div className="flex items-center gap-3">
+                    <span className="material-symbols-outlined text-[24px] text-golddeep shrink-0">
                       add_photo_alternate
                     </span>
+                    <div className="text-center sm:text-left">
+                      <span className="text-[11px] font-medium text-espresso block">
+                        {isDraggingGallery
+                          ? "Drop images here to add to Gallery"
+                          : "Drag & drop multiple gallery images here, or click to select"}
+                      </span>
+                      <span className="text-[10px] text-mute block">
+                        Upload detail angles, packaging, or close-ups at once
+                      </span>
+                    </div>
+                  </div>
+
+                  <button
+                    type="button"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      galleryInputRef.current?.click();
+                    }}
+                    disabled={uploadingGallery}
+                    className="w-full sm:w-auto py-2 px-3.5 bg-surface border border-espresso text-espresso hover:bg-espresso hover:text-alabaster text-[10px] uppercase tracking-[0.18em] font-medium transition-all flex items-center justify-center gap-1.5 cursor-pointer disabled:opacity-50 min-h-[38px] shrink-0"
+                  >
+                    <span className="material-symbols-outlined text-[15px]">
+                      cloud_upload
+                    </span>
                     <span>
-                      {uploadingGallery ? "Uploading Views..." : "+ Upload Additional Images (1:1)"}
+                      {uploadingGallery ? "Uploading Views..." : "+ Browse Images"}
                     </span>
                   </button>
                 </div>
@@ -1321,8 +1477,8 @@ export default function AdminDashboardPage() {
                     ))}
                   </div>
                 ) : (
-                  <div className="p-3 border border-dashed border-borderdelicate/70 bg-surface/50 text-center text-mute text-[11px]">
-                    No additional images uploaded yet. You can upload multiple detail angles.
+                  <div className="p-2.5 border border-dashed border-borderdelicate/60 bg-surface/40 text-center text-mute text-[10.5px]">
+                    No additional images uploaded yet.
                   </div>
                 )}
               </div>
