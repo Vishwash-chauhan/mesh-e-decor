@@ -43,8 +43,8 @@ export default function AdminDashboardPage() {
 
   // Form Fields
   const [code, setCode] = useState("");
-  const [numericPrice, setNumericPrice] = useState<number>(5000);
-  const [price, setPrice] = useState("₹5,000");
+  const [numericPrice, setNumericPrice] = useState<string>("");
+  const [price, setPrice] = useState("");
   const [category, setCategory] = useState(AVAILABLE_CATEGORIES[0]);
   const [selectedCategories, setSelectedCategories] = useState<string[]>([
     AVAILABLE_CATEGORIES[0],
@@ -120,8 +120,8 @@ export default function AdminDashboardPage() {
   const handleOpenAddModal = () => {
     setEditingProduct(null);
     setCode("");
-    setNumericPrice(5000);
-    setPrice("₹5,000");
+    setNumericPrice("");
+    setPrice("");
     setCategory(AVAILABLE_CATEGORIES[0]);
     setSelectedCategories([AVAILABLE_CATEGORIES[0]]);
     setImage("");
@@ -138,7 +138,7 @@ export default function AdminDashboardPage() {
   const handleOpenEditModal = (p: ProductData) => {
     setEditingProduct(p);
     setCode(p.code);
-    setNumericPrice(p.numericPrice);
+    setNumericPrice(String(p.numericPrice));
     setPrice(p.price);
     setCategory(p.category);
     setSelectedCategories(
@@ -209,9 +209,14 @@ export default function AdminDashboardPage() {
   };
 
 
-  const handleNumericPriceChange = (num: number) => {
-    setNumericPrice(num);
-    setPrice(`₹${num.toLocaleString("en-IN")}`);
+  const handleNumericPriceChange = (rawValue: string) => {
+    setNumericPrice(rawValue);
+    const parsed = parseFloat(rawValue);
+    if (!rawValue.trim() || isNaN(parsed)) {
+      setPrice("");
+    } else {
+      setPrice(`₹${parsed.toLocaleString("en-IN")}`);
+    }
   };
 
   // Compress & resize image on client (max 1000x1000 WebP) for fast, free cloud DB storage
@@ -413,6 +418,12 @@ export default function AdminDashboardPage() {
     e.preventDefault();
     setFormError(null);
 
+    const parsedPrice = parseFloat(String(numericPrice));
+    if (!String(numericPrice).trim() || isNaN(parsedPrice) || parsedPrice <= 0) {
+      setFormError("Please enter a valid price for this specimen.");
+      return;
+    }
+
     if (!image.trim()) {
       setFormError("Please upload or provide a Cover Image for this specimen.");
       return;
@@ -428,8 +439,8 @@ export default function AdminDashboardPage() {
 
     const payload = {
       code: formattedCode,
-      price: price.trim(),
-      numericPrice: Number(numericPrice),
+      price: price.trim() || `₹${parsedPrice.toLocaleString("en-IN")}`,
+      numericPrice: parsedPrice,
       category: primaryCategory,
       categories: selectedCategories,
       image: image.trim(),
@@ -1236,15 +1247,14 @@ export default function AdminDashboardPage() {
                     <input
                       type="number"
                       required
-                      min={100}
+                      min={1}
+                      placeholder="e.g. 5000"
                       value={numericPrice}
-                      onChange={(e) =>
-                        handleNumericPriceChange(parseFloat(e.target.value) || 0)
-                      }
+                      onChange={(e) => handleNumericPriceChange(e.target.value)}
                       className="w-full bg-surface border border-borderdelicate p-2.5 text-[16px] sm:text-xs text-espresso font-medium focus:outline-none focus:border-espresso min-h-[42px]"
                     />
                     <span className="px-3 py-2.5 bg-canvas border border-borderdelicate text-espresso whitespace-nowrap font-medium min-h-[42px] flex items-center text-xs">
-                      {price}
+                      {price || "₹—"}
                     </span>
                   </div>
                 </div>
