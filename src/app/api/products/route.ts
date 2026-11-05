@@ -22,8 +22,31 @@ async function isAuthenticated(req: Request): Promise<boolean> {
 
 export const dynamic = "force-dynamic";
 
+async function ensureSeeded() {
+  const count = await prisma.product.count();
+  if (count === 0 && PRODUCTS.length > 0) {
+    await prisma.product.createMany({
+      data: PRODUCTS.map((p, idx) => ({
+        id: p.id,
+        code: p.code,
+        price: p.price,
+        numericPrice: p.numericPrice,
+        category: p.category,
+        categories: JSON.stringify(p.categories || [p.category]),
+        image: p.image,
+        images: JSON.stringify(p.images || []),
+        description: p.description || "",
+        featured: Boolean(p.featured),
+        sortOrder: typeof p.sortOrder === "number" ? p.sortOrder : idx,
+      })),
+      skipDuplicates: true,
+    });
+  }
+}
+
 export async function GET() {
   try {
+    await ensureSeeded();
     const dbProducts = await prisma.product.findMany({
       orderBy: [{ sortOrder: "asc" }, { createdAt: "desc" }],
     });
@@ -75,6 +98,8 @@ export async function POST(req: Request) {
     if (!authed) {
       return NextResponse.json({ error: "Unauthorized access" }, { status: 401 });
     }
+
+    await ensureSeeded();
 
     const body = await req.json();
     const {

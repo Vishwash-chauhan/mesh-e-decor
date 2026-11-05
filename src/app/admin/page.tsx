@@ -214,6 +214,57 @@ export default function AdminDashboardPage() {
     setPrice(`₹${num.toLocaleString("en-IN")}`);
   };
 
+  // Compress & resize image on client (max 1000x1000 WebP) for fast, free cloud DB storage
+  const compressImageFile = (file: File, maxDim = 1000, quality = 0.84): Promise<File> => {
+    return new Promise((resolve) => {
+      const img = new window.Image();
+      const objectUrl = URL.createObjectURL(file);
+      img.onload = () => {
+        URL.revokeObjectURL(objectUrl);
+        let { width, height } = img;
+        if (width > maxDim || height > maxDim) {
+          if (width >= height) {
+            height = Math.round((height * maxDim) / width);
+            width = maxDim;
+          } else {
+            width = Math.round((width * maxDim) / height);
+            height = maxDim;
+          }
+        }
+        const canvas = document.createElement("canvas");
+        canvas.width = width;
+        canvas.height = height;
+        const ctx = canvas.getContext("2d");
+        if (!ctx) {
+          resolve(file);
+          return;
+        }
+        ctx.drawImage(img, 0, 0, width, height);
+        canvas.toBlob(
+          (blob) => {
+            if (!blob) {
+              resolve(file);
+              return;
+            }
+            const compressedFile = new File(
+              [blob],
+              file.name.replace(/\.[^.]+$/, ".webp"),
+              { type: "image/webp" }
+            );
+            resolve(compressedFile);
+          },
+          "image/webp",
+          quality
+        );
+      };
+      img.onerror = () => {
+        URL.revokeObjectURL(objectUrl);
+        resolve(file);
+      };
+      img.src = objectUrl;
+    });
+  };
+
   const uploadCoverFile = async (file: File) => {
     if (!file.type.startsWith("image/")) {
       setUploadError(`File "${file.name}" is not a valid image.`);
@@ -224,8 +275,9 @@ export default function AdminDashboardPage() {
     setUploadError(null);
 
     try {
+      const optimizedFile = await compressImageFile(file);
       const formData = new FormData();
-      formData.append("file", file);
+      formData.append("file", optimizedFile);
 
       const res = await fetch("/api/upload", {
         method: "POST",
@@ -296,7 +348,8 @@ export default function AdminDashboardPage() {
     try {
       const formData = new FormData();
       for (const file of fileArray) {
-        formData.append("files", file);
+        const optimizedFile = await compressImageFile(file);
+        formData.append("files", optimizedFile);
       }
 
       const res = await fetch("/api/upload", {
