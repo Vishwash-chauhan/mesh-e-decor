@@ -8,14 +8,7 @@ interface ProductLayoutProps {
   params: Promise<{ id: string }>;
 }
 
-export async function generateMetadata({
-  params,
-}: {
-  params: Promise<{ id: string }>;
-}): Promise<Metadata> {
-  const { id } = await params;
-  const decodedId = decodeURIComponent(id).trim();
-
+async function resolveBaseUrl(): Promise<string> {
   const headersList = await headers();
   const host =
     headersList.get("x-forwarded-host") ||
@@ -24,11 +17,16 @@ export async function generateMetadata({
     process.env.VERCEL_URL ||
     "localhost:3000";
   const protocol = host.includes("localhost") ? "http" : "https";
-  const baseUrl = `${protocol}://${host}`;
+  return `${protocol}://${host}`;
+}
+
+async function findProductRecord(rawId: string) {
+  const decodedId = decodeURIComponent(rawId).trim();
 
   let product: {
     code: string;
     price: string;
+    numericPrice: number;
     category: string;
     image: string;
     description?: string | null;
@@ -42,6 +40,7 @@ export async function generateMetadata({
       select: {
         code: true,
         price: true,
+        numericPrice: true,
         category: true,
         image: true,
         description: true,
@@ -62,6 +61,30 @@ export async function generateMetadata({
     }
   }
 
+  return product;
+}
+
+function buildPublicImageUrl(baseUrl: string, code: string, image: string): string {
+  if (image.startsWith("/")) {
+    return `${baseUrl}${encodeURI(image)}`;
+  }
+  if (image.startsWith("http://") || image.startsWith("https://")) {
+    return image;
+  }
+  return `${baseUrl}/api/products/${encodeURIComponent(code)}/image`;
+}
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}): Promise<Metadata> {
+  const { id } = await params;
+  const [baseUrl, product] = await Promise.all([
+    resolveBaseUrl(),
+    findProductRecord(id),
+  ]);
+
   if (!product) {
     return {
       title: "Specimen Not Found | Mesh ‘E’ Decor",
@@ -74,19 +97,7 @@ export async function generateMetadata({
     "Handcrafted luxury brassware and silver-plated decor by Mesh ‘E’ Decor."
   }`;
 
-  // Build an HTTP(S) image URL that WhatsApp & social crawlers can fetch directly
-  let ogImageUrl = `${baseUrl}/api/products/${encodeURIComponent(
-    product.code
-  )}/image`;
-  if (product.image.startsWith("/")) {
-    ogImageUrl = `${baseUrl}${encodeURI(product.image)}`;
-  } else if (
-    product.image.startsWith("http://") ||
-    product.image.startsWith("https://")
-  ) {
-    ogImageUrl = product.image;
-  }
-
+  const ogImageUrl = buildPublicImageUrl(baseUrl, product.code, product.image);
   const productUrl = `${baseUrl}/products/${encodeURIComponent(product.code)}`;
 
   return {
@@ -117,7 +128,71 @@ export async function generateMetadata({
   };
 }
 
-export default function ProductLayout({ children }: ProductLayoutProps) {
-  return <>{children}</>;
-}
+export default async function ProductLayout({
+  children,
+  params,
+}: ProductLayoutProps) {
+  const { id } = await params;
+  const [baseUrl, product] = await Promise.all([
+    resolveBaseUrl(),
+    findProductRecord(id),
+  ]);
 
+  if (!product) {
+    return <>{children}</>;
+  }
+
+  const imageUrl = buildPublicImageUrl(baseUrl, product.code, product.image);
+  const productUrl = `${baseUrl}/products/${encodeURIComponent(product.code)}`;
+
+  const productJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    name: `${product.code} — ${product.category} | Mesh ‘E’ Decor`,
+    sku: product.code,
+    mpn: product.code,
+    image: [imageUrl],
+    description:
+      product.description ||
+      "Handcrafted luxury brassware and silver-plated decor specimen by Mesh ‘E’ Decor.",
+    category: product.category,
+    brand: {
+      "@type": "Brand",
+      name: "Mesh ‘E’ Decor",
+    },
+    offers: {
+      "@type": "Offer",
+      url: productUrl,
+      priceCurrency: "INR",
+      price: product.numericPrice,
+      availability: "https://schema.org/InStock",
+      itemCondition: "https://schema.org/NewCondition",
+      seller: {
+        "@type": "Organization",
+        name: "Mesh ‘E’ Decor",
+      },
+      shippingDetails: {
+        "@type": "OfferShippingDetails",
+        shippingRate: {
+          "@type": "MonetaryAmount",
+          value: 0,
+          currency: "INR",
+        },
+        shippingDestination: {
+          "@type": "DefinedRegion",
+          addressCountry: "IN",
+        },
+      },
+    },
+  };
+
+  return (
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(productJsonLd) }}
+      />
+      {children}
+    </>
+  );
+}
