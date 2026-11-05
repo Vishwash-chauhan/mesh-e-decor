@@ -219,8 +219,8 @@ export default function AdminDashboardPage() {
     }
   };
 
-  // Compress & resize image on client (max 1000x1000 WebP) for fast, free cloud DB storage
-  const compressImageFile = (file: File, maxDim = 1000, quality = 0.84): Promise<File> => {
+  // Compress & resize image on client (max 1000x1000 JPEG) for fast, free cloud DB & WhatsApp OG preview support
+  const compressImageFile = (file: File, maxDim = 1000, quality = 0.85): Promise<File> => {
     return new Promise((resolve) => {
       const img = new window.Image();
       const objectUrl = URL.createObjectURL(file);
@@ -244,6 +244,8 @@ export default function AdminDashboardPage() {
           resolve(file);
           return;
         }
+        ctx.fillStyle = "#FAF7F2";
+        ctx.fillRect(0, 0, width, height);
         ctx.drawImage(img, 0, 0, width, height);
         canvas.toBlob(
           (blob) => {
@@ -253,12 +255,12 @@ export default function AdminDashboardPage() {
             }
             const compressedFile = new File(
               [blob],
-              file.name.replace(/\.[^.]+$/, ".webp"),
-              { type: "image/webp" }
+              file.name.replace(/\.[^.]+$/, ".jpg"),
+              { type: "image/jpeg" }
             );
             resolve(compressedFile);
           },
-          "image/webp",
+          "image/jpeg",
           quality
         );
       };
@@ -601,7 +603,7 @@ export default function AdminDashboardPage() {
               <Image
                 alt="Mesh 'E' Decor"
                 className="h-7 sm:h-8 w-auto object-contain shrink-0"
-                src="https://lh3.googleusercontent.com/aida-public/AB6AXuDpqcGZ0BeH_fqgXUIEgQatWQTbaOWDHb5pQAYuFeAhW6-gZlEzfRkO1G8yjEw3HYRnAfS90zEz6gW4kGljiX8xHJFjPOeaV5atYaQEdHrQCbDmoS1COfeyrNcALBpTiK1Ufv0DTY1dNd2X1CxxcJheAgmzGoW3LEA79f22kOUt7KUckcK1QzwuhHlvbXrUr7TPMLQFYbDEbY1b55MwJ-doRzDxPeXmhXZy9VrVUPFADPQ9xNCdhWD6"
+                src="/logo.jpg"
                 width={32}
                 height={32}
                 unoptimized

@@ -27,7 +27,7 @@ export default function Footer() {
               <Image
                 alt="Mesh 'E' Decor Logo"
                 className="h-8 w-auto object-contain"
-                src="https://lh3.googleusercontent.com/aida-public/AB6AXuARGm52ZF7BWYXD9c6FiJE5vBCTJN7PR01sq7x8kT2IBg62f4F_lQIaoBVtM2ZYrEO8fCb-0gnKxrg5SW21Hn5npEnqZW0OOOcaPqRFwXzvjabfKpZMJIV49olqvHEiTfVOcbJ9V15Rl0SwNiYxqvaw7NBRNqXrAfawEG652e63VYBAN10eq3uRCfneWg7rD-B2X_533uYCqwPIJfFOgTux0VGiJG7lNfiLllf-Mgytr2mw3G7giQk9"
+                src="/logo.jpg"
                 width={32}
                 height={32}
                 unoptimized

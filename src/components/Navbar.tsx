@@ -92,7 +92,7 @@ export default function Navbar({ onOpenConcierge }: NavbarProps) {
               <Image
                 alt="Mesh 'E' Decor Brandmark"
                 className="h-6 sm:h-7 w-auto object-contain transition-transform duration-500 group-hover:scale-105"
-                src="https://lh3.googleusercontent.com/aida-public/AB6AXuDpqcGZ0BeH_fqgXUIEgQatWQTbaOWDHb5pQAYuFeAhW6-gZlEzfRkO1G8yjEw3HYRnAfS90zEz6gW4kGljiX8xHJFjPOeaV5atYaQEdHrQCbDmoS1COfeyrNcALBpTiK1Ufv0DTY1dNd2X1CxxcJheAgmzGoW3LEA79f22kOUt7KUckcK1QzwuhHlvbXrUr7TPMLQFYbDEbY1b55MwJ-doRzDxPeXmhXZy9VrVUPFADPQ9xNCdhWD6"
+                src="/logo.jpg"
                 width={30}
                 height={30}
                 unoptimized
