@@ -44,12 +44,21 @@ async function ensureSeeded() {
   }
 }
 
-export async function GET() {
+export async function GET(req: Request) {
   try {
-    await ensureSeeded();
-    const dbProducts = await prisma.product.findMany({
+    const { searchParams } = new URL(req.url);
+    const isAdmin = searchParams.get("admin") === "1";
+
+    let dbProducts = await prisma.product.findMany({
       orderBy: [{ sortOrder: "asc" }, { createdAt: "desc" }],
     });
+
+    if (dbProducts.length === 0) {
+      await ensureSeeded();
+      dbProducts = await prisma.product.findMany({
+        orderBy: [{ sortOrder: "asc" }, { createdAt: "desc" }],
+      });
+    }
 
     if (dbProducts.length === 0) {
       return NextResponse.json(PRODUCTS);
@@ -64,11 +73,19 @@ export async function GET() {
       }
 
       let imagesList: string[] = [];
-      try {
-        imagesList = JSON.parse(p.images || "[]");
-      } catch {
-        imagesList = [];
+      if (isAdmin) {
+        try {
+          imagesList = JSON.parse(p.images || "[]");
+        } catch {
+          imagesList = [];
+        }
       }
+
+      // Serve Base64 DB images via lightweight HTTP image route on storefront to keep JSON tiny
+      const resolvedCoverImage =
+        !isAdmin && p.image.startsWith("data:")
+          ? `/api/products/${encodeURIComponent(p.code)}/image`
+          : p.image;
 
       return {
         id: p.id,
@@ -77,8 +94,8 @@ export async function GET() {
         numericPrice: p.numericPrice,
         category: p.category,
         categories: categoriesList,
-        image: p.image,
-        images: imagesList,
+        image: resolvedCoverImage,
+        ...(isAdmin ? { images: imagesList } : {}),
         description: p.description || "",
         featured: Boolean(p.featured),
         sortOrder: typeof p.sortOrder === "number" ? p.sortOrder : index,

@@ -330,7 +330,7 @@ function CatalogueContent() {
                 className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 sm:gap-8 lg:gap-10 animate-luxury-fade-in"
               >
                 {filteredAndSortedProducts.map((product, index) => (
-                  <Reveal key={product.id} delayMs={(index % 4) * 60}>
+                  <Reveal key={product.id} delayMs={(index % 4) * 90}>
                     <ProductCard
                       product={product}
                     />

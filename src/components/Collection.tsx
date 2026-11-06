@@ -26,14 +26,37 @@ export default function Collection({
   const [allProducts, setAllProducts] = useState<ProductItem[]>(PRODUCTS);
 
   useEffect(() => {
-    fetch("/api/products")
-      .then((res) => (res.ok ? res.json() : null))
-      .then((data) => {
-        if (data && Array.isArray(data) && data.length > 0) {
-          setAllProducts(data);
-        }
-      })
-      .catch(() => {});
+    let cancelled = false;
+    const timer = setTimeout(() => {
+      fetch("/api/products")
+        .then((res) => (res.ok ? res.json() : null))
+        .then((data: ProductItem[] | null) => {
+          if (cancelled || !data || !Array.isArray(data) || data.length === 0) {
+            return;
+          }
+          setAllProducts((prev) => {
+            if (
+              prev.length === data.length &&
+              prev.every(
+                (p, i) =>
+                  p.id === data[i]?.id &&
+                  p.price === data[i]?.price &&
+                  p.featured === data[i]?.featured &&
+                  p.image === data[i]?.image
+              )
+            ) {
+              return prev;
+            }
+            return data;
+          });
+        })
+        .catch(() => {});
+    }, 2500);
+
+    return () => {
+      cancelled = true;
+      clearTimeout(timer);
+    };
   }, []);
 
   const featuredList = allProducts.filter((p) => p.featured);
@@ -95,7 +118,7 @@ export default function Collection({
           className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 lg:gap-12 animate-luxury-fade-in"
         >
           {filteredProducts.map((product, index) => (
-            <Reveal key={product.id} delayMs={(index % 3) * 80}>
+            <Reveal key={product.id} delayMs={(index % 3) * 110}>
               <ProductCard
                 product={product}
                 onInquire={onInquirePiece}

@@ -1,5 +1,4 @@
 import type { Metadata, Viewport } from "next";
-import { headers } from "next/headers";
 import { Cormorant_Garamond, Plus_Jakarta_Sans } from "next/font/google";
 import { CartProvider } from "@/context/CartContext";
 import "./globals.css";
@@ -7,14 +6,16 @@ import "./globals.css";
 const cormorantGaramond = Cormorant_Garamond({
   variable: "--font-cormorant",
   subsets: ["latin"],
-  weight: ["300", "400", "500", "600", "700"],
+  weight: ["400", "500", "600"],
   style: ["normal", "italic"],
+  display: "swap",
 });
 
 const plusJakartaSans = Plus_Jakarta_Sans({
   variable: "--font-plus-jakarta",
   subsets: ["latin"],
-  weight: ["200", "300", "400", "500", "600", "700"],
+  weight: ["300", "400", "500", "600"],
+  display: "swap",
 });
 
 export const viewport: Viewport = {
@@ -24,55 +25,53 @@ export const viewport: Viewport = {
   themeColor: "#FAF7F2",
 };
 
-export async function generateMetadata(): Promise<Metadata> {
-  const headersList = await headers();
-  const host =
-    headersList.get("x-forwarded-host") ||
-    headersList.get("host") ||
-    process.env.VERCEL_PROJECT_PRODUCTION_URL ||
-    process.env.VERCEL_URL ||
-    "localhost:3000";
-  const protocol = host.includes("localhost") ? "http" : "https";
-  const baseUrl = `${protocol}://${host}`;
-  const logoUrl = `${baseUrl}/logo.jpg`;
+const resolvedSiteUrl =
+  process.env.NEXT_PUBLIC_SITE_URL ||
+  (process.env.VERCEL_PROJECT_PRODUCTION_URL
+    ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
+    : process.env.VERCEL_URL
+    ? `https://${process.env.VERCEL_URL}`
+    : "http://localhost:3000");
 
-  const siteTitle = "Mesh ‘E’ Decor | Haute Artisanal Decor & Luxury Gifting";
-  const siteDescription =
-    "Purveyors of bespoke luxury gifts, handcrafted home accents, statement centerpieces, and artisanal decor objects for distinguished spaces.";
+const siteTitle = "Mesh ‘E’ Decor | Haute Artisanal Decor & Luxury Gifting";
+const siteDescription =
+  "Purveyors of bespoke luxury gifts, handcrafted home accents, statement centerpieces, and artisanal decor objects for distinguished spaces.";
 
-  return {
-    metadataBase: new URL(baseUrl),
+export const metadata: Metadata = {
+  metadataBase: new URL(resolvedSiteUrl),
+  title: siteTitle,
+  description: siteDescription,
+  icons: {
+    icon: "/logo.jpg",
+    shortcut: "/logo.jpg",
+    apple: "/logo.jpg",
+  },
+  openGraph: {
     title: siteTitle,
     description: siteDescription,
-    icons: {
-      icon: "/logo.jpg",
-      shortcut: "/logo.jpg",
-      apple: "/logo.jpg",
-    },
-    openGraph: {
-      title: siteTitle,
-      description: siteDescription,
-      url: baseUrl,
-      siteName: "Mesh ‘E’ Decor",
-      images: [
-        {
-          url: logoUrl,
-          width: 512,
-          height: 512,
-          alt: "Mesh ‘E’ Decor Logo",
-        },
-      ],
-      locale: "en_IN",
-      type: "website",
-    },
-    twitter: {
-      card: "summary",
-      title: siteTitle,
-      description: siteDescription,
-      images: [logoUrl],
-    },
-  };
-}
+    url: resolvedSiteUrl,
+    siteName: "Mesh ‘E’ Decor",
+    images: [
+      {
+        url: "/logo.jpg",
+        width: 512,
+        height: 512,
+        alt: "Mesh ‘E’ Decor Logo",
+      },
+    ],
+    locale: "en_IN",
+    type: "website",
+  },
+  twitter: {
+    card: "summary",
+    title: siteTitle,
+    description: siteDescription,
+    images: ["/logo.jpg"],
+  },
+};
+
+const MATERIAL_SYMBOLS_URL =
+  "https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20,300,0,0&icon_names=add,add_circle,add_photo_alternate,arrow_back,arrow_downward,arrow_forward,arrow_outward,arrow_upward,aspect_ratio,check,check_circle,chevron_left,chevron_right,close,cloud_off,cloud_upload,delete,edit,error,handshake,image,inventory_2,local_shipping,lock_open,logout,menu,photo_library,progress_activity,search,send,shopping_bag,star,storefront,support_agent,swipe,upload_file,visibility,visibility_off&display=swap";
 
 export default function RootLayout({
   children,
@@ -86,9 +85,21 @@ export default function RootLayout({
       className={`${cormorantGaramond.variable} ${plusJakartaSans.variable} scroll-smooth`}
     >
       <head>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link
+          rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossOrigin="anonymous"
+        />
+        <link
+          rel="preload"
+          as="style"
+          href={MATERIAL_SYMBOLS_URL}
+        />
         <link
           rel="stylesheet"
-          href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..400,0..1&display=swap"
+          href={MATERIAL_SYMBOLS_URL}
+          media="all"
         />
       </head>
       <body

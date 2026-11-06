@@ -9,6 +9,7 @@ import Footer from "@/components/Footer";
 import InquiryModal from "@/components/InquiryModal";
 import ProductCard from "@/components/ProductCard";
 import Collection from "@/components/Collection";
+import Reveal from "@/components/Reveal";
 import { PRODUCTS, ProductItem, getParentCategory } from "@/data/products";
 import { useCart } from "@/context/CartContext";
 
@@ -246,8 +247,10 @@ Kindly confirm availability and share payment / delivery instructions. Thank you
                       src={currentImage}
                       alt={product.code}
                       fill
+                      sizes="(max-width: 1024px) 92vw, 55vw"
+                      quality={80}
                       className="object-cover object-center transition-all duration-300"
-                      unoptimized
+                      unoptimized={currentImage.startsWith("data:")}
                       priority
                     />
                     {/* Floating Specimen Badge */}
@@ -326,8 +329,10 @@ Kindly confirm availability and share payment / delivery instructions. Thank you
                                 src={imgUrl}
                                 alt={`${product.code} angle ${idx + 1}`}
                                 fill
+                                sizes="64px"
+                                quality={70}
                                 className="object-cover object-center"
-                                unoptimized
+                                unoptimized={imgUrl.startsWith("data:")}
                               />
                             </button>
                           );
@@ -535,12 +540,13 @@ Kindly confirm availability and share payment / delivery instructions. Thank you
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
-                {relatedProducts.map((item) => (
-                  <ProductCard
-                    key={item.id}
-                    product={item}
-                    onInquire={(p) => addToCart(p, 1)}
-                  />
+                {relatedProducts.map((item, idx) => (
+                  <Reveal key={item.id} delayMs={(idx % 3) * 90}>
+                    <ProductCard
+                      product={item}
+                      onInquire={(p) => addToCart(p, 1)}
+                    />
+                  </Reveal>
                 ))}
               </div>
             </div>

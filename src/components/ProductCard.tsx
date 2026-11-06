@@ -40,7 +40,12 @@ export default function ProductCard({
           className="w-full h-full object-cover object-center group-hover:scale-[1.045] transition-transform duration-700 ease-[cubic-bezier(0.22,1,0.36,1)]"
           src={product.image}
           fill
-          unoptimized
+          sizes="(max-width: 640px) 92vw, (max-width: 1024px) 46vw, 30vw"
+          quality={75}
+          unoptimized={
+            product.image.startsWith("data:") ||
+            product.image.startsWith("/api/products/")
+          }
         />
         {/* Subtle bottom luxury hover veil */}
         <div className="absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t from-espresso/45 via-espresso/15 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none flex items-end justify-between px-3.5 pb-3">

@@ -1,13 +1,17 @@
 "use client";
 
 import React, { useState } from "react";
+import dynamic from "next/dynamic";
 import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
 import Collection from "@/components/Collection";
 import { ProductItem } from "@/data/products";
 import Testimonial from "@/components/Testimonial";
 import Footer from "@/components/Footer";
-import InquiryModal from "@/components/InquiryModal";
+
+const InquiryModal = dynamic(() => import("@/components/InquiryModal"), {
+  ssr: false,
+});
 
 export default function HomePage() {
   const [modalOpen, setModalOpen] = useState(false);

@@ -95,7 +95,7 @@ export default function AdminDashboardPage() {
 
   async function fetchProducts() {
     try {
-      const res = await fetch(`/api/products?t=${Date.now()}`, {
+      const res = await fetch(`/api/products?admin=1&t=${Date.now()}`, {
         cache: "no-store",
       });
       if (res.ok) {

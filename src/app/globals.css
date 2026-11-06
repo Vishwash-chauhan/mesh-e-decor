@@ -67,13 +67,28 @@
   font-family: var(--font-plus-jakarta), sans-serif;
 }
 
+/* Prevent icon font text ("arrow_forward", "shopping_bag") from causing CLS or delayed paint */
+.material-symbols-outlined {
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  line-height: 1;
+  overflow: hidden;
+  white-space: nowrap;
+  word-wrap: normal;
+  direction: ltr;
+  -webkit-font-smoothing: antialiased;
+  vertical-align: middle;
+  flex-shrink: 0;
+}
+
 /* ========================================================= */
 /* LUXURY ATELIER MOTION & MICRO-INTERACTIONS                */
 /* ========================================================= */
 @keyframes luxuryFadeUp {
   0% {
     opacity: 0;
-    transform: translate3d(0, 18px, 0);
+    transform: translate3d(0, 26px, 0);
   }
   100% {
     opacity: 1;
@@ -92,7 +107,7 @@
 
 @keyframes heroSubtleScale {
   0% {
-    transform: scale(1.045);
+    transform: scale(1.06);
   }
   100% {
     transform: scale(1);
@@ -105,38 +120,49 @@
     transform: scale(1);
   }
   50% {
-    opacity: 0.34;
+    opacity: 0.36;
     transform: scale(1.04);
   }
 }
 
 .animate-luxury-fade-up {
-  animation: luxuryFadeUp 0.85s cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation: luxuryFadeUp 0.9s cubic-bezier(0.16, 1, 0.3, 1) both;
+  will-change: transform, opacity;
 }
 
 .animate-luxury-fade-in {
-  animation: luxuryFadeIn 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation: luxuryFadeIn 0.75s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
 .animate-hero-settle {
-  animation: heroSubtleScale 7s cubic-bezier(0.16, 1, 0.3, 1) both;
+  animation: heroSubtleScale 1.9s cubic-bezier(0.16, 1, 0.3, 1) both;
+  will-change: transform;
 }
 
 .animate-ambient-glow {
-  animation: ambientPulse 7s ease-in-out infinite;
+  animation: ambientPulse 6s ease-in-out infinite;
 }
 
-.delay-100 {
-  animation-delay: 100ms;
+.delay-75 {
+  animation-delay: 75ms;
 }
-.delay-200 {
-  animation-delay: 200ms;
+.delay-150 {
+  animation-delay: 150ms;
 }
-.delay-300 {
-  animation-delay: 300ms;
+.delay-250 {
+  animation-delay: 250ms;
+}
+.delay-350 {
+  animation-delay: 350ms;
 }
 .delay-450 {
   animation-delay: 450ms;
+}
+.delay-550 {
+  animation-delay: 550ms;
+}
+.delay-650 {
+  animation-delay: 650ms;
 }
 
 /* Subtle champagne sheen on primary luxury CTAs */
