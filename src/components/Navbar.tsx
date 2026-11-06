@@ -184,88 +184,38 @@ export default function Navbar({ onOpenConcierge }: NavbarProps) {
         {mobileMenuOpen && (
           <div
             id="mobile-navigation"
-            className="md:hidden w-full bg-[#FAF7F2] border-b border-borderdelicate shadow-2xl px-6 py-5 flex flex-col gap-1 text-[11px] uppercase tracking-[0.2em] text-espresso font-medium animate-in slide-in-from-top-2 duration-200"
+            className="md:hidden w-full bg-[#FAF7F2] border-b border-borderdelicate shadow-2xl px-6 py-6 flex flex-col gap-2 text-[12px] uppercase tracking-[0.22em] text-espresso font-medium animate-in slide-in-from-top-2 duration-200"
           >
-            <div className="flex items-center justify-between pb-3 mb-2 border-b border-borderdelicate/60 text-[10px] tracking-[0.25em] text-golddeep font-medium">
-              <span>Haute Artisanal Collections</span>
-              <span>2026 Edition</span>
-            </div>
-
             <Link
               href="/catalogue"
               onClick={() => setMobileMenuOpen(false)}
-              className={`py-3 border-b border-borderdelicate/40 flex items-center justify-between transition-colors ${
-                isCataloguePage ? "text-espresso font-semibold" : "hover:text-espresso"
+              className={`py-3.5 border-b border-borderdelicate/40 flex items-center justify-between transition-colors ${
+                isCataloguePage ? "text-golddeep font-semibold" : "hover:text-golddeep"
               }`}
             >
-              <span className="flex items-center gap-2.5">
-                <span className="material-symbols-outlined text-[18px]">inventory_2</span>
-                Catalogue Archives
-              </span>
+              <span>Catalogue</span>
               <span className="material-symbols-outlined text-[16px]">chevron_right</span>
             </Link>
 
             <Link
               href="/#craft"
               onClick={() => setMobileMenuOpen(false)}
-              className="py-3 border-b border-borderdelicate/40 flex items-center justify-between hover:text-espresso transition-colors"
+              className="py-3.5 border-b border-borderdelicate/40 flex items-center justify-between hover:text-golddeep transition-colors"
             >
-              <span className="flex items-center gap-2.5">
-                <span className="material-symbols-outlined text-[18px]">handshake</span>
-                Our Atelier &amp; Craft
-              </span>
+              <span>About Us</span>
               <span className="material-symbols-outlined text-[16px]">chevron_right</span>
             </Link>
 
-            <Link
-              href="/cart"
-              onClick={() => setMobileMenuOpen(false)}
-              className={`py-3 border-b border-borderdelicate/40 flex items-center justify-between transition-colors ${
-                isCartPage ? "text-espresso font-semibold" : "hover:text-espresso"
-              }`}
-            >
-              <span className="flex items-center gap-2.5">
-                <div className="relative inline-flex items-center justify-center">
-                  <span className="material-symbols-outlined text-[18px]">shopping_bag</span>
-                  {totalItems > 0 && (
-                    <span className="absolute -top-1 -right-2 bg-golddeep text-alabaster text-[8px] font-bold min-w-[13px] h-3 px-0.5 rounded-full flex items-center justify-center leading-none">
-                      {totalItems}
-                    </span>
-                  )}
-                </div>
-                <span>Curated Cart</span>
-              </span>
-              <span className="material-symbols-outlined text-[16px]">chevron_right</span>
-            </Link>
-
-            {onOpenConcierge && (
-              <button
-                type="button"
-                onClick={() => {
-                  setMobileMenuOpen(false);
-                  onOpenConcierge();
-                }}
-                className="py-3 border-b border-borderdelicate/40 flex items-center justify-between hover:text-espresso text-left transition-colors cursor-pointer"
-              >
-                <span className="flex items-center gap-2.5">
-                  <span className="material-symbols-outlined text-[18px]">support_agent</span>
-                  Bespoke Concierge
-                </span>
-                <span className="material-symbols-outlined text-[16px]">chevron_right</span>
-              </button>
-            )}
-
-            {/* Direct WhatsApp Action in Menu */}
-            <div className="pt-4 mt-2">
+            <div className="pt-3">
               <a
                 href="https://wa.me/917042005637?text=Hello%20Mesh%20‘E’%20Decor%2C%20I%20would%20like%20to%20inquire%20about%20your%20luxury%20silver-plated%20collection."
                 target="_blank"
                 rel="noopener noreferrer"
                 onClick={() => setMobileMenuOpen(false)}
-                className="w-full py-3 bg-[#25D366] text-white flex items-center justify-center gap-2 text-[10px] tracking-[0.2em] font-medium shadow-xs hover:bg-[#20BE5C] transition-colors"
+                className="w-full py-3.5 bg-[#25D366] text-white flex items-center justify-center gap-2 text-[10px] tracking-[0.2em] font-medium shadow-xs hover:bg-[#20BE5C] transition-colors"
               >
                 <span>WhatsApp Atelier</span>
-                <span className="material-symbols-outlined text-[16px]">arrow_forward</span>
+                <span className="material-symbols-outlined text-[15px]">arrow_forward</span>
               </a>
             </div>
           </div>
