@@ -20,7 +20,17 @@ export default function Reveal({
 
   useEffect(() => {
     const el = ref.current;
-    if (!el) return;
+    if (!el) {
+      setVisible(true);
+      return;
+    }
+
+    // Immediately show if already within or near viewport on mount
+    const rect = el.getBoundingClientRect();
+    if (rect.top <= window.innerHeight + 100) {
+      setVisible(true);
+      return;
+    }
 
     if (typeof IntersectionObserver === "undefined") {
       setVisible(true);
@@ -36,16 +46,16 @@ export default function Reveal({
       },
       {
         threshold: 0,
-        rootMargin: "0px 0px 50px 0px",
+        rootMargin: "0px 0px 150px 0px",
       }
     );
 
     observer.observe(el);
 
-    // Bulletproof fallback: ensure element becomes visible even if browser/webview doesn't fire observer
+    // Bulletproof fallback: ensure element becomes visible regardless
     const fallbackTimer = setTimeout(() => {
       setVisible(true);
-    }, 1200);
+    }, 600);
 
     return () => {
       observer.disconnect();
