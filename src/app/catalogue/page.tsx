@@ -6,6 +6,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import InquiryModal from "@/components/InquiryModal";
 import ProductCard from "@/components/ProductCard";
+import Reveal from "@/components/Reveal";
 import {
   PRODUCTS,
   CATEGORIES,
@@ -135,7 +136,7 @@ function CatalogueContent() {
         {/* Catalogue Editorial Hero Header */}
         <section className="w-full bg-canvas py-12 sm:py-16 border-b border-borderdelicate/80 relative">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-12">
-            <div className="max-w-3xl">
+            <div className="max-w-3xl animate-luxury-fade-up">
               <div className="flex items-center gap-2 mb-3">
                 <span className="text-[10px] uppercase tracking-[0.3em] text-golddeep font-medium">
                   Complete Archives
@@ -155,7 +156,7 @@ function CatalogueContent() {
             </div>
 
             {/* Filter & Search Bar */}
-            <div className="mt-8 pt-8 border-t border-borderdelicate/80 flex flex-col md:flex-row items-stretch md:items-center justify-between gap-4">
+            <div className="mt-8 pt-8 border-t border-borderdelicate/80 flex flex-col md:flex-row items-stretch md:items-center justify-between gap-4 animate-luxury-fade-up delay-100">
               {/* Search Box */}
               <div className="relative flex-grow max-w-md">
                 <span className="material-symbols-outlined absolute left-3.5 top-1/2 -translate-y-1/2 text-mute text-[18px]">
@@ -324,12 +325,16 @@ function CatalogueContent() {
 
             {/* Products Grid */}
             {filteredAndSortedProducts.length > 0 ? (
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 sm:gap-8 lg:gap-10">
-                {filteredAndSortedProducts.map((product) => (
-                  <ProductCard
-                    key={product.id}
-                    product={product}
-                  />
+              <div
+                key={`${selectedCategory}-${sortBy}`}
+                className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 sm:gap-8 lg:gap-10 animate-luxury-fade-in"
+              >
+                {filteredAndSortedProducts.map((product, index) => (
+                  <Reveal key={product.id} delayMs={(index % 4) * 60}>
+                    <ProductCard
+                      product={product}
+                    />
+                  </Reveal>
                 ))}
               </div>
             ) : (

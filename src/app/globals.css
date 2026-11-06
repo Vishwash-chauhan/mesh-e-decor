@@ -67,4 +67,114 @@
   font-family: var(--font-plus-jakarta), sans-serif;
 }
 
+/* ========================================================= */
+/* LUXURY ATELIER MOTION & MICRO-INTERACTIONS                */
+/* ========================================================= */
+@keyframes luxuryFadeUp {
+  0% {
+    opacity: 0;
+    transform: translate3d(0, 18px, 0);
+  }
+  100% {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes luxuryFadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes heroSubtleScale {
+  0% {
+    transform: scale(1.045);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes ambientPulse {
+  0%, 100% {
+    opacity: 0.22;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.34;
+    transform: scale(1.04);
+  }
+}
+
+.animate-luxury-fade-up {
+  animation: luxuryFadeUp 0.85s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.animate-luxury-fade-in {
+  animation: luxuryFadeIn 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.animate-hero-settle {
+  animation: heroSubtleScale 7s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.animate-ambient-glow {
+  animation: ambientPulse 7s ease-in-out infinite;
+}
+
+.delay-100 {
+  animation-delay: 100ms;
+}
+.delay-200 {
+  animation-delay: 200ms;
+}
+.delay-300 {
+  animation-delay: 300ms;
+}
+.delay-450 {
+  animation-delay: 450ms;
+}
+
+/* Subtle champagne sheen on primary luxury CTAs */
+.luxury-cta-sheen {
+  position: relative;
+  overflow: hidden;
+}
+.luxury-cta-sheen::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -120%;
+  width: 65%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.22),
+    transparent
+  );
+  transform: skewX(-20deg);
+  transition: left 0.75s cubic-bezier(0.22, 1, 0.36, 1);
+  pointer-events: none;
+}
+.luxury-cta-sheen:hover::after {
+  left: 140%;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-luxury-fade-up,
+  .animate-luxury-fade-in,
+  .animate-hero-settle,
+  .animate-ambient-glow {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}
+
+
 

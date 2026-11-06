@@ -4,6 +4,7 @@ import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { ProductItem, PRODUCTS, CATEGORIES, matchesCategory } from "@/data/products";
 import ProductCard from "./ProductCard";
+import Reveal from "./Reveal";
 
 export type { ProductItem };
 
@@ -51,7 +52,7 @@ export default function Collection({
     >
       <div className="max-w-7xl mx-auto">
         {/* Section Header */}
-        <div className="text-center max-w-3xl mx-auto mb-10 sm:mb-12">
+        <Reveal className="text-center max-w-3xl mx-auto mb-10 sm:mb-12">
           <div className="inline-flex items-center justify-center gap-2 mb-3 flex-wrap">
             <span className="text-[10px] uppercase tracking-[0.3em] text-golddeep font-medium">
               Mesmerizing Artistry
@@ -69,15 +70,15 @@ export default function Collection({
             repertoire of archival décor, sacred sanctuaries, and opulent
             lapidary craftsmanship.
           </p>
-        </div>
+        </Reveal>
 
         {/* Elegant Minimalist Category Navigation Tabs */}
-        <div className="flex justify-start sm:justify-center items-center overflow-x-auto no-scrollbar gap-4 sm:gap-8 pb-3 mb-12 sm:mb-16 border-b border-borderdelicate/80 -mx-4 px-4 sm:mx-0 sm:px-0">
+        <Reveal delayMs={100} className="flex justify-start sm:justify-center items-center overflow-x-auto no-scrollbar gap-4 sm:gap-8 pb-3 mb-12 sm:mb-16 border-b border-borderdelicate/80 -mx-4 px-4 sm:mx-0 sm:px-0">
           {HOME_CATEGORIES.map((cat) => (
             <button
               key={cat}
               onClick={() => setSelectedCategory(cat)}
-              className={`pb-3 text-[10px] sm:text-[11px] uppercase tracking-[0.22em] font-medium transition-all cursor-pointer whitespace-nowrap border-b-2 -mb-[1px] ${
+              className={`pb-3 text-[10px] sm:text-[11px] uppercase tracking-[0.22em] font-medium transition-all duration-300 cursor-pointer whitespace-nowrap border-b-2 -mb-[1px] ${
                 selectedCategory === cat
                   ? "border-espresso text-espresso font-semibold"
                   : "border-transparent text-mute hover:text-espresso hover:border-borderdelicate"
@@ -86,38 +87,42 @@ export default function Collection({
               {cat}
             </button>
           ))}
-        </div>
+        </Reveal>
 
         {/* Gallery Grid Reusing ProductCard */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 lg:gap-12">
-          {filteredProducts.map((product) => (
-            <ProductCard
-              key={product.id}
-              product={product}
-              onInquire={onInquirePiece}
-            />
+        <div
+          key={selectedCategory}
+          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 lg:gap-12 animate-luxury-fade-in"
+        >
+          {filteredProducts.map((product, index) => (
+            <Reveal key={product.id} delayMs={(index % 3) * 80}>
+              <ProductCard
+                product={product}
+                onInquire={onInquirePiece}
+              />
+            </Reveal>
           ))}
         </div>
 
         {/* View All Products CTA */}
-        <div className="mt-10 sm:mt-14 flex justify-center">
+        <Reveal delayMs={120} className="mt-10 sm:mt-14 flex justify-center">
           <Link
             href={
               selectedCategory === "Featured Collection"
                 ? "/catalogue"
                 : `/catalogue?category=${encodeURIComponent(selectedCategory)}`
             }
-            className="inline-flex items-center justify-center gap-3 text-[11px] sm:text-[12px] uppercase tracking-[0.26em] font-medium text-alabaster bg-espresso px-8 py-4 hover:bg-golddeep transition-all duration-300 cursor-pointer min-h-[48px] shadow-sm"
+            className="luxury-cta-sheen group inline-flex items-center justify-center gap-3 text-[11px] sm:text-[12px] uppercase tracking-[0.26em] font-medium text-alabaster bg-espresso px-8 py-4 hover:bg-golddeep transition-all duration-300 cursor-pointer min-h-[48px] shadow-sm active:scale-[0.99]"
           >
             <span>View All Products</span>
-            <span className="material-symbols-outlined text-[16px]">
+            <span className="material-symbols-outlined text-[16px] group-hover:translate-x-1 transition-transform duration-300">
               arrow_forward
             </span>
           </Link>
-        </div>
+        </Reveal>
 
         {/* Editorial Catalogue Citation */}
-        <div className="mt-12 sm:mt-16 pt-8 border-t border-borderdelicate/80 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6">
+        <Reveal delayMs={160} className="mt-12 sm:mt-16 pt-8 border-t border-borderdelicate/80 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6">
           <div className="flex items-center gap-4">
             <span className="serif-display text-2xl sm:text-3xl text-golddeep italic">
               200+
@@ -130,15 +135,15 @@ export default function Collection({
           <div className="flex items-center gap-4 flex-wrap">
             <button
               onClick={onOpenConcierge}
-              className="inline-flex items-center gap-2 text-[11px] uppercase tracking-[0.24em] font-medium text-espresso hover:text-golddeep transition-colors border-b border-espresso hover:border-golddeep pb-1 min-h-[44px] cursor-pointer"
+              className="group inline-flex items-center gap-2 text-[11px] uppercase tracking-[0.24em] font-medium text-espresso hover:text-golddeep transition-colors border-b border-espresso hover:border-golddeep pb-1 min-h-[44px] cursor-pointer"
             >
               <span>Request Bespoke Inquiry</span>
-              <span className="material-symbols-outlined text-[15px]">
+              <span className="material-symbols-outlined text-[15px] group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform duration-300">
                 arrow_outward
               </span>
             </button>
           </div>
-        </div>
+        </Reveal>
       </div>
     </section>
   );

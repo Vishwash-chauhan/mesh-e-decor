@@ -21,7 +21,7 @@ export default function Hero({ onOpenConcierge }: HeroProps) {
           fill
           priority
           sizes="100vw"
-          className="object-cover sm:object-[80%_center] lg:object-right select-none"
+          className="object-cover sm:object-[80%_center] lg:object-right select-none animate-hero-settle"
           style={{ filter: "contrast(1.03) brightness(1.01)" }}
         />
 
@@ -32,7 +32,7 @@ export default function Hero({ onOpenConcierge }: HeroProps) {
 
         {/* Golden radial glow */}
         <div
-          className="absolute top-1/4 left-0 w-[550px] h-[550px] rounded-full pointer-events-none blur-3xl opacity-20 z-0"
+          className="absolute top-1/4 left-0 w-[550px] h-[550px] rounded-full pointer-events-none blur-3xl opacity-20 z-0 animate-ambient-glow"
           style={{
             background:
               "radial-gradient(circle, rgba(197, 168, 128, 0.45) 0%, rgba(17, 14, 12, 0) 70%)",
@@ -57,7 +57,7 @@ export default function Hero({ onOpenConcierge }: HeroProps) {
             fill
             priority
             sizes="100vw"
-            className="object-cover object-[center_22%] select-none"
+            className="object-cover object-[center_22%] select-none animate-hero-settle"
             style={{ filter: "contrast(1.06) brightness(1.02)" }}
           />
 
@@ -97,7 +97,7 @@ export default function Hero({ onOpenConcierge }: HeroProps) {
         <div className="relative z-10 flex-grow min-h-[180px] pointer-events-none" />
 
         {/* Mobile Bottom: Narrative Typography & Actions */}
-        <div className="relative z-10 flex flex-col space-y-3.5 pb-1">
+        <div className="relative z-10 flex flex-col space-y-3.5 pb-1 animate-luxury-fade-up delay-100">
           {/* Haute Grand Headline */}
           <div>
             <h1 className="serif-display text-[32px] xs:text-[36px] text-alabaster font-normal leading-[1.08] tracking-tight">
@@ -115,7 +115,7 @@ export default function Hero({ onOpenConcierge }: HeroProps) {
           <div className="flex items-center gap-2.5 w-full pt-0.5">
             <Link
               href="#collection"
-              className="flex-1 inline-flex items-center justify-center min-h-[44px] px-4 py-2.5 bg-goldaccent hover:bg-golddeep text-[#14110E] text-[10px] uppercase tracking-[0.22em] font-semibold transition-all duration-300 shadow-[0_4px_20px_rgba(197,168,128,0.3)] active:scale-[0.98]"
+              className="luxury-cta-sheen flex-1 inline-flex items-center justify-center min-h-[44px] px-4 py-2.5 bg-goldaccent hover:bg-golddeep text-[#14110E] text-[10px] uppercase tracking-[0.22em] font-semibold transition-all duration-300 shadow-[0_4px_20px_rgba(197,168,128,0.3)] active:scale-[0.98]"
             >
               <span>Explore Collection</span>
               <span className="material-symbols-outlined text-[15px] ml-1.5">
@@ -150,7 +150,7 @@ export default function Hero({ onOpenConcierge }: HeroProps) {
           {/* Narrative Column */}
           <div className="lg:col-span-8 flex flex-col items-start max-w-2xl text-left">
             {/* Archival Edition Pill Tag */}
-            <div className="inline-flex items-center gap-2.5 px-3 py-1 bg-[#1F1B18]/80 backdrop-blur-md border border-goldaccent/40 rounded-full mb-3 sm:mb-4 shadow-sm">
+            <div className="animate-luxury-fade-up inline-flex items-center gap-2.5 px-3 py-1 bg-[#1F1B18]/80 backdrop-blur-md border border-goldaccent/40 rounded-full mb-3 sm:mb-4 shadow-sm">
               <span className="w-1.5 h-1.5 rounded-full bg-goldaccent animate-pulse" />
               <span className="text-[9px] uppercase tracking-[0.26em] text-goldaccent font-medium">
                 Vol. IV Master Edition • 2026 Archive
@@ -158,7 +158,7 @@ export default function Hero({ onOpenConcierge }: HeroProps) {
             </div>
 
             {/* Haute Grand Headline */}
-            <h1 className="serif-display text-3xl sm:text-5xl lg:text-[56px] xl:text-[64px] text-alabaster font-normal leading-[1.06] tracking-tight mb-3 sm:mb-4">
+            <h1 className="animate-luxury-fade-up delay-100 serif-display text-3xl sm:text-5xl lg:text-[56px] xl:text-[64px] text-alabaster font-normal leading-[1.06] tracking-tight mb-3 sm:mb-4">
               Haute Artisanal Decor.{" "}
               <span className="serif-display italic font-light block text-goldaccent mt-0.5">
                 Bespoke Luxury Gifting.
@@ -166,15 +166,15 @@ export default function Hero({ onOpenConcierge }: HeroProps) {
             </h1>
 
             {/* Architectural Sub-Manifesto */}
-            <p className="text-xs sm:text-sm lg:text-[15px] text-alabaster/80 leading-relaxed max-w-xl mb-5 sm:mb-6 font-light">
+            <p className="animate-luxury-fade-up delay-200 text-xs sm:text-sm lg:text-[15px] text-alabaster/80 leading-relaxed max-w-xl mb-5 sm:mb-6 font-light">
               An atelier world where master metalsmithing converges with timeless living. Handcrafted solid brassware, sculptural centerpieces, and curated luxury gifts — forged for connoisseurs and exquisite spaces.
             </p>
 
             {/* Action CTAs */}
-            <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3.5 w-full sm:w-auto">
+            <div className="animate-luxury-fade-up delay-300 flex flex-col sm:flex-row items-stretch sm:items-center gap-3.5 w-full sm:w-auto">
               <Link
                 href="#collection"
-                className="inline-flex items-center justify-center min-h-[44px] sm:min-h-[46px] px-6 sm:px-7 py-2.5 bg-goldaccent hover:bg-golddeep text-[#14110E] text-[10px] sm:text-[11px] uppercase tracking-[0.24em] font-semibold transition-all duration-300 shadow-[0_4px_25px_rgba(197,168,128,0.25)] hover:shadow-[0_6px_30px_rgba(197,168,128,0.4)] group cursor-pointer active:scale-[0.99]"
+                className="luxury-cta-sheen inline-flex items-center justify-center min-h-[44px] sm:min-h-[46px] px-6 sm:px-7 py-2.5 bg-goldaccent hover:bg-golddeep text-[#14110E] text-[10px] sm:text-[11px] uppercase tracking-[0.24em] font-semibold transition-all duration-300 shadow-[0_4px_25px_rgba(197,168,128,0.25)] hover:shadow-[0_6px_30px_rgba(197,168,128,0.4)] group cursor-pointer active:scale-[0.99]"
               >
                 <span>Explore 2026 Collection</span>
                 <span className="material-symbols-outlined text-[16px] ml-2 group-hover:translate-x-1 transition-transform">
@@ -192,8 +192,8 @@ export default function Hero({ onOpenConcierge }: HeroProps) {
           </div>
 
           {/* Right Floating Specimen Plaque (Desktop Only) */}
-          <div className="hidden lg:flex lg:col-span-4 justify-end items-end h-full">
-            <div className="bg-[#1F1B18]/85 backdrop-blur-md border border-goldaccent/40 p-4 max-w-xs shadow-[0_20px_50px_rgba(0,0,0,0.5)] relative">
+          <div className="hidden lg:flex lg:col-span-4 justify-end items-end h-full animate-luxury-fade-up delay-450">
+            <div className="bg-[#1F1B18]/85 backdrop-blur-md border border-goldaccent/40 hover:border-goldaccent/80 transition-colors duration-500 p-4 max-w-xs shadow-[0_20px_50px_rgba(0,0,0,0.5)] relative">
               {/* Plaque Header */}
               <div className="flex items-center justify-between pb-2.5 border-b border-goldaccent/25 mb-2.5">
                 <span className="text-[9px] uppercase tracking-[0.25em] text-goldaccent font-medium">

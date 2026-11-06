@@ -225,7 +225,7 @@ Kindly confirm availability and share payment / delivery instructions. Thank you
         <section className="w-full py-12 sm:py-20 px-4 sm:px-6 lg:px-12 border-b border-borderdelicate/80">
           <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-start">
             {/* Left Column: Product Artwork Display */}
-            <div className="lg:col-span-7 flex flex-col gap-4 relative">
+            <div className="lg:col-span-7 flex flex-col gap-4 relative animate-luxury-fade-up">
               <div className="relative mx-auto w-full">
                 <div
                   className="absolute -inset-6 pointer-events-none rounded-full blur-3xl opacity-50 z-0"
@@ -340,7 +340,7 @@ Kindly confirm availability and share payment / delivery instructions. Thank you
             </div>
 
             {/* Right Column: Product Specifications & Actions */}
-            <div className="lg:col-span-5 flex flex-col items-start">
+            <div className="lg:col-span-5 flex flex-col items-start animate-luxury-fade-up delay-100">
               <span className="text-[10px] uppercase tracking-[0.3em] text-golddeep font-medium block mb-2">
                 {product.category}
               </span>
