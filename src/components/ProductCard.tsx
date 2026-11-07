@@ -50,7 +50,7 @@ export default function ProductCard({
         {/* Subtle bottom luxury hover veil */}
         <div className="absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t from-espresso/45 via-espresso/15 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none flex items-end justify-between px-3.5 pb-3">
           <span className="text-[9px] uppercase tracking-[0.22em] text-alabaster/95 font-medium translate-y-1.5 group-hover:translate-y-0 transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)]">
-            Inspect Specimen
+            View Product
           </span>
           <span className="material-symbols-outlined text-[14px] text-goldaccent translate-y-1.5 group-hover:translate-y-0 transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)]">
             arrow_outward

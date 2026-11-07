@@ -139,19 +139,19 @@ function CatalogueContent() {
             <div className="max-w-3xl animate-luxury-fade-up">
               <div className="flex items-center gap-2 mb-3">
                 <span className="text-[10px] uppercase tracking-[0.3em] text-golddeep font-medium">
-                  Complete Archives
+                  Full Collection
                 </span>
                 <span className="text-mute/60">•</span>
                 <span className="text-[10px] uppercase tracking-[0.24em] text-mute">
-                  Catalogue Edition 2026
+                  Catalogue 2026
                 </span>
               </div>
               <h1 className="serif-display text-4xl sm:text-6xl text-espresso font-normal tracking-tight mb-4">
-                The Archival Catalogue
+                The Product Catalogue
               </h1>
               <p className="text-[14px] sm:text-[16px] text-subdued font-light leading-relaxed">
-                Explore our full repertoire of silver-plated virgin brassware,
-                mother-of-pearl lapidary, sacred sanctum kalashas, and bespoke boardroom specimens.
+                Explore our complete range of silver-plated brassware, decorative gift boxes,
+                traditional puja kalash, and handcrafted centerpieces.
               </p>
             </div>
 
@@ -164,7 +164,7 @@ function CatalogueContent() {
                 </span>
                 <input
                   type="text"
-                  placeholder="Search by specimen code (e.g. JGM-0076) or category..."
+                  placeholder="Search by product code (e.g. JGM-0076) or category..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   className="w-full bg-surface border border-borderdelicate pl-10 pr-4 py-3 min-h-[44px] text-xs text-espresso placeholder:text-mute focus:outline-none focus:border-espresso transition-colors"
@@ -307,7 +307,7 @@ function CatalogueContent() {
             {/* Results Summary Bar */}
             <div className="flex items-center justify-between pb-6 mb-8 text-[11px] uppercase tracking-[0.2em] text-mute border-b border-borderdelicate/40">
               <span>
-                Showing {filteredAndSortedProducts.length} of {allProducts.length} Specimen Pieces
+                Showing {filteredAndSortedProducts.length} of {allProducts.length} Products
               </span>
               {(selectedCategory !== "All Collections" || searchQuery) && (
                 <button
@@ -340,10 +340,10 @@ function CatalogueContent() {
             ) : (
               <div className="py-20 text-center flex flex-col items-center">
                 <span className="serif-display text-2xl text-subdued mb-2 italic">
-                  No matching artefacts found
+                  No matching products found
                 </span>
                 <p className="text-[13px] text-mute mb-6 max-w-md">
-                  We could not find any specimen matching "{searchQuery}". Please refine your search criteria or request a custom order.
+                  We could not find any product matching "{searchQuery}". Please refine your search criteria or request a custom order.
                 </p>
                 <button
                   onClick={() => {
@@ -364,10 +364,10 @@ function CatalogueContent() {
                   Bespoke Orders
                 </span>
                 <h3 className="serif-display text-2xl sm:text-3xl text-espresso font-normal mb-2">
-                  Custom Archival Specimen Inquiry
+                  Custom &amp; Bulk Order Inquiry
                 </h3>
                 <p className="text-[13px] text-subdued font-light leading-relaxed">
-                  Seeking a historical design, custom size kalash, or specialized laser hallmark engraving for institutional gifting?
+                  Looking for a custom size kalash, personalized engraving, wedding gifts, or corporate orders?
                 </p>
               </div>
               <button

@@ -37,8 +37,8 @@ export default function Footer() {
               </span>
             </div>
             <p className="text-[13px] text-subdued font-light leading-relaxed max-w-sm mb-6 sm:mb-8">
-              Purveyors of handcrafted brassware, fine silver-plated artefacts, and
-              sacred sanctum centerpieces for luxury residences and modern spaces.
+              Handcrafted brassware, fine silver-plated home decor, and
+              traditional centerpieces for elegant homes and special occasions.
             </p>
             <div className="flex flex-col gap-2.5 text-[12px] text-subdued font-light">
               <div>
@@ -96,10 +96,10 @@ export default function Footer() {
           {/* Private Inquiry Dispatch */}
           <div className="lg:col-span-4 flex flex-col">
             <span className="text-[10px] uppercase tracking-[0.28em] text-golddeep font-medium mb-4 sm:mb-5">
-              Private Gazette
+              Stay Connected
             </span>
             <p className="text-[13px] text-subdued font-light mb-4 leading-relaxed">
-              Receive private releases and archival collection additions.
+              Subscribe to receive new arrivals, festive collections, and exclusive offers.
             </p>
             <form onSubmit={handleSubscribe} className="flex flex-col gap-2.5">
               <input

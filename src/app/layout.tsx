@@ -33,9 +33,9 @@ const resolvedSiteUrl =
     ? `https://${process.env.VERCEL_URL}`
     : "http://localhost:3000");
 
-const siteTitle = "Mesh ‘E’ Decor | Haute Artisanal Decor & Luxury Gifting";
+const siteTitle = "Mesh ‘E’ Decor | Handcrafted Luxury Decor & Gifts";
 const siteDescription =
-  "Purveyors of bespoke luxury gifts, handcrafted home accents, statement centerpieces, and artisanal decor objects for distinguished spaces.";
+  "Fine silver-plated brassware, handcrafted home accents, statement centerpieces, and premium luxury gifts for beautiful homes and special occasions.";
 
 export const metadata: Metadata = {
   metadataBase: new URL(resolvedSiteUrl),

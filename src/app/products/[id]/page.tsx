@@ -137,7 +137,7 @@ export default function ProductDetailPage({ params }: ProductPageProps) {
               progress_activity
             </span>
             <span className="text-xs uppercase tracking-[0.2em] font-medium text-mute">
-              Loading Specimen...
+              Loading Product...
             </span>
           </div>
         </div>
@@ -253,9 +253,9 @@ Kindly confirm availability and share payment / delivery instructions. Thank you
                       unoptimized={currentImage.startsWith("data:")}
                       priority
                     />
-                    {/* Floating Specimen Badge */}
+                    {/* Floating Product Badge */}
                     <div className="absolute top-4 left-4 bg-alabaster/95 backdrop-blur-md px-3 py-1.5 border border-borderdelicate/60 text-[9px] uppercase tracking-[0.22em] text-golddeep font-medium shadow-xs z-10">
-                      {product.code} • Atelier Specimen
+                      {product.code} • Handcrafted
                     </div>
 
                     {/* Navigation Arrows (Move pics Left & Right) - Only shown if multiple images */}
@@ -535,7 +535,7 @@ Kindly confirm availability and share payment / delivery instructions. Thank you
                   Curated Repertoire
                 </span>
                 <h3 className="serif-display text-3xl sm:text-4xl text-espresso font-normal">
-                  Related Specimen Pieces
+                  Related Products
                 </h3>
               </div>
 

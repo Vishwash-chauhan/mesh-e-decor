@@ -78,20 +78,18 @@ export default function Collection({
         <Reveal className="text-center max-w-3xl mx-auto mb-10 sm:mb-12">
           <div className="inline-flex items-center justify-center gap-2 mb-3 flex-wrap">
             <span className="text-[10px] uppercase tracking-[0.3em] text-golddeep font-medium">
-              Mesmerizing Artistry
+              Handcrafted Decor
             </span>
             <span className="text-mute/60">•</span>
             <span className="text-[10px] uppercase tracking-[0.24em] text-mute">
-              The Archival Collections
+              Signature Collections
             </span>
           </div>
           <h2 className="serif-display text-3xl sm:text-5xl text-espresso font-normal mb-4">
-            The Archival Editions
+            Featured Collections
           </h2>
           <p className="text-[14px] sm:text-[15px] text-subdued max-w-xl mx-auto font-light leading-relaxed">
-            Silver-plated virgin brass is merely the prelude to an expansive
-            repertoire of archival décor, sacred sanctuaries, and opulent
-            lapidary craftsmanship.
+            Discover our fine silver-plated brassware, elegant centerpieces, and traditional decor handcrafted to bring warmth and timeless charm to your home.
           </p>
         </Reveal>
 
@@ -151,8 +149,8 @@ export default function Collection({
               200+
             </span>
             <p className="text-[13px] text-subdued max-w-xl font-light">
-              Each season, Mesh ‘E’ Decor commissions over two hundred bespoke
-              designs for high patrons and royal nuptials.
+              Every year, Mesh ‘E’ Decor crafts over two hundred custom
+              designs for weddings, family occasions, and corporate gifting.
             </p>
           </div>
           <div className="flex items-center gap-4 flex-wrap">
@@ -160,7 +158,7 @@ export default function Collection({
               onClick={onOpenConcierge}
               className="group inline-flex items-center gap-2 text-[11px] uppercase tracking-[0.24em] font-medium text-espresso hover:text-golddeep transition-colors border-b border-espresso hover:border-golddeep pb-1 min-h-[44px] cursor-pointer"
             >
-              <span>Request Bespoke Inquiry</span>
+              <span>Custom Order Inquiry</span>
               <span className="material-symbols-outlined text-[15px] group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform duration-300">
                 arrow_outward
               </span>
