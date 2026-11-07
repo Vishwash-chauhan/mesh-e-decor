@@ -27,35 +27,32 @@ export default function Collection({
 
   useEffect(() => {
     let cancelled = false;
-    const timer = setTimeout(() => {
-      fetch("/api/products")
-        .then((res) => (res.ok ? res.json() : null))
-        .then((data: ProductItem[] | null) => {
-          if (cancelled || !data || !Array.isArray(data) || data.length === 0) {
-            return;
+    fetch("/api/products")
+      .then((res) => (res.ok ? res.json() : null))
+      .then((data: ProductItem[] | null) => {
+        if (cancelled || !data || !Array.isArray(data) || data.length === 0) {
+          return;
+        }
+        setAllProducts((prev) => {
+          if (
+            prev.length === data.length &&
+            prev.every(
+              (p, i) =>
+                p.id === data[i]?.id &&
+                p.price === data[i]?.price &&
+                p.featured === data[i]?.featured &&
+                p.image === data[i]?.image
+            )
+          ) {
+            return prev;
           }
-          setAllProducts((prev) => {
-            if (
-              prev.length === data.length &&
-              prev.every(
-                (p, i) =>
-                  p.id === data[i]?.id &&
-                  p.price === data[i]?.price &&
-                  p.featured === data[i]?.featured &&
-                  p.image === data[i]?.image
-              )
-            ) {
-              return prev;
-            }
-            return data;
-          });
-        })
-        .catch(() => {});
-    }, 2500);
+          return data;
+        });
+      })
+      .catch(() => {});
 
     return () => {
       cancelled = true;
-      clearTimeout(timer);
     };
   }, []);
 
