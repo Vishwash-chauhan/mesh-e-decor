@@ -33,7 +33,7 @@ export default function ProductCard({
     <article className="group flex flex-col bg-transparent h-full transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] hover:-translate-y-1">
       <Link
         href={productUrl}
-        className="relative aspect-[4/5] overflow-hidden bg-canvas border border-borderdelicate/80 group-hover:border-goldaccent/80 group-hover:shadow-[0_18px_40px_-15px_rgba(22,20,18,0.14)] transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] mb-4 sm:mb-5 block"
+        className="relative aspect-square overflow-hidden bg-canvas border border-borderdelicate/80 group-hover:border-goldaccent/80 group-hover:shadow-[0_18px_40px_-15px_rgba(22,20,18,0.14)] transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] mb-4 sm:mb-5 block"
       >
         <Image
           alt={product.code}
