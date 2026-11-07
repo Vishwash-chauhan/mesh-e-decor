@@ -157,7 +157,7 @@ export default function Hero({ onOpenConcierge }: HeroProps) {
 
             {/* Description */}
             <p className="animate-luxury-fade-up delay-350 text-xs sm:text-sm lg:text-[15px] text-alabaster/80 leading-relaxed max-w-xl mb-5 sm:mb-6 font-light">
-              Where timeless artisan metalwork meets elegant modern living. Explore solid brassware, statement centerpieces, and handcrafted luxury gifts made to enhance beautiful homes and special occasions.
+              Where timeless artisan metalwork meets elegant modern living. Explore silver plated items, statement centerpieces, and handcrafted luxury gifts made to enhance beautiful homes and special occasions.
             </p>
 
             {/* Action CTAs */}
